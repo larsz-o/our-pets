@@ -8,7 +8,7 @@ const mapStateToProps = state => ({
   user: state.user,
 });
 
-class Dashboard extends Component {
+class JoinAcceptHousehold extends Component {
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
   }
@@ -25,7 +25,9 @@ class Dashboard extends Component {
     if (this.props.user.userName) {
       content = (
         <div>
-        
+          <p>
+            Info Page
+          </p>
         </div>
       );
     }
@@ -40,4 +42,4 @@ class Dashboard extends Component {
 }
 
 // this allows us to use <App /> in index.js
-export default connect(mapStateToProps)(Dashboard);
+export default connect(mapStateToProps)(JoinAcceptHousehold); 

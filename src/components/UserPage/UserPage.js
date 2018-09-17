@@ -43,6 +43,8 @@ class UserPage extends Component {
           >
             Log Out
           </button>
+          <button>Create Household</button>
+          <button>Join Household</button>
         </div>
       );
     }

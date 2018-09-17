@@ -9,13 +9,14 @@ class RegisterPage extends Component {
     this.state = {
       username: '',
       password: '',
+      confirm_password: '',
       message: '',
     };
   }
 
   registerUser = (event) => {
     event.preventDefault();
-
+    if(this.passwordConfirmationAlert()){ 
     if (this.state.username === '' || this.state.password === '') {
       this.setState({
         message: 'Choose a username and password!',
@@ -42,6 +43,7 @@ class RegisterPage extends Component {
             message: 'Ooops! Something went wrong! Is the server running?',
           });
         });
+      }
     }
   } // end registerUser
 
@@ -63,6 +65,15 @@ class RegisterPage extends Component {
       );
     }
     return (<span />);
+  }
+
+  passwordConfirmationAlert = () => {
+    if (this.state.password === this.state.confirm_password){
+      return true;
+    } else {
+      alert('Entered passwords do not match! Try again.');
+      return false; 
+    }
   }
 
   render() {
@@ -90,6 +101,17 @@ class RegisterPage extends Component {
                 name="password"
                 value={this.state.password}
                 onChange={this.handleInputChangeFor('password')}
+              />
+            </label>
+          </div>
+          <div>
+            <label htmlFor="password">
+              Password:
+              <input
+                type="password"
+                name="password"
+                value={this.state.confirm_password}
+                onChange={this.handleInputChangeFor('confirm_password')}
               />
             </label>
           </div>

@@ -30,7 +30,9 @@ class LoginPage extends Component {
       this.props.history.push('user');
     }
   }
-
+  createAccount = () => {
+    this.props.history.push('/register');
+  }
   login = (event) => {
     event.preventDefault();
 
@@ -95,7 +97,7 @@ class LoginPage extends Component {
               name="submit"
               value="Log In"
             />
-            <Link to="/register">Create Account</Link>
+            <button onClick={this.createAccount}>Create Account</button>
           </div>
         </form>
       </div>

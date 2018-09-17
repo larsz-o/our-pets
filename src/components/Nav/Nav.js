@@ -6,9 +6,9 @@ const Nav = () => (
     <div>
       <ul>
         <li>
-          <Link to="/user">
+          {/* <Link to="/user">
             User Home
-          </Link>
+          </Link> */}
         </li>
         <li>
           <Link to="/dashboard">
