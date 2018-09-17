@@ -11,6 +11,8 @@ class RegisterPage extends Component {
       password: '',
       confirm_password: '',
       message: '',
+      first_name: '',
+      phone_number: ''
     };
   }
 
@@ -105,13 +107,35 @@ class RegisterPage extends Component {
             </label>
           </div>
           <div>
-            <label htmlFor="password">
-              Password:
+            <label htmlFor="confirm-password">
+              Confirm Password:
               <input
                 type="password"
-                name="password"
+                name="confirm-password"
                 value={this.state.confirm_password}
                 onChange={this.handleInputChangeFor('confirm_password')}
+              />
+            </label>
+          </div>
+          <div>
+            <label htmlFor="first-name">
+              First Name:
+              <input
+                type="text"
+                name="first-name"
+                value={this.state.first_name}
+                onChange={this.handleInputChangeFor('first_name')}
+              />
+            </label>
+          </div>
+          <div>
+            <label htmlFor="phone-number">
+              Phone Number:
+              <input
+                type="tel"
+                name="phone-number"
+                value={this.state.phone_number}
+                onChange={this.handleInputChangeFor('phone_number')}
               />
             </label>
           </div>
@@ -119,7 +143,7 @@ class RegisterPage extends Component {
             <input
               type="submit"
               name="submit"
-              value="Register"
+              value="Create Account"
             />
             <Link to="/home">Cancel</Link>
           </div>

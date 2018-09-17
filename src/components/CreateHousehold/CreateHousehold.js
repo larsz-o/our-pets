@@ -9,6 +9,16 @@ const mapStateToProps = state => ({
 });
 
 class CreateHousehold extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+        person_id: this.props.user.id,
+        nickname: '',
+        authorized: true
+    };
+  }
+
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
   }
@@ -18,6 +28,19 @@ class CreateHousehold extends Component {
       this.props.history.push('home');
     }
   }
+  handleInputChangeFor = propertyName => (event) => {
+    this.setState({
+      [propertyName]: event.target.value,
+    });
+  }
+  //sendNickNameToRedux dispatches the household nickname entered so that it can be used as the rest of the household information 
+  //is collected.
+  // once this form is completed, users are sent to the next page to enter information about their pets. 
+  sendNickNameToRedux = () => {
+    const action = {type: 'SET_HOUSEHOLD', payload: this.state};
+    this.props.dispatch(action); 
+    this.props.history.push('/addpets'); 
+  }
 
   render() {
     let content = null;
@@ -25,9 +48,13 @@ class CreateHousehold extends Component {
     if (this.props.user.userName) {
       content = (
         <div>
-          <p>
-            Info Page
-          </p>
+          <h2>Create Household</h2>
+         <form onSubmit={this.sendNickNameToRedux}>
+           <label>
+             Household Nickname: 
+           </label>
+           <input type="text" value={this.state.nickname} onChange={this.handleInputChangeFor('nickname')} placeholder="e.g. The Sullivans"/>
+         </form>
         </div>
       );
     }

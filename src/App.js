@@ -11,8 +11,11 @@ import LoginPage from './components/LoginPage/LoginPage';
 import RegisterPage from './components/RegisterPage/RegisterPage';
 import UserPage from './components/UserPage/UserPage';
 import Dashboard from './components/Dashboard/Dashboard';
+import AddPetsPage from './components/AddPetsPage/AddPetsPage';
+import CreateHousehold from './components/CreateHousehold/CreateHousehold';
 
 import './styles/main.css';
+
 
 const App = () => (
   <div>
@@ -35,6 +38,14 @@ const App = () => (
         <Route
           path="/dashboard"
           component={Dashboard}
+        />
+        <Route 
+          path="/addpets"
+          component={AddPetsPage}
+        />
+        <Route 
+          path="/createhousehold"
+          component={CreateHousehold}
         />
         {/* OTHERWISE (no path!) */}
         <Route render={() => <h1>404</h1>} />
