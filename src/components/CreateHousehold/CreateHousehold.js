@@ -15,7 +15,8 @@ class CreateHousehold extends Component {
     this.state = {
         person_id: this.props.user.id,
         nickname: '',
-        authorized: true
+        authorized: true, 
+        role_id: 1
     };
   }
 
@@ -37,7 +38,7 @@ class CreateHousehold extends Component {
   //is collected.
   // once this form is completed, users are sent to the next page to enter information about their pets. 
   sendNickNameToRedux = () => {
-    const action = {type: 'SET_HOUSEHOLD', payload: this.state};
+    const action = {type: 'SET_NICKNAME', payload: this.state};
     this.props.dispatch(action); 
     this.props.history.push('/addpets'); 
   }

@@ -39,12 +39,14 @@ class AddPetsPage extends Component {
           medications: !this.state.medications
       });
   }
+  navigateToNextPage = () => {
+      this.props.history.push('/addusers'); 
+  }
   //sendPetsInfoToRedux dispatches the pets entered so that it can be used as the rest of the information is collected.
   // once this form is completed, users are sent to the next page to enter information about any co-owners. 
   sendPetsInfoToRedux = () => {
-    const action = {type: 'SET_HOUSEHOLD', payload: this.state};
+    const action = {type: 'SET_PETS', payload: this.state};
     this.props.dispatch(action); 
-    this.props.history.push('/addusers'); 
   }
 
   render() {
@@ -54,7 +56,7 @@ class AddPetsPage extends Component {
       content = (
         <div>
             <h2>Add Pets</h2>
-         <form>
+         <form onSubmit={this.sendPetsInfoToRedux}>
             <div>
                 <label>
                     Pet's Name: 
@@ -88,7 +90,7 @@ class AddPetsPage extends Component {
          </form>
 
          {/* display pet lists here  */}
-         <button onClick={this.sendPetsInfoToRedux}>Done Adding Pets</button>
+         <button onClick={this.navigateToNextPage}>Done Adding Pets</button>
         </div>
       );
     }
