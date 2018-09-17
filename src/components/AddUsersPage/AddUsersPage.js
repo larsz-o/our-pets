@@ -7,26 +7,32 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 
 const mapStateToProps = state => ({
   user: state.user,
-  userList: state.findUser
+  findUser: state.household.findUser
 });
 
 class AddUsersPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+    newUser: {
         person_id: '',
         username: '',
         authorized: true, 
-        role_id: 2,
-        search_term: '',
+        role_id: 2
+        },
+    search_term: ''
     };
   }
   addUserToHousehold = (member) => {
     this.setState({
         ...this.state,
-        person_id: member.id,
-        username: member.username
-    })
+        newUser: {
+            person_id: member.id,
+            username: member.username
+        }
+    });
+    const action = {type: 'SET_USERS', payload: this.state.newUser};
+    this.props.dispatch(action); 
   }
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
@@ -56,15 +62,14 @@ class AddUsersPage extends Component {
         let userToAdd = response.data;
         if (userToAdd.username !== ''){
         alert(`${userToAdd[0].username} found! Awesome!`); 
-        const action = {type: 'SET_USER', payload: userToAdd};
+        const action = {type: 'SET_SEARCHED_USER', payload: userToAdd};
         this.props.dispatch(action); 
-    } 
+    }
     }).catch((error) => {
         alert(`Could not find user.`); 
         console.log('Error finding user', error); 
     })
   } // end searchForUsers
-
   //sendUsersInfoToRedux dispatches the user entered to the Redux Store 
   sendUsersInfoToRedux = () => {
     const action = {type: 'SET_USERS', payload: this.state};
@@ -77,14 +82,13 @@ class AddUsersPage extends Component {
       content = (
         <div>
              {JSON.stringify(this.props.userList)}
-            {/* search for users here -- will need to display them on the DOM and confirm that the user should be added before adding */}
           <h2>Search for Registered Users: </h2>
           <input type="text" placeholder="Search by username" value={this.state.search_term} onChange={this.handleInputChangeFor('search_term')}/> 
           <button onClick={this.searchForUsers}>Submit</button>
         <div>
             <h3>Found Users:</h3>
             <ul>
-            {this.props.userList.findUser.map((member, i) => {
+            {this.props.findUser.map((member, i) => {
                 return(
                     <li key={i}>{member.username} <button onClick={()=>this.addUserToHousehold(member)}>Add User to Household</button></li> 
                 );

@@ -11,7 +11,7 @@ const mapStateToProps = state => ({
 class AddPetsPage extends Component {
   constructor(props) {
     super(props);
-
+    
     this.state = {
        pet_name: '',
        type: '',
