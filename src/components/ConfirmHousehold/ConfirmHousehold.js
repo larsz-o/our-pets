@@ -37,6 +37,8 @@ createHousehold = () => {
         data: this.props.household
     }).then((response) => {
         console.log(response); 
+        //addPets();
+        //editUsers(); 
     }).catch((error) => {
         console.log('Error submitting household', error); 
     })
