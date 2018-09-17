@@ -85,8 +85,9 @@ class AddPetsPage extends Component {
                 <label>
                 Any medications to track?: 
                 </label>
-                <input type="checkbox" id="medication" value={this.state.medications} unchecked onChange={this.handleMedicationChange}/>
+                <input type="checkbox" id="medication" value={this.state.medications} unchecked="false" onChange={this.handleMedicationChange}/>
             </div>
+            <button>Add Pet</button>
          </form>
 
          {/* display pet lists here  */}

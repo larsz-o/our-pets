@@ -13,6 +13,7 @@ import UserPage from './components/UserPage/UserPage';
 import Dashboard from './components/Dashboard/Dashboard';
 import AddPetsPage from './components/AddPetsPage/AddPetsPage';
 import CreateHousehold from './components/CreateHousehold/CreateHousehold';
+import AddUsers from './components/AddUsersPage/AddUsersPage'; 
 
 import './styles/main.css';
 
@@ -46,6 +47,10 @@ const App = () => (
         <Route 
           path="/createhousehold"
           component={CreateHousehold}
+        />
+         <Route 
+          path="/addusers"
+          component={AddUsers}
         />
         {/* OTHERWISE (no path!) */}
         <Route render={() => <h1>404</h1>} />

@@ -37,7 +37,8 @@ class CreateHousehold extends Component {
   //sendNickNameToRedux dispatches the household nickname entered so that it can be used as the rest of the household information 
   //is collected.
   // once this form is completed, users are sent to the next page to enter information about their pets. 
-  sendNickNameToRedux = () => {
+  sendNickNameToRedux = (event) => {
+    event.preventDefault(); 
     const action = {type: 'SET_NICKNAME', payload: this.state};
     this.props.dispatch(action); 
     this.props.history.push('/addpets'); 
@@ -51,15 +52,17 @@ class CreateHousehold extends Component {
         <div>
           <h2>Create Household</h2>
          <form onSubmit={this.sendNickNameToRedux}>
+         <div>
            <label>
              Household Nickname: 
            </label>
-           <input type="text" value={this.state.nickname} onChange={this.handleInputChangeFor('nickname')} placeholder="e.g. The Sullivans"/>
+              <input type="text" value={this.state.nickname} onChange={this.handleInputChangeFor('nickname')} placeholder="e.g. The Sullivans"/>
+           </div>
+         <button type="submit">Submit</button>
          </form>
         </div>
       );
     }
-
     return (
       <div>
         <Nav />
