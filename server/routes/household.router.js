@@ -22,8 +22,24 @@ router.get('/', (req, res) => {
 /**
  * POST route template
  */
-router.post('/', (req, res) => {
-
+router.post('/createhousehold', (req, res) => {
+    console.log('in create household post route');
+    const householdToAdd = req.body;
+    const query = `INSERT INTO "households" ("nickname, "person_id", "authorized") VALUES ($1, $2, $3);`;
+    for (let i = 0; i < householdToAdd.users.length; i++){
+        let userId = householdToAdd[i].person_id;
+        let authorization = householdToAdd[i].authorized; 
+        console.log(userId);
+        pool.query(query, [householdToAdd.nickname, userId, authorization]).then((results) => {
+            console.log(results); 
+            res.sendStatus(200); 
+        }).catch((error) => {
+            console.log('Error posting household', error); 
+            res.sendStatus(500); 
+        });
+    }
+    
+    
 });
 
 module.exports = router;

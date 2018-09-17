@@ -11,10 +11,10 @@ const mapStateToProps = state => ({
 class AddPetsPage extends Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
        pet_name: '',
-       type: '',
+       species: '',
        image_path: '',
        medications: false
     };
@@ -67,7 +67,7 @@ class AddPetsPage extends Component {
                 <label>
                 Species: 
                 </label>
-                <select value={this.state.type} onChange={this.handleInputChangeFor('type')}>
+                <select value={this.state.species} onChange={this.handleInputChangeFor('species')}>
                 <option value="">---Select One---</option>
                     <option value="cat">Cat</option>
                     <option value="dog">Dog</option>

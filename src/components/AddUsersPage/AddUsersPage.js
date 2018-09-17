@@ -49,7 +49,7 @@ class AddUsersPage extends Component {
     });
   }
   navigateToNextPage = () => {
-      this.props.history.push('/'); 
+      this.props.history.push('/confirmhousehold'); 
   }
   //searchForUsers queries the database for the entered search term and adds the results to an array in local state
   searchForUsers = () => {
@@ -86,6 +86,8 @@ class AddUsersPage extends Component {
           <input type="text" placeholder="Search by username" value={this.state.search_term} onChange={this.handleInputChangeFor('search_term')}/> 
           <button onClick={this.searchForUsers}>Submit</button>
         <div>
+            <button onClick={this.navigateToNextPage}>Skip This Step</button>
+
             <h3>Found Users:</h3>
             <ul>
             {this.props.findUser.map((member, i) => {

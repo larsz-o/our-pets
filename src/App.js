@@ -14,8 +14,10 @@ import Dashboard from './components/Dashboard/Dashboard';
 import AddPetsPage from './components/AddPetsPage/AddPetsPage';
 import CreateHousehold from './components/CreateHousehold/CreateHousehold';
 import AddUsers from './components/AddUsersPage/AddUsersPage'; 
+import ConfirmHousehold from './components/ConfirmHousehold/ConfirmHousehold';
 
 import './styles/main.css';
+
 
 
 const App = () => (
@@ -51,6 +53,10 @@ const App = () => (
          <Route 
           path="/addusers"
           component={AddUsers}
+        />
+         <Route 
+          path="/confirmhousehold"
+          component={ConfirmHousehold}
         />
         {/* OTHERWISE (no path!) */}
         <Route render={() => <h1>404</h1>} />
