@@ -7,20 +7,27 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 
 const mapStateToProps = state => ({
   user: state.user,
+  userList: state.findUser
 });
 
 class AddUsersPage extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
         person_id: '',
+        username: '',
         authorized: true, 
         role_id: 2,
-        search_term: ''
+        search_term: '',
     };
   }
-
+  addUserToHousehold = (member) => {
+    this.setState({
+        ...this.state,
+        person_id: member.id,
+        username: member.username
+    })
+  }
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
   }
@@ -36,8 +43,9 @@ class AddUsersPage extends Component {
     });
   }
   navigateToNextPage = () => {
-      this.props.history.push('/addusers'); 
+      this.props.history.push('/'); 
   }
+  //searchForUsers queries the database for the entered search term and adds the results to an array in local state
   searchForUsers = () => {
       let searchTerm = this.state.search_term; 
       console.log(searchTerm); 
@@ -46,16 +54,17 @@ class AddUsersPage extends Component {
         url: `/api/household?username=${searchTerm}`
     }).then((response) => {
         let userToAdd = response.data;
-        console.log(userToAdd);
-    //     if (userToAdd.username !== ''){
-    //     alert(`${userToAdd.username} found! Awesome!`); 
-    // } else {
-    //     alert(`Could not find user.`); 
-    // }
+        if (userToAdd.username !== ''){
+        alert(`${userToAdd[0].username} found! Awesome!`); 
+        const action = {type: 'SET_USER', payload: userToAdd};
+        this.props.dispatch(action); 
+    } 
     }).catch((error) => {
+        alert(`Could not find user.`); 
         console.log('Error finding user', error); 
     })
-  }
+  } // end searchForUsers
+
   //sendUsersInfoToRedux dispatches the user entered to the Redux Store 
   sendUsersInfoToRedux = () => {
     const action = {type: 'SET_USERS', payload: this.state};
@@ -64,14 +73,25 @@ class AddUsersPage extends Component {
 
   render() {
     let content = null;
-    console.log(this.state); 
     if (this.props.user.userName) {
       content = (
         <div>
+             {JSON.stringify(this.props.userList)}
             {/* search for users here -- will need to display them on the DOM and confirm that the user should be added before adding */}
           <h2>Search for Registered Users: </h2>
           <input type="text" placeholder="Search by username" value={this.state.search_term} onChange={this.handleInputChangeFor('search_term')}/> 
           <button onClick={this.searchForUsers}>Submit</button>
+        <div>
+            <h3>Found Users:</h3>
+            <ul>
+            {this.props.userList.findUser.map((member, i) => {
+                return(
+                    <li key={i}>{member.username} <button onClick={()=>this.addUserToHousehold(member)}>Add User to Household</button></li> 
+                );
+            })}
+            </ul>
+            <button>Cancel Adding User</button>
+        </div>
         </div>
       );
     }

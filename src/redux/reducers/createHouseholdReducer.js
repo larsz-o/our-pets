@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 const newHousehold = {
     nickname: '',
     users: [],
-    pets: []
+    pets: [], 
 }
 
 const household = (state = newHousehold, action) => {
@@ -15,7 +15,6 @@ const household = (state = newHousehold, action) => {
     return state; 
 }
 
-
 export default combineReducers({
-    household
+    household,
   });
