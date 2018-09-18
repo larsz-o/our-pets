@@ -15,7 +15,7 @@ class AddPetsPage extends Component {
     this.state = {
        pet_name: '',
        species_id: 0,
-       birthday: '', 
+       birthday: '01-01-2018', 
        image_path: '',
        medications: false
     };
@@ -69,13 +69,13 @@ class AddPetsPage extends Component {
                 <label>
                     Pet's Name: 
                 </label>
-                <input type="text" value={this.state.pet_name} onChange={this.handleInputChangeFor('pet_name')}/>
+                <input type="text" value={this.state.pet_name} onChange={this.handleInputChangeFor('pet_name')} required/>
             </div>
             <div>
                 <label>
                 Species: 
                 </label>
-                <select onChange={this.handleInputChangeForSpeciesID}>
+                <select onChange={this.handleInputChangeForSpeciesID} required>
                 <option value="">---Select One---</option>
                     <option value="1">Cat</option>
                     <option value="2">Dog</option>
@@ -85,14 +85,14 @@ class AddPetsPage extends Component {
                 <label>
                 Birthday: 
                 </label>
-                <input type="date" value={this.state.birthday} onChange={this.handleInputChangeFor('birthday')}/>
+                <input type="date" value={this.state.birthday} onChange={this.handleInputChangeFor('birthday')} required/>
             </div>
             <div>
                 {/* this will be changed into a FileStack or Uppy component */}
                 <label>
                 Image: 
                 </label>
-                <input type="text" value={this.state.image_path} onChange={this.handleInputChangeFor('image_path')}/>
+                <input type="text" value={this.state.image_path} onChange={this.handleInputChangeFor('image_path')} required/>
             </div>
             <div>
                 {/* this will be changed into a FileStack or Uppy component */}

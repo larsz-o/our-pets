@@ -51,6 +51,7 @@ router.put('/household', (req, res) => {
       res.sendStatus(200);
     }).catch((error) => {
       console.log('Error updating user', error); 
+      res.sendStatus(500); 
     });
   }
 });

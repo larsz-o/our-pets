@@ -56,7 +56,7 @@ editUser = () => {
   console.log('in edit users');
   axios({
     method: 'PUT', 
-    url: 'api/user', 
+    url: 'api/user/household', 
     data: this.props.household
   }).then((response) => {
     console.log(response); 
