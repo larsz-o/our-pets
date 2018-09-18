@@ -11,9 +11,6 @@ const mapStateToProps = state => ({
 });
 
 class ConfirmHousehold extends Component {
-  constructor(props) {
-    super(props);
-  }
 //if addPets() is successful, it will call editUsers() to edit the person table, adding the household_id key 
   addPets = () => {
     console.log('in addPets')
@@ -78,7 +75,7 @@ getHouseholdID = () => {
     console.log('Error getting household ID', error); 
   })
 }
-  navigateToNextPage = () => {
+navigateToNextPage = () => {
       this.props.history.push('/dashboard'); 
   }
 
