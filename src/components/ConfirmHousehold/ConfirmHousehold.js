@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import axios from 'axios'; 
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
+import {Button} from '@material-ui/core'; 
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -15,6 +16,7 @@ class ConfirmHousehold extends Component {
   }
 //if addPets() is successful, it will call editUsers() to edit the person table, adding the household_id key 
   addPets = () => {
+    console.log('in addPets')
     axios({
       method: 'POST', 
       url: '/api/pets',
@@ -38,6 +40,7 @@ class ConfirmHousehold extends Component {
   // createHousehold will first populate the households table. 
   // if successful, it will get the household_id and then call addPets to pets table, using the household_id key
 createHousehold = () => {
+  console.log('in createHousehold');
   axios({
       method: 'POST', 
       url: '/api/household/createhousehold', 
@@ -50,6 +53,7 @@ createHousehold = () => {
   })
 }
 editUser = () => {
+  console.log('in edit users');
   axios({
     method: 'PUT', 
     url: 'api/user', 
@@ -61,6 +65,7 @@ editUser = () => {
   })
 }
 getHouseholdID = () => {
+  console.log('in getHouseholdId');
   axios({
     method: 'GET', 
     url: `api/household/house?houseid=${this.props.household.nickname}`
@@ -82,10 +87,6 @@ getHouseholdID = () => {
     if (this.props.user.userName) {
       content = (
         <div>
-            household: {JSON.stringify(this.props.household)}
-            pets: {JSON.stringify(this.props.household.pets)}
-            users:{JSON.stringify(this.props.household.users)}
-
             <h2>Confirm Household</h2>
             <p>Nickname: {this.props.household.nickname}</p>
             <p>Pets:</p> 
@@ -97,15 +98,15 @@ getHouseholdID = () => {
             })}
             </ul>
             <p>Household Members:</p>
-            <ul>
-            {/* {this.props.household.users.map((user, i)=> {
+            <ul> 
+            {this.props.household.users.map((user, i)=> {
                 return(
                     <li key={i}>{user.username}</li>
                 );
-            })}  */}
-            </ul>
+            })} 
+            </ul> 
 
-            <button onClick={this.createHousehold}>Confirm</button>
+            <Button onClick={this.createHousehold}>Confirm</Button>
         </div>
       );
     }

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
+import {Button} from '@material-ui/core'; 
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -36,7 +37,7 @@ class CreateHousehold extends Component {
   // once this form is completed, users are sent to the next page to enter information about their pets. 
   sendNickNameToRedux = (event) => {
     event.preventDefault(); 
-    const action = {type: 'SET_NICKNAME', payload: this.state};
+    const action = {type: 'SET_NICKNAME', payload: this.state.nickname};
     this.props.dispatch(action); 
     this.props.history.push('/addpets'); 
   }
@@ -55,7 +56,7 @@ class CreateHousehold extends Component {
            </label>
               <input type="text" value={this.state.nickname} onChange={this.handleInputChangeFor('nickname')} placeholder="e.g. The Yellow House" required/>
            </div>
-         <button type="submit">Submit</button>
+         <Button type="submit">Submit</Button>
          </form>
         </div>
       );

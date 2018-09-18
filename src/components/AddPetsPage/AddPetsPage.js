@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
+import {Button} from '@material-ui/core'; 
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -57,7 +58,7 @@ class AddPetsPage extends Component {
       content = (
         <div>
             <h2>Add Pets</h2>
-         <form onSubmit={this.sendPetsInfoToRedux}>
+         <form>
             <div>
                 <label>
                     Pet's Name: 
@@ -94,11 +95,11 @@ class AddPetsPage extends Component {
                 </label>
                 <input type="checkbox" id="medication" value={this.state.medications} unchecked="false" onChange={this.handleMedicationChange}/>
             </div>
-            <button>Add Pet</button>
+            <Button onClick={this.sendPetsInfoToRedux}>Add Pet</Button>
          </form>
 
          {/* display pet lists here  */}
-         <button onClick={this.navigateToNextPage}>Done Adding Pets</button>
+         <Button onClick={this.navigateToNextPage}>Done Adding Pets</Button>
         </div>
       );
     }

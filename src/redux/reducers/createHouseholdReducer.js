@@ -2,18 +2,18 @@ import { combineReducers } from 'redux';
 
 const newHousehold = {
     nickname: '',
-    household_id: 0,
+    household_id: null,
     users: [],
     pets: [], 
 }
 
 const household = (state = newHousehold, action) => {
     if(action.type === 'SET_NICKNAME'){
-        return action.payload; 
+        return {...state, nickname: action.payload}; 
     } else if (action.type === 'SET_PETS'){
-        return {...state, pets: [action.payload]};
+        return {...state, pets: [...state.pets, action.payload]};
     } else if (action.type === 'SET_USERS'){
-        return {...state, users: [...state, action.payload]};
+        return {...state, users: [...state.users, action.payload]};
     } else if (action.type === 'SET_HOUSE_ID'){
         return {...state, household_id: action.payload}; 
     }
