@@ -15,6 +15,16 @@ router.post('/', (req, res) => {
         });
     }
 }); 
-
+router.get('/', (req, res) => {
+    console.log('in pets get route'); 
+    const householdId = req.query.house_id; 
+    const query = `SELECT "name", "image_path", "medications" FROM "pets" WHERE "household_id" = $1;`;
+    pool.query(query, [householdId]).then((results) => {
+        res.send(results.rows); 
+    }).catch((error) => {
+        console.log('Error getting pets', error); 
+        res.sendStatus(500);
+    })
+})
 
 module.exports = router;

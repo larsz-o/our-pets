@@ -65,8 +65,8 @@ getHouseholdID = () => {
     method: 'GET', 
     url: `api/household/house?houseid=${this.props.household.nickname}`
   }).then((response) => {
-    console.log(response.data.id); 
-    const action = {type: 'SET_HOUSE_ID', payload: response.data.id}; 
+    console.log(response.data[0].id); 
+    const action = {type: 'SET_HOUSE_ID', payload: response.data[0].id}; 
     this.props.dispatch(action); 
     this.addPets();
   }).catch((error) => {
@@ -82,7 +82,9 @@ getHouseholdID = () => {
     if (this.props.user.userName) {
       content = (
         <div>
-            {JSON.stringify(this.props.household)}
+            household: {JSON.stringify(this.props.household)}
+            pets: {JSON.stringify(this.props.household.pets)}
+            users:{JSON.stringify(this.props.household.users)}
 
             <h2>Confirm Household</h2>
             <p>Nickname: {this.props.household.nickname}</p>
@@ -96,11 +98,11 @@ getHouseholdID = () => {
             </ul>
             <p>Household Members:</p>
             <ul>
-            {this.props.household.users.map((user, i)=> {
+            {/* {this.props.household.users.map((user, i)=> {
                 return(
                     <li key={i}>{user.username}</li>
                 );
-            })} 
+            })}  */}
             </ul>
 
             <button onClick={this.createHousehold}>Confirm</button>
