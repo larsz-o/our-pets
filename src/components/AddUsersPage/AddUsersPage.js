@@ -15,18 +15,12 @@ class AddUsersPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    // newUser: {
-    //     person_id: '',
-    //     username: '',
-    //     authorized: true, 
-    //     role_id: 2
-    //     },
-    search_term: ''
+      search_term: ''
     };
   }
   addUserToHousehold = (member) => {
     console.log(member); 
-    const action = {type: 'SET_USERS', payload: {person_id: member.id, username: member.username, authorized: true, role_id: 2}};
+    const action = {type: 'SET_USERS', payload: { person_id: member.id, username: member.username, authorized: true, role_id: 2} };
     this.props.dispatch(action); 
     this.props.history.push('/confirmhousehold'); 
   }

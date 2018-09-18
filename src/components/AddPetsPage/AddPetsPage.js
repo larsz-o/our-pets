@@ -14,7 +14,7 @@ class AddPetsPage extends Component {
     super(props);
     this.state = {
        pet_name: '',
-       species_id: '',
+       species_id: 0,
        birthday: '', 
        image_path: '',
        medications: false
@@ -33,6 +33,12 @@ class AddPetsPage extends Component {
   handleInputChangeFor = propertyName => (event) => { 
     this.setState({
       [propertyName]: event.target.value,
+    });
+  }
+  handleInputChangeForSpeciesID = (event) => { 
+    let integerSpeciesValue = parseInt(event.target.value);
+    this.setState({
+      species_id: integerSpeciesValue
     });
   }
   handleMedicationChange = () => {
@@ -69,7 +75,7 @@ class AddPetsPage extends Component {
                 <label>
                 Species: 
                 </label>
-                <select value={this.state.species_id} onChange={this.handleInputChangeFor('species_id')}>
+                <select onChange={this.handleInputChangeForSpeciesID}>
                 <option value="">---Select One---</option>
                     <option value="1">Cat</option>
                     <option value="2">Dog</option>

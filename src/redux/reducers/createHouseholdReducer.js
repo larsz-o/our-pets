@@ -22,5 +22,4 @@ const household = (state = newHousehold, action) => {
 
 export default combineReducers({
     household,
-  
   });

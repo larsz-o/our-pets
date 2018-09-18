@@ -17,7 +17,6 @@ class CreateHousehold extends Component {
         nickname: '',
     };
   }
-
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
   }
@@ -39,9 +38,14 @@ class CreateHousehold extends Component {
     event.preventDefault(); 
     const action = {type: 'SET_NICKNAME', payload: this.state.nickname};
     this.props.dispatch(action); 
+    this.sendUserToRedux();
+    
+  }
+  sendUserToRedux = () => {
+    const action = {type: 'SET_USERS', payload: {person_id: this.props.user.id, username: this.props.user.userName, authorized: true, role: 1}};
+    this.props.dispatch(action);
     this.props.history.push('/addpets'); 
   }
-
   render() {
     let content = null;
 
