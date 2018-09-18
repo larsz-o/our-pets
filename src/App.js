@@ -16,6 +16,9 @@ import CreateHousehold from './components/CreateHousehold/CreateHousehold';
 import AddUsers from './components/AddUsersPage/AddUsersPage'; 
 import ConfirmHousehold from './components/ConfirmHousehold/ConfirmHousehold';
 import FedReport from './components/FedReport/FedReport';
+import LitterboxReport from './components/LitterboxReport/LitterboxReport';
+import MedicationReport from './components/MedicationsReport/MedicationsReport';
+import WalkReport from './components/WalkReport/WalkReport';
 
 import './styles/main.css';
 
@@ -62,6 +65,18 @@ const App = () => (
           <Route 
           path="/fedreport"
           component={FedReport}
+        />
+         <Route 
+          path="/litterboxreport"
+          component={LitterboxReport}
+        />
+         <Route 
+          path="/medicationreport"
+          component={MedicationReport}
+        />
+         <Route 
+          path="/walkreport"
+          component={WalkReport}
         />
         {/* OTHERWISE (no path!) */}
         <Route render={() => <h1>404</h1>} />
