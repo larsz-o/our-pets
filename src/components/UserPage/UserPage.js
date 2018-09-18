@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Nav from '../../components/Nav/Nav';
 import {Button} from '@material-ui/core'; 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import { triggerLogout } from '../../redux/actions/loginActions';
+
 
 
 const mapStateToProps = state => ({
@@ -24,9 +24,9 @@ class UserPage extends Component {
   navigateTo = () => {
     this.props.history.push('/createhousehold'); 
   }
-  logout = () => {
-    this.props.dispatch(triggerLogout());
-  }
+  // logout = () => {
+  //   this.props.dispatch(triggerLogout());
+  // }
 
   render() {
     let content = null;

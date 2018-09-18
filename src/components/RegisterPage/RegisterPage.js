@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import 'react-phone-number-input/style.css';
+import PhoneInput from 'react-phone-number-input';
+import {Button} from '@material-ui/core'; 
 
 class RegisterPage extends Component {
   constructor(props) {
@@ -27,8 +30,9 @@ class RegisterPage extends Component {
       const body = {
         username: this.state.username,
         password: this.state.password,
+        first_name: this.state.first_name, 
+        phone_number: this.state.phone_number
       };
-
       // making the request to the server to post the new user's registration
       axios.post('/api/user/register/', body)
         .then((response) => {
@@ -48,13 +52,11 @@ class RegisterPage extends Component {
       }
     }
   } // end registerUser
-
   handleInputChangeFor = propertyName => (event) => {
     this.setState({
       [propertyName]: event.target.value,
     });
   }
-
   renderAlert() {
     if (this.state.message !== '') {
       return (
@@ -68,7 +70,6 @@ class RegisterPage extends Component {
     }
     return (<span />);
   }
-
   passwordConfirmationAlert = () => {
     if (this.state.password === this.state.confirm_password){
       return true;
@@ -77,12 +78,11 @@ class RegisterPage extends Component {
       return false; 
     }
   }
-
   render() {
     return (
       <div>
         {this.renderAlert()}
-        <form onSubmit={this.registerUser}>
+        <form>
           <h1>Register User</h1>
           <div>
             <label htmlFor="username">
@@ -131,20 +131,15 @@ class RegisterPage extends Component {
           <div>
             <label htmlFor="phone-number">
               Phone Number:
-              <input
-                type="tel"
-                name="phone-number"
-                value={this.state.phone_number}
-                onChange={this.handleInputChangeFor('phone_number')}
-              />
+              <PhoneInput
+              country="US"
+              placeholder="Enter phone number"
+              value={ this.state.phone_number }
+              onChange={ phone_number => this.setState({ phone_number }) } />
             </label>
           </div>
           <div>
-            <input
-              type="submit"
-              name="submit"
-              value="Create Account"
-            />
+            <Button onClick={this.registerUser}>Submit</Button>
             <Link to="/home">Cancel</Link>
           </div>
         </form>
