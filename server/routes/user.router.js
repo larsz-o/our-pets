@@ -42,4 +42,17 @@ router.get('/logout', (req, res) => {
   res.sendStatus(200);
 });
 
+router.put('/household', (req, res) => {
+  const userToAdd = req.body; 
+  const query = `UPDATE "person" SET "household_id" = $1 WHERE "id" = $2;`;
+  for (let i = 0; i < userToAdd.users.length; i++){
+    let newUser = userToAdd.users[i]; 
+    pool.query(query, [userToAdd.household_id, newUser.person_id]).then((result) => {
+      res.sendStatus(200);
+    }).catch((error) => {
+      console.log('Error updating user', error); 
+    });
+  }
+});
+
 module.exports = router;

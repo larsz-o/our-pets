@@ -13,7 +13,19 @@ class ConfirmHousehold extends Component {
   constructor(props) {
     super(props);
   }
-
+//if addPets() is successful, it will call editUsers() to edit the person table, adding the household_id key 
+  addPets = () => {
+    axios({
+      method: 'POST', 
+      url: '/api/pets',
+      data: this.props.household
+    }).then((response) => {
+      console.log('Success!', response); 
+      this.editUser();
+    }).catch((error) => {
+      console.log('Error adding pets', error); 
+    });
+  }
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
   }
@@ -23,26 +35,48 @@ class ConfirmHousehold extends Component {
       this.props.history.push('home');
     }
   }
-  
-  navigateToNextPage = () => {
-      this.props.history.push('/addusers'); 
-  }
   // createHousehold will first populate the households table. 
   // if successful, it will get the household_id and then call addPets to pets table, using the household_id key
-  // finally, it will call addUsers to edit the person table, adding the household_id key 
 createHousehold = () => {
-    axios({
-        method: 'POST', 
-        url: '/api/household/createhousehold', 
-        data: this.props.household
-    }).then((response) => {
-        console.log(response); 
-        //addPets();
-        //editUsers(); 
-    }).catch((error) => {
-        console.log('Error submitting household', error); 
-    })
+  axios({
+      method: 'POST', 
+      url: '/api/household/createhousehold', 
+      data: this.props.household
+  }).then((response) => {
+      console.log(response); 
+      this.getHouseholdID();
+  }).catch((error) => {
+      console.log('Error submitting household', error); 
+  })
 }
+editUser = () => {
+  axios({
+    method: 'PUT', 
+    url: 'api/user', 
+    data: this.props.household
+  }).then((response) => {
+    console.log(response); 
+  }).catch((error) => {
+    console.log('Error updating user information', error); 
+  })
+}
+getHouseholdID = () => {
+  axios({
+    method: 'GET', 
+    url: `api/household/house?houseid=${this.props.household.nickname}`
+  }).then((response) => {
+    console.log(response.data.id); 
+    const action = {type: 'SET_HOUSE_ID', payload: response.data.id}; 
+    this.props.dispatch(action); 
+    this.addPets();
+  }).catch((error) => {
+    console.log('Error getting household ID', error); 
+  })
+}
+  navigateToNextPage = () => {
+      this.props.history.push('/dashboard'); 
+  }
+
   render() {
     let content = null;
     if (this.props.user.userName) {
@@ -56,7 +90,7 @@ createHousehold = () => {
             <ul>
             {this.props.household.pets.map((pet, i)=> {
                 return(
-                    <li key={i}>{pet.name}, {pet.species}</li>
+                    <li key={i}>{pet.pet_name}</li>
                 );
             })}
             </ul>

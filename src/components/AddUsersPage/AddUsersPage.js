@@ -7,32 +7,27 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 
 const mapStateToProps = state => ({
   user: state.user,
-  findUser: state.household.findUser
+  findUser: state.findUser.findUser
 });
 
 class AddUsersPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    newUser: {
-        person_id: '',
-        username: '',
-        authorized: true, 
-        role_id: 2
-        },
+    // newUser: {
+    //     person_id: '',
+    //     username: '',
+    //     authorized: true, 
+    //     role_id: 2
+    //     },
     search_term: ''
     };
   }
   addUserToHousehold = (member) => {
-    this.setState({
-        ...this.state,
-        newUser: {
-            person_id: member.id,
-            username: member.username
-        }
-    });
-    const action = {type: 'SET_USERS', payload: this.state.newUser};
+    console.log(member); 
+    const action = {type: 'SET_USERS', payload: {person_id: member.id, username: member.username, authorized: true, role_id: 2}};
     this.props.dispatch(action); 
+    this.props.history.push('/confirmhousehold'); 
   }
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
@@ -57,11 +52,12 @@ class AddUsersPage extends Component {
       console.log(searchTerm); 
     axios({
         method: 'GET',
-        url: `/api/household?username=${searchTerm}`
+        url: `/api/household/user?username=${searchTerm}`
     }).then((response) => {
         let userToAdd = response.data;
         if (userToAdd.username !== ''){
         alert(`${userToAdd[0].username} found! Awesome!`); 
+        console.log(userToAdd); 
         const action = {type: 'SET_SEARCHED_USER', payload: userToAdd};
         this.props.dispatch(action); 
     }
@@ -70,13 +66,9 @@ class AddUsersPage extends Component {
         console.log('Error finding user', error); 
     })
   } // end searchForUsers
-  //sendUsersInfoToRedux dispatches the user entered to the Redux Store 
-  sendUsersInfoToRedux = () => {
-    const action = {type: 'SET_USERS', payload: this.state};
-    this.props.dispatch(action); 
-  }
 
   render() {
+    console.log(this.state);
     let content = null;
     if (this.props.user.userName) {
       content = (

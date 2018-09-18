@@ -11,10 +11,10 @@ const mapStateToProps = state => ({
 class AddPetsPage extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
        pet_name: '',
-       species: '',
+       species_id: '',
+       birthday: '', 
        image_path: '',
        medications: false
     };
@@ -47,6 +47,7 @@ class AddPetsPage extends Component {
   sendPetsInfoToRedux = () => {
     const action = {type: 'SET_PETS', payload: this.state};
     this.props.dispatch(action); 
+    alert('Pet added!');
   }
 
   render() {
@@ -67,18 +68,24 @@ class AddPetsPage extends Component {
                 <label>
                 Species: 
                 </label>
-                <select value={this.state.species} onChange={this.handleInputChangeFor('species')}>
+                <select value={this.state.species_id} onChange={this.handleInputChangeFor('species_id')}>
                 <option value="">---Select One---</option>
-                    <option value="cat">Cat</option>
-                    <option value="dog">Dog</option>
+                    <option value="1">Cat</option>
+                    <option value="2">Dog</option>
                 </select> 
+            </div>
+            <div>
+                <label>
+                Birthday: 
+                </label>
+                <input type="date" value={this.state.birthday} onChange={this.handleInputChangeFor('birthday')}/>
             </div>
             <div>
                 {/* this will be changed into a FileStack or Uppy component */}
                 <label>
                 Image: 
                 </label>
-                <input type="url" value={this.state.image_path} onChange={this.handleInputChangeFor('image_path')}/>
+                <input type="text" value={this.state.image_path} onChange={this.handleInputChangeFor('image_path')}/>
             </div>
             <div>
                 {/* this will be changed into a FileStack or Uppy component */}

@@ -21,7 +21,9 @@ class UserPage extends Component {
       this.props.history.push('home');
     }
   }
-
+  navigateTo = () => {
+    this.props.history.push('/createhousehold'); 
+  }
   logout = () => {
     this.props.dispatch(triggerLogout());
   }
@@ -43,7 +45,7 @@ class UserPage extends Component {
           >
             Log Out
           </button>
-          <button>Create Household</button>
+          <button onClick={this.navigateTo}>Create Household</button>
           <button>Join Household</button>
         </div>
       );

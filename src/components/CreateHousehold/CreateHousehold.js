@@ -13,10 +13,7 @@ class CreateHousehold extends Component {
     super(props);
 
     this.state = {
-        person_id: this.props.user.id,
         nickname: '',
-        authorized: true, 
-        role_id: 1
     };
   }
 
@@ -56,7 +53,7 @@ class CreateHousehold extends Component {
            <label>
              Household Nickname: 
            </label>
-              <input type="text" value={this.state.nickname} onChange={this.handleInputChangeFor('nickname')} placeholder="e.g. The Sullivans"/>
+              <input type="text" value={this.state.nickname} onChange={this.handleInputChangeFor('nickname')} placeholder="e.g. The Yellow House" required/>
            </div>
          <button type="submit">Submit</button>
          </form>
