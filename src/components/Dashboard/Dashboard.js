@@ -51,11 +51,13 @@ class Dashboard extends Component {
               <Button color="primary" variant="outlined">Join Household</Button>
               <Button color="primary" variant="outlined" onClick={this.getPets}>Get Pets</Button>
             </div>
+            <div className="container">
             {this.props.pets.map((pet, i) => {
               return(
-                <PetCard key={i} pet={pet}/>
+                <PetCard history={this.props.history} key={i} pet={pet}/>
               );
             })}
+            </div>
         </div>
       );
     }

@@ -42,13 +42,13 @@ class AddPetsPage extends Component {
   handleInputChangeForSpeciesID = (event) => {
     let speciesInteger = parseInt(event.target.value, 10); 
     console.log(speciesInteger); 
-    if (event.target.value == 1){
+    if (event.target.value === 1){
       this.setState({
         species_id: speciesInteger,
         walking: false, 
         litterbox: true
       });
-    } else if (event.target.value == 2){
+    } else if (event.target.value === 2){
       this.setState({
         species_id: speciesInteger,
         walking: true, 
@@ -71,7 +71,6 @@ class AddPetsPage extends Component {
     this.props.dispatch(action); 
     alert('Pet added!');
   }
-
   render() {
     let content = null;
     if (this.props.user.userName) {
