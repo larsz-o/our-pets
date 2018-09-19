@@ -38,7 +38,6 @@ class CreateHousehold extends Component {
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
   }
-
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
       this.props.history.push('home');
@@ -75,7 +74,7 @@ class CreateHousehold extends Component {
     this.createHouseholdRecord();
   }
   sendUserToRedux = () => {
-    const action = {type: 'SET_USERS', payload: {person_id: this.props.user.id, username: this.props.user.userName, authorized: true, role: 1}};
+    const action = {type: 'SET_NEW_USERS', payload: {person_id: this.props.user.id, username: this.props.user.userName, authorized: true, role: 1}};
     this.props.dispatch(action);
     this.props.history.push('/addpets'); 
     
@@ -87,14 +86,14 @@ class CreateHousehold extends Component {
       content = (
         <div>
           <h2>Create Household</h2>
-         <form onSubmit={this.sendNickNameToRedux}>
+         <form >
          <div>
            <label>
              Household Nickname: 
            </label>
               <input type="text" value={this.state.nickname} onChange={this.handleInputChangeFor('nickname')} placeholder="e.g. The Yellow House" required/>
            </div>
-         <Button type="submit">Submit</Button>
+         <Button variant="outlined" color="primary" onClick={this.sendNickNameToRedux}>Submit</Button>
          </form>
         </div>
       );

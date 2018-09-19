@@ -24,7 +24,6 @@ class AddPetsPage extends Component {
        litterbox: ''
     };
   }
- 
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
   }
@@ -41,15 +40,17 @@ class AddPetsPage extends Component {
   }
   // sets the values for walking/litterbox properties according to species 
   handleInputChangeForSpeciesID = (event) => {
+    let speciesInteger = parseInt(event.target.value, 10); 
+    console.log(speciesInteger); 
     if (event.target.value == 1){
       this.setState({
-        species_id: event.target.value,
+        species_id: speciesInteger,
         walking: false, 
         litterbox: true
       });
     } else if (event.target.value == 2){
       this.setState({
-        species_id: event.target.value,
+        species_id: speciesInteger,
         walking: true, 
         litterbox: false
       });
@@ -66,7 +67,7 @@ class AddPetsPage extends Component {
   //sendPetsInfoToRedux dispatches the pets entered so that it can be used as the rest of the information is collected.
   // once this form is completed, users are sent to the next page to enter information about any co-owners. 
   sendPetsInfoToRedux = () => {
-    const action = {type: 'SET_PETS', payload: this.state};
+    const action = {type: 'SET_NEW_PETS', payload: this.state};
     this.props.dispatch(action); 
     alert('Pet added!');
   }

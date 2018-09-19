@@ -8,6 +8,7 @@ import {Button} from '@material-ui/core';
 
 const mapStateToProps = state => ({
   user: state.user,
+  household: state.household.household
 });
 
 class Dashboard extends Component {
@@ -27,7 +28,12 @@ class Dashboard extends Component {
   getPets = () => {
     axios({
       method: 'GET', 
-      url: '/'
+      url: `/api/pets?id=${this.props.household.household_id}`
+    }).then((response) => {
+      const action = {type: 'SET_EXISTING_PETS', payload: response.data};
+      this.props.dispatch(action);
+    }).catch((error) => {
+      console.log('Error getting pets', error);
     })
   }
   navigateTo = () => {
@@ -50,7 +56,6 @@ class Dashboard extends Component {
         </div>
       );
     }
-
     return (
       <div>
         <Nav />
