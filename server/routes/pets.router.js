@@ -9,13 +9,13 @@ router.post('/', (req, res) => {
     for (let i = 0; i < petToAdd.pets.length; i ++) {
         let newPet = petToAdd.pets[i]; 
         console.log(newPet);
-        pool.query(query, [newPet.pet_name, newPet.species_id, newPet.birthday, newPet.image_path, petToAdd.household_id, newPet.medications])}
-    then((results) => {
+        pool.query(query, [newPet.pet_name, newPet.species_id, newPet.birthday, newPet.image_path, petToAdd.household_id, newPet.medications]).then((results) => {
             res.sendStatus(200);
         }).catch((error) => {
             console.log('Error posting new pets', error); 
             res.sendStatus(500); 
         });
+    }
 }); 
 //gets pets by user ID
 router.get('/', (req, res) => {

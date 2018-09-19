@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import axios from 'axios'; 
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import {Button} from '@material-ui/core'; 
+import {Button, Paper} from '@material-ui/core'; 
+import './confirm.css'
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -33,7 +34,9 @@ class ConfirmHousehold extends Component {
       this.props.history.push('home');
     }
   }
-  //editUser makes a put request to existing users, adding the household_id to their database entry
+  //editUser makes a put request to existing users, adding the household_id to their database entry. 
+  //this concludes the createHousehold functionality, so an alert is generated upon success
+  //then, users are pushed to their dashboard
 editUser = () => {
   console.log('in edit users');
   axios({
@@ -42,22 +45,26 @@ editUser = () => {
     data: this.props.household
   }).then((response) => {
     console.log(response); 
+    alert(`${this.props.household.nickname} Household created!`);
+    this.props.history.push('/dashboard'); 
   }).catch((error) => {
     console.log('Error updating user information', error); 
   })
 }
-
 navigateToNextPage = () => {
       this.props.history.push('/dashboard'); 
   }
-
   render() {
     let content = null;
     if (this.props.user.userName) {
       content = (
-        <div>
+        <div className="confirmDiv">
+          <Paper>
             <h2>Confirm Household</h2>
-            <p>Nickname: {this.props.household.nickname}</p>
+            <p>Nickname:</p>
+            <ul>
+              <li>{this.props.household.nickname}</li>
+            </ul>
             <p>Pets:</p> 
             <ul>
             {this.props.household.pets.map((pet, i)=> {
@@ -76,6 +83,7 @@ navigateToNextPage = () => {
             </ul> 
 
             <Button onClick={this.addPets}>Confirm</Button>
+        </Paper>
         </div>
       );
     }

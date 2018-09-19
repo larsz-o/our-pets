@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {Button, Input, InputLabel, TextField} from '@material-ui/core'; 
+import {Button, InputLabel, TextField} from '@material-ui/core'; 
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import { Link } from 'react-router-dom';
@@ -9,7 +9,9 @@ import axios from 'axios';
 const mapStateToProps = state => ({
   user: state.user,
 });
-
+let today = new Date(); 
+let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+let time = Date.now(); 
 class FedReport extends Component {
   constructor(){
     super();
@@ -55,7 +57,7 @@ class FedReport extends Component {
   }
   render() {
     let content = null;
-
+    console.log(date);
     if (this.props.user.userName) {
       content = (
         <div>
@@ -65,15 +67,23 @@ class FedReport extends Component {
           {/* this will be populated via props from the dashboard */}
           {/* change date and time to pickers that default the current date and time */}
           <form>
-              <Input onChange={this.handleInputChangeFor('date')} type="date"/>
+          <TextField
+            id="date"
+            type="date"
+            defaultValue={date}
+            onChange={this.handleInputChangeFor('date')}/>
+            <br/>
+          <TextField
+            id="time"
+            type="time"
+            defaultValue={time}
+            onChange={this.handleInputChangeFor('time')}/>
+            <br/>
+            <InputLabel>Notes: </InputLabel>
               <br/>
-              <Input onChange={this.handleInputChangeFor('time')}type="time"/>
-              <br/><br/>
-              <InputLabel>Notes: </InputLabel>
-              <br/>
-              <TextField onChange={this.handleInputChangeFor('notes')}/>
-              <Button onClick={this.sendReportToDatabase}>Submit</Button>
-              <Link to="/dashboard">Cancel</Link>
+            <TextField onChange={this.handleInputChangeFor('notes')}/>
+            <Button onClick={this.sendReportToDatabase}>Submit</Button>
+            <Link to="/dashboard">Cancel</Link>
           </form>
         </div>
       );
