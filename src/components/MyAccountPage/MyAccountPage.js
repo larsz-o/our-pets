@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import {Link} from 'react-router-dom'; 
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 
@@ -25,9 +25,8 @@ class MyAccount extends Component {
     if (this.props.user.userName) {
       content = (
         <div>
-          <p>
-            Info Page
-          </p>
+          <h1>Welcome, {this.props.user.first_name}</h1>
+          <Link to='/editsettings' className="float-right">Edit Settings</Link>
         </div>
       );
     }

@@ -12,7 +12,9 @@ body {
     padding: 5px;
     color: #ece7e7;
 }
-
+.float-right{
+    float: right; 
+}
 form {
     background-color: #dbd5d5;
     width: 30%;
@@ -29,9 +31,6 @@ input {
 
 input[type="submit"] {
     margin: 10px;
-}
-.logoutButton{
-    float: right; 
 }
 .message {
     padding: 10px 0;
@@ -53,6 +52,9 @@ input[type="submit"] {
   background-color: #00acb0;
   width: 100%;
   border-radius: 0px;
+}
+.navbar li {
+    float: left; 
 }
 
 ul {

@@ -1,17 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import {Button} from '@material-ui/core';
 
 const Nav = () => (
   <div className="navbar">
     <div>
       <ul>
         <li>
-          {/* <Link to="/user">
-            User Home
-          </Link> */}
+          <Button component={Link} to="/home">Home</Button>
         </li>
         <li>
-          <Link to="/home">Home</Link>
+        <Button component={Link} to="/myaccount">My Account</Button>
+        </li>
+        <li>
+        <Button component={Link} to="/dashboard">Dashboard</Button>
         </li>
       </ul>
     </div>

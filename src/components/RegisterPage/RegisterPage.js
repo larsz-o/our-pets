@@ -92,6 +92,7 @@ class RegisterPage extends Component {
                 name="username"
                 value={this.state.username}
                 onChange={this.handleInputChangeFor('username')}
+                required
               />
             </label>
           </div>
@@ -103,6 +104,7 @@ class RegisterPage extends Component {
                 name="password"
                 value={this.state.password}
                 onChange={this.handleInputChangeFor('password')}
+                required
               />
             </label>
           </div>
@@ -114,6 +116,7 @@ class RegisterPage extends Component {
                 name="confirm-password"
                 value={this.state.confirm_password}
                 onChange={this.handleInputChangeFor('confirm_password')}
+                required
               />
             </label>
           </div>
@@ -125,6 +128,7 @@ class RegisterPage extends Component {
                 name="first-name"
                 value={this.state.first_name}
                 onChange={this.handleInputChangeFor('first_name')}
+                required
               />
             </label>
           </div>
@@ -135,7 +139,8 @@ class RegisterPage extends Component {
               country="US"
               placeholder="Enter phone number"
               value={ this.state.phone_number }
-              onChange={ phone_number => this.setState({ phone_number }) } />
+              onChange={ phone_number => this.setState({ phone_number }) }
+              required />
             </label>
           </div>
           <div>
