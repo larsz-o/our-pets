@@ -12,7 +12,7 @@ class Header extends Component{
     <div className="instructions">
       <div>
         <h1 className="lead">Our Pets</h1>
-        <Button onClick={this.logout}>Log Out</Button>
+        <Button className="logoutButton" color="primary" variant="outlined" onClick={this.logout}>Log Out</Button>
     </div>
   </div>
     );

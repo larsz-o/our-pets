@@ -30,7 +30,9 @@ input {
 input[type="submit"] {
     margin: 10px;
 }
-
+.logoutButton{
+    float: right; 
+}
 .message {
     padding: 10px 0;
 }
@@ -77,4 +79,8 @@ li a {
 li a:hover {
     text-decoration: underline;
     color: #eee;
+}
+#welcome {
+    text-align: center; 
+    margin-bottom: 10px; 
 }

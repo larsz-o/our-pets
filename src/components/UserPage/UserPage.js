@@ -21,12 +21,7 @@ class UserPage extends Component {
       this.props.history.push('home');
     }
   }
-  navigateTo = () => {
-    this.props.history.push('/createhousehold'); 
-  }
-  // logout = () => {
-  //   this.props.dispatch(triggerLogout());
-  // }
+
 
   render() {
     let content = null;
@@ -34,14 +29,6 @@ class UserPage extends Component {
     if (this.props.user.userName) {
       content = (
         <div>
-          <h1
-            id="welcome"
-          >
-            Welcome, { this.props.user.userName }!
-          </h1>
-          <p>Your ID is: {this.props.user.id}</p>
-          <Button onClick={this.navigateTo}>Create Household</Button>
-          <Button>Join Household</Button>
         </div>
       );
     }

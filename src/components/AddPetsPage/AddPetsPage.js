@@ -7,6 +7,7 @@ import {Button} from '@material-ui/core';
 
 const mapStateToProps = state => ({
   user: state.user,
+  pets: state.household.household.pets
 });
 
 class AddPetsPage extends Component {
@@ -17,10 +18,11 @@ class AddPetsPage extends Component {
        species_id: 0,
        birthday: '01-01-2018', 
        image_path: '',
-       medications: false
+       medications: false,
+       feeding: true
     };
   }
-
+ 
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
   }
@@ -36,10 +38,10 @@ class AddPetsPage extends Component {
     });
   }
   handleInputChangeForSpeciesID = (event) => { 
-    let integerSpeciesValue = parseInt(event.target.value, 10);
     this.setState({
-      species_id: integerSpeciesValue
+      species_id: event.target.value
     });
+    
   }
   handleMedicationChange = () => {
       this.setState({
@@ -52,6 +54,7 @@ class AddPetsPage extends Component {
   //sendPetsInfoToRedux dispatches the pets entered so that it can be used as the rest of the information is collected.
   // once this form is completed, users are sent to the next page to enter information about any co-owners. 
   sendPetsInfoToRedux = () => {
+    this.assignSpeciesSettings();
     const action = {type: 'SET_PETS', payload: this.state};
     this.props.dispatch(action); 
     alert('Pet added!');
@@ -59,7 +62,6 @@ class AddPetsPage extends Component {
 
   render() {
     let content = null;
-    console.log(this.state); 
     if (this.props.user.userName) {
       content = (
         <div>
@@ -103,8 +105,11 @@ class AddPetsPage extends Component {
             </div>
             <Button onClick={this.sendPetsInfoToRedux}>Add Pet</Button>
          </form>
-
-         {/* display pet lists here  */}
+         {this.props.pets.map((pet, i) => {
+           return(
+             <li key={i}>{pet.pet_name}</li>
+           );
+         })}
          <Button onClick={this.navigateToNextPage}>Done Adding Pets</Button>
         </div>
       );
