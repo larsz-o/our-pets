@@ -22,7 +22,7 @@ router.get('/', (req, res) => {
     console.log('in pets get route'); 
     const householdId = req.query.id; 
     console.log(householdId); 
-    const query = `SELECT "pets"."name", "pets"."image_path", "medications", "feeding", "litterbox", "walking" FROM "pets" JOIN "households" ON "pets"."household_id" = "households"."id" WHERE "households"."id" = $1;`;
+    const query = `SELECT "pets"."name", "pets"."image_path", "pets"."species_id", "medications", "feeding", "litterbox", "walking" FROM "pets" JOIN "households" ON "pets"."household_id" = "households"."id" WHERE "households"."id" = $1;`;
     pool.query(query, [householdId]).then((results) => {
         res.send(results.rows); 
     }).catch((error) => {

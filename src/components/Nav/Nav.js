@@ -11,9 +11,7 @@ const Nav = () => (
           </Link> */}
         </li>
         <li>
-          <Link to="/dashboard">
-            Dashboard
-          </Link>
+          <Link to="/home">Home</Link>
         </li>
       </ul>
     </div>
