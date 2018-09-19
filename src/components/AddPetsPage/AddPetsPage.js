@@ -36,7 +36,7 @@ class AddPetsPage extends Component {
     });
   }
   handleInputChangeForSpeciesID = (event) => { 
-    let integerSpeciesValue = parseInt(event.target.value);
+    let integerSpeciesValue = parseInt(event.target.value, 10);
     this.setState({
       species_id: integerSpeciesValue
     });

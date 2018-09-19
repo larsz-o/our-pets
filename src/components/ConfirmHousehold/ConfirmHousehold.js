@@ -28,27 +28,12 @@ class ConfirmHousehold extends Component {
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
   }
-
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
       this.props.history.push('home');
     }
   }
-  // createHousehold will first populate the households table. 
-  // if successful, it will get the household_id and then call addPets to pets table, using the household_id key
-createHousehold = () => {
-  console.log('in createHousehold');
-  axios({
-      method: 'POST', 
-      url: '/api/household/createhousehold', 
-      data: this.props.household
-  }).then((response) => {
-      console.log(response); 
-      // this.getHouseholdID();
-  }).catch((error) => {
-      console.log('Error submitting household', error); 
-  })
-}
+  //editUser makes a put request to existing users, adding the household_id to their database entry
 editUser = () => {
   console.log('in edit users');
   axios({
@@ -90,7 +75,7 @@ navigateToNextPage = () => {
             })} 
             </ul> 
 
-            <Button onClick={this.createHousehold}>Confirm</Button>
+            <Button onClick={this.addPets}>Confirm</Button>
         </div>
       );
     }

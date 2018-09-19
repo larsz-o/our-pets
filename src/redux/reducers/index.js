@@ -1,14 +1,14 @@
 import { combineReducers } from 'redux';
 import user from './userReducer';
 import login from './loginReducer';
-import householdReducer from './createHouseholdReducer';
-import findUserReducer from './findUserReducer';
+import household from './createHouseholdReducer';
+import findUser from './findUserReducer';
 
 const store = combineReducers({
   user,
   login,
-  householdReducer,
-  findUserReducer
+  household,
+  findUser
 });
 
 export default store;

@@ -8,18 +8,20 @@ import axios from 'axios';
 
 const mapStateToProps = state => ({
   user: state.user,
+  household: state.household.household
 });
 
 class CreateHousehold extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
         nickname: '',
         person_id: '',
         authorized: true
     };
   }
+  //createHouseholdRecord adds the household to the database, then calls the function getHouseholdID to pull the database ID that was just created
+  //the household_id is needed to register pets and users in the next steps of the form. 
   createHouseholdRecord = () => {
     axios({
       method: 'POST', 
@@ -27,7 +29,7 @@ class CreateHousehold extends Component {
       data: this.state
     }).then((response) => {
       console.log('Success!', response.data);
-      this.sendHouseholdToRedux();
+      this.getHouseholdID();
     }).catch((error) => {
       console.log('Error posting household', error);
       alert('Something went wrong posting the household. Try a different nickname.'); 
@@ -42,16 +44,17 @@ class CreateHousehold extends Component {
       this.props.history.push('home');
     }
   }
+  //getHouseholdID gets the household_id that was just created and calls sendUsersToRedux, adding the currently signed in user's information to the createhousehold reducer
   getHouseholdID = () => {
     console.log('in getHouseholdId');
     axios({
       method: 'GET', 
-      url: `api/household/house?houseid=${this.props.household.nickname}`
+      url: `api/household?nickname=${this.props.household.nickname}`
     }).then((response) => {
       console.log(response.data[0].id); 
       const action = {type: 'SET_HOUSE_ID', payload: response.data[0].id}; 
       this.props.dispatch(action); 
-      this.addPets();
+      this.sendUserToRedux();
     }).catch((error) => {
       console.log('Error getting household ID', error); 
     })
@@ -62,20 +65,20 @@ class CreateHousehold extends Component {
       person_id: this.props.user.id
     });
   }
-  //sendNickNameToRedux dispatches the household nickname entered so that it can be used as the rest of the household information 
-  //is collected.
-  // once this form is completed, users are sent to the next page to enter information about their pets. 
+  //sendNickNameToRedux dispatches the household nickname entered so that it can be used as the rest of the household information is collected.
+  // it then creates the household in the database because the nickname has to be unique
+  // if the nickname is not unique, the rest of the registration will fail 
   sendNickNameToRedux = (event) => {
     event.preventDefault(); 
     const action = {type: 'SET_NICKNAME', payload: this.state.nickname};
     this.props.dispatch(action); 
     this.createHouseholdRecord();
   }
-  sendHouseholdToRedux = () => {
+  sendUserToRedux = () => {
     const action = {type: 'SET_USERS', payload: {person_id: this.props.user.id, username: this.props.user.userName, authorized: true, role: 1}};
     this.props.dispatch(action);
     this.props.history.push('/addpets'); 
-    this.getHouseholdID();
+    
   }
   render() {
     let content = null;

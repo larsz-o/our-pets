@@ -5,8 +5,9 @@ const router = express.Router();
 /**
  * GET route template
  */
+//this route searches for existing users by their username to add to a household
 router.get('/user', (req, res) => {
-    console.log('in query get userId request');
+    console.log('in query get username request');
     const searchTerm = req.query;
     console.log(searchTerm); 
     const query = `SELECT "username", "id" FROM "person" WHERE "username" ILIKE $1;`;
@@ -18,9 +19,9 @@ router.get('/user', (req, res) => {
         res.sendStatus(500);
     }); 
 });
-router.get('/house', (req, res) => {
+router.get('/', (req, res) => {
     console.log('in query get houseID request');
-    const searchTerm = req.query.houseid;
+    const searchTerm = req.query.nickname;
     console.log(searchTerm); 
     const query = `SELECT "id" from "households" WHERE "nickname" ILIKE $1;`;
     pool.query(query, [searchTerm]).then((results) => {
@@ -40,11 +41,7 @@ router.post('/createhousehold', (req, res) => {
     const householdToAdd = req.body;
     console.log('householdtoAdd:', householdToAdd); 
     const query = `INSERT INTO "households" ("nickname", "person_id", "authorized") VALUES ($1, $2, $3);`;
-    // for (let i = 0; i < householdToAdd.users.length; i++){
-    //     let userId = householdToAdd.users[i].person_id;
-    //     console.log('householdToAdd.users[i].person_id:', householdToAdd.users[i].person_id); 
-    //     let authorization = householdToAdd.users[i].authorized; 
-        pool.query(query, [householdToAdd.nickname, userId, authorization]).then((results) => {
+        pool.query(query, [householdToAdd.nickname, householdToAdd.person_id, householdToAdd.authorized]).then((results) => {
             console.log(results); 
             res.sendStatus(200); 
         }).catch((error) => {
