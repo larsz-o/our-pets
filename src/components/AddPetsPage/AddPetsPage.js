@@ -19,7 +19,9 @@ class AddPetsPage extends Component {
        birthday: '01-01-2018', 
        image_path: '',
        medications: false,
-       feeding: true
+       feeding: true, 
+       walking: '', 
+       litterbox: ''
     };
   }
  
@@ -37,10 +39,20 @@ class AddPetsPage extends Component {
       [propertyName]: event.target.value,
     });
   }
-  handleInputChangeForSpeciesID = (event) => { 
-    this.setState({
-      species_id: event.target.value
-    });
+  handleInputChangeForSpeciesID = (event) => {
+    if (event.target.value == 1){
+      this.setState({
+        species_id: event.target.value,
+        walking: false, 
+        litterbox: true
+      });
+    } else if (event.target.value == 2){
+      this.setState({
+        species_id: event.target.value,
+        walking: true, 
+        litterbox: false
+      });
+    }
     
   }
   handleMedicationChange = () => {
@@ -54,7 +66,6 @@ class AddPetsPage extends Component {
   //sendPetsInfoToRedux dispatches the pets entered so that it can be used as the rest of the information is collected.
   // once this form is completed, users are sent to the next page to enter information about any co-owners. 
   sendPetsInfoToRedux = () => {
-    this.assignSpeciesSettings();
     const action = {type: 'SET_PETS', payload: this.state};
     this.props.dispatch(action); 
     alert('Pet added!');
