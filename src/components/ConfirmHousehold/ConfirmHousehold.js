@@ -44,7 +44,7 @@ createHousehold = () => {
       data: this.props.household
   }).then((response) => {
       console.log(response); 
-      this.getHouseholdID();
+      // this.getHouseholdID();
   }).catch((error) => {
       console.log('Error submitting household', error); 
   })
@@ -61,20 +61,7 @@ editUser = () => {
     console.log('Error updating user information', error); 
   })
 }
-getHouseholdID = () => {
-  console.log('in getHouseholdId');
-  axios({
-    method: 'GET', 
-    url: `api/household/house?houseid=${this.props.household.nickname}`
-  }).then((response) => {
-    console.log(response.data[0].id); 
-    const action = {type: 'SET_HOUSE_ID', payload: response.data[0].id}; 
-    this.props.dispatch(action); 
-    this.addPets();
-  }).catch((error) => {
-    console.log('Error getting household ID', error); 
-  })
-}
+
 navigateToNextPage = () => {
       this.props.history.push('/dashboard'); 
   }

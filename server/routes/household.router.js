@@ -40,10 +40,10 @@ router.post('/createhousehold', (req, res) => {
     const householdToAdd = req.body;
     console.log('householdtoAdd:', householdToAdd); 
     const query = `INSERT INTO "households" ("nickname", "person_id", "authorized") VALUES ($1, $2, $3);`;
-    for (let i = 0; i < householdToAdd.users.length; i++){
-        let userId = householdToAdd.users[i].person_id;
-        console.log('householdToAdd.users[i].person_id:', householdToAdd.users[i].person_id); 
-        let authorization = householdToAdd.users[i].authorized; 
+    // for (let i = 0; i < householdToAdd.users.length; i++){
+    //     let userId = householdToAdd.users[i].person_id;
+    //     console.log('householdToAdd.users[i].person_id:', householdToAdd.users[i].person_id); 
+    //     let authorization = householdToAdd.users[i].authorized; 
         pool.query(query, [householdToAdd.nickname, userId, authorization]).then((results) => {
             console.log(results); 
             res.sendStatus(200); 
@@ -51,7 +51,6 @@ router.post('/createhousehold', (req, res) => {
             console.log('Error posting household', error); 
             res.sendStatus(500); 
         });
-    }
 });
 
 module.exports = router;

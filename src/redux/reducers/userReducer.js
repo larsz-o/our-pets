@@ -35,6 +35,7 @@ const household_id = (state = null, action) => {
 const first_name = (state = null, action) => {
     switch (action.type) {
       case USER_ACTIONS.SET_USER:
+      console.log(action.user);
         return action.user.first_name || state; 
       default: 
         return state; 
