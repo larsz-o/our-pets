@@ -39,6 +39,7 @@ class AddPetsPage extends Component {
       [propertyName]: event.target.value,
     });
   }
+  // sets the values for walking/litterbox properties according to species 
   handleInputChangeForSpeciesID = (event) => {
     if (event.target.value == 1){
       this.setState({
@@ -53,7 +54,6 @@ class AddPetsPage extends Component {
         litterbox: false
       });
     }
-    
   }
   handleMedicationChange = () => {
       this.setState({
