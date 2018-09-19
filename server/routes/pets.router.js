@@ -17,10 +17,11 @@ router.post('/', (req, res) => {
         });
     }
 }); 
+//gets pets by user ID
 router.get('/', (req, res) => {
     console.log('in pets get route'); 
-    const householdId = req.query.house_id; 
-    const query = `SELECT "name", "image_path", "medications" FROM "pets" WHERE "household_id" = $1;`;
+    const householdId = req.query.id; 
+    const query = `SELECT "name", "image_path", "medications" FROM "pets" WHERE "person_id" = $1;`;
     pool.query(query, [householdId]).then((results) => {
         res.send(results.rows); 
     }).catch((error) => {

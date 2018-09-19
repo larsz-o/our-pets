@@ -7,7 +7,7 @@ const newHousehold = {
     pets: [], 
 }
 
-const household = (state = newHousehold, action) => {
+const householdReducer = (state = newHousehold, action) => {
     if(action.type === 'SET_NICKNAME'){
         return {...state, nickname: action.payload}; 
     } else if (action.type === 'SET_PETS'){
@@ -21,5 +21,5 @@ const household = (state = newHousehold, action) => {
 }
 
 export default combineReducers({
-    household,
+    householdReducer,
   });
