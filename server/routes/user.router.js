@@ -55,5 +55,14 @@ router.put('/household', (req, res) => {
     });
   }
 });
-
+router.put('/settings', (req, res) => {
+  const settings = req.body; 
+  const query = `UPDATE "person" SET "text_alert_litterbox" = $1, "text_alert_medications" = $2, "text_alert_walk" = $3, "text_alert_fed" = $4 WHERE "id" = $5;`;
+  pool.query(query, [settings.text_alert_litterbox, settings.text_alert_medications, settings.text_alert_walk, settings.text_alert_fed, req.user.id]).then((results) => {
+    res.sendStatus(200);
+  }).catch((error) => {
+    console.log('Error updating notification settings', error);
+    res.sendStatus(500); 
+  });
+})
 module.exports = router;

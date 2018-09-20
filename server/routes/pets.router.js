@@ -3,7 +3,6 @@ const pool = require('../modules/pool');
 const router = express.Router();
 
 router.post('/', (req, res) => {
-    console.log('in pets post route'); 
     const petToAdd = req.body; 
     const query = `INSERT INTO "pets" ("name", "species_id", "birthday", "image_path", "household_id", "medications", "feeding", "litterbox", "walking") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);`; 
     for (let i = 0; i < petToAdd.pets.length; i ++) {
@@ -19,16 +18,25 @@ router.post('/', (req, res) => {
 }); 
 //gets pets by household ID
 router.get('/', (req, res) => {
-    console.log('in pets get route'); 
     const householdId = req.query.id; 
-    console.log(householdId); 
-    const query = `SELECT "pets"."name", "pets"."image_path", "pets"."species_id", "medications", "feeding", "litterbox", "walking" FROM "pets" JOIN "households" ON "pets"."household_id" = "households"."id" WHERE "households"."id" = $1;`;
+    const query = `SELECT "pets"."name", "pets"."id", "pets"."image_path", "pets"."species_id", "medications", "feeding", "litterbox", "walking" FROM "pets" JOIN "households" ON "pets"."household_id" = "households"."id" WHERE "households"."id" = $1;`;
     pool.query(query, [householdId]).then((results) => {
         res.send(results.rows); 
     }).catch((error) => {
         console.log('Error getting pets', error); 
         res.sendStatus(500);
-    })
+    });
+})
+router.put('/settings', (req, res) => {
+    const settings = req.body; 
+    console.log('in edit pet settings. settings:', settings);
+    const query = `UPDATE "pets" SET "feeding" = $1, "walking" = $2, "litterbox" = $3, "medications" = $4 WHERE "id" = $5;`;
+    pool.query(query, [settings.feeding, settings.walking, settings.litterbox, settings.medications, settings.pet_id ]).then((results) => {
+        res.sendStatus(200);
+    }).catch((error) => {
+        console.log('Error updating pet activity settings', error); 
+        res.sendStatus(500); 
+    });
 })
 
 module.exports = router;
