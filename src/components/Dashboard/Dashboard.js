@@ -15,7 +15,6 @@ const mapStateToProps = state => ({
 class Dashboard extends Component {
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
-    // i think this might have to go into a saga so that i can dispatch it, call getPets() in the order that will catch the user's household_id
     this.madeGetRequest = false;
   }
   componentDidUpdate() {
