@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
+import PetSettings from './PetSettings/PetSettings';
 
 const mapStateToProps = state => ({
   user: state.user,
+  pets: state.beings.currentPets,
+  members: state.beings.currentHouseholdMembers
 });
 
 class EditSettings extends Component {
@@ -15,7 +17,7 @@ class EditSettings extends Component {
 
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
-      this.props.history.push('home');
+      this.props.history.push('/home');
     }
   }
 
@@ -25,9 +27,15 @@ class EditSettings extends Component {
     if (this.props.user.userName) {
       content = (
         <div>
-          <p>
-            Info Page
-          </p>
+        <h2>Pets</h2>
+        <ul>
+                {this.props.pets.map((pet, i) => {
+                     return(
+                      <PetSettings key={i} pet={pet}/>
+                        );
+                    })}
+            </ul>
+        <h2>Household</h2>
         </div>
       );
     }

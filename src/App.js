@@ -20,6 +20,7 @@ import LitterboxReport from './components/LitterboxReport/LitterboxReport';
 import MedicationReport from './components/MedicationsReport/MedicationsReport';
 import WalkReport from './components/WalkReport/WalkReport';
 import MyAccount from './components/MyAccountPage/MyAccountPage';
+import EditSettings from './components/EditSettingsPage/EditSettingsPage'; 
 
 import './styles/main.css';
 
@@ -80,6 +81,10 @@ const App = () => (
         <Route 
           path="/myaccount"
           component={MyAccount}
+        />
+         <Route 
+          path="/editsettings"
+          component={EditSettings}
         />
         {/* OTHERWISE (no path!) */}
         <Route render={() => <h1>404</h1>} />

@@ -42,6 +42,16 @@ const household_nickname = (state = null, action) => {
       return state; 
   }
 };
+const image_path = (state = null, action) => {
+  switch (action.type) {
+    case USER_ACTIONS.SET_USER:
+      return action.user.image_path || state; 
+    case USER_ACTIONS.UNSET_USER:
+      return null;
+    default: 
+      return state; 
+  }
+};
 const first_name = (state = null, action) => {
     switch (action.type) {
       case USER_ACTIONS.SET_USER:
@@ -82,4 +92,5 @@ export default combineReducers({
   first_name, 
   phone_number,
   household_nickname, 
+  image_path
 });

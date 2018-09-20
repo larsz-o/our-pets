@@ -9,7 +9,6 @@ const mapStateToProps = state => ({
   user: state.user,
   pets: state.beings.currentPets,
   members: state.beings.currentHouseholdMembers
-
 });
 
 class MyAccount extends Component {
@@ -34,6 +33,8 @@ class MyAccount extends Component {
           <Link to='/editsettings' className="float-right">Edit Settings</Link>
           <br/>
           <Paper>
+            <img src={this.props.user.image_path}/>
+            <p>Upload user photo:</p>
               <p>Household Name: {this.props.user.household_nickname}</p>
               <p>Pets:  
              {this.props.pets.map((pet, i) => {
