@@ -31,7 +31,19 @@ router.get('/', (req, res) => {
         console.log('Error getting household ID', error); 
         res.sendStatus(500);
     });
-})
+});
+router.get('/members', (req, res) => {
+    console.log('getting household members');
+    const queryParam = req.query.id; 
+    console.log(queryParam); 
+    const query = `SELECT "person"."id", "username", "first_name" FROM "person" WHERE "household_id" = $1;`;
+    pool.query(query, [queryParam]).then((results) => {
+        res.send(results.rows);
+    }).catch((error) => {
+        console.log('Error getting household members', error); 
+        res.sendStatus(500); 
+    });
+});
 
 /**
  * POST route template

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'; 
 import {connect} from 'react-redux'; 
-import {Button, Typography, CardActionArea, CardContent, Card} from '@material-ui/core'; 
+import {Button, Typography, CardContent} from '@material-ui/core'; 
 import './petcard.css';
 
 const mapStateToProps = state => ({

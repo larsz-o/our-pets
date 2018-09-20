@@ -9,13 +9,14 @@ import {Button} from '@material-ui/core';
 const mapStateToProps = state => ({
   user: state.user,
   household: state.household.household,
-  pets: state.pets.currentPets
+  pets: state.beings.currentPets
 });
 
 class Dashboard extends Component {
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
     this.madeGetRequest = false;
+    
   }
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
@@ -26,6 +27,17 @@ class Dashboard extends Component {
       this.madeGetRequest = true;
     }
   }
+  getHouseholdMembers = () => {
+    axios({
+      method: 'GET', 
+      url: `/api/household/members?id=${this.props.user.household_id}`
+    }).then((response) => {
+      const action = {type: 'SET_HOUSEHOLD_MEMBERS', payload: response.data};
+      this.props.dispatch(action); 
+    }).catch((error) => {
+      console.log('Error getting household members', error); 
+    })
+  }
   getPets = () => {
     axios({
       method: 'GET', 
@@ -33,6 +45,7 @@ class Dashboard extends Component {
     }).then((response) => {
       const action = {type: 'SET_EXISTING_PETS', payload: response.data};
       this.props.dispatch(action);
+      this.getHouseholdMembers();
     }).catch((error) => {
       console.log('Error getting pets', error);
     })

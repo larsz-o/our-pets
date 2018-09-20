@@ -22,33 +22,47 @@ const userName = (state = null, action) => {
       return state;
   }
 };
-
 const household_id = (state = null, action) => {
   switch (action.type) {
     case USER_ACTIONS.SET_USER:
       return action.user.household_id || state;
+    case USER_ACTIONS.UNSET_USER:
+      return null;
     default: 
       return state; 
   }
-}
-
+};
+const household_nickname = (state = null, action) => {
+  switch (action.type) {
+    case USER_ACTIONS.SET_USER:
+      return action.user.household_nickname || state; 
+    case USER_ACTIONS.UNSET_USER:
+      return null;
+    default: 
+      return state; 
+  }
+};
 const first_name = (state = null, action) => {
     switch (action.type) {
       case USER_ACTIONS.SET_USER:
       console.log(action.user);
         return action.user.first_name || state; 
+      case USER_ACTIONS.UNSET_USER:
+        return null;
       default: 
         return state; 
     }
-}
+};
 const phone_number = (state = null, action) => {
     switch (action.type) {
       case USER_ACTIONS.SET_USER:
       return action.user.phone_number || state; 
+    case USER_ACTIONS.UNSET_USER:
+      return null;
     default: 
       return state;  
     }
-}
+};
 const isLoading = (state = false, action) => {
   switch (action.type) {
     case USER_ACTIONS.REQUEST_START:
@@ -66,5 +80,6 @@ export default combineReducers({
   isLoading,
   household_id, 
   first_name, 
-  phone_number
+  phone_number,
+  household_nickname, 
 });

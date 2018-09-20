@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Button} from '@material-ui/core';
-import {Link} from 'react-router-dom';
 import {connect} from 'react-redux'; 
 import { triggerLogout } from '../../redux/actions/loginActions';
 
