@@ -16,10 +16,15 @@ class Dashboard extends Component {
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
     // i think this might have to go into a saga so that i can dispatch it, call getPets() in the order that will catch the user's household_id
+    this.madeGetRequest = false;
   }
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
-      this.props.history.push('home');
+      this.props.history.push('/home');
+    } else if (!this.props.user.isLoading && this.props.user.userName !== null && !this.madeGetRequest) {
+      // only make this request one time after the user object has been populated
+      this.getPets();
+      this.madeGetRequest = true;
     }
   }
   getPets = () => {

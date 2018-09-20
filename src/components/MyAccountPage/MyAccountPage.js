@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import {Link} from 'react-router-dom'; 
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
+import {Card, CardContent} from '@material-ui/core'; 
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -27,6 +28,12 @@ class MyAccount extends Component {
         <div>
           <h1>Welcome, {this.props.user.first_name}</h1>
           <Link to='/editsettings' className="float-right">Edit Settings</Link>
+          <Card>
+            <CardContent>
+              <p>Household Name: [need to get this on the user object from props -- new query to join households table with person]</p>
+              <p>Pets: </p>
+            </CardContent>
+          </Card>
         </div>
       );
     }

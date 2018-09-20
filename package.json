@@ -5,6 +5,10 @@
   "proxy": "http://localhost:5000",
   "dependencies": {
     "@material-ui/core": "^3.1.0",
+    "@uppy/core": "^0.27.2",
+    "@uppy/dashboard": "^0.27.4",
+    "@uppy/react": "^0.27.4",
+    "@uppy/tus": "^0.27.4",
     "axios": "^0.17.1",
     "bcrypt": "^2.0.1",
     "body-parser": "^1.18.2",
@@ -30,7 +34,8 @@
     "react-scripts": "^1.1.1",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
-    "redux-saga": "^0.16.0"
+    "redux-saga": "^0.16.0",
+    "uppy": "^0.27.4"
   },
   "scripts": {
     "start": "node server/server.js",

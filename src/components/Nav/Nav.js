@@ -7,13 +7,10 @@ const Nav = () => (
     <div>
       <ul>
         <li>
-          <Button component={Link} to="/home">Home</Button>
+        <Button component={Link} to="/dashboard">Dashboard</Button>
         </li>
         <li>
         <Button component={Link} to="/myaccount">My Account</Button>
-        </li>
-        <li>
-        <Button component={Link} to="/dashboard">Dashboard</Button>
         </li>
       </ul>
     </div>
