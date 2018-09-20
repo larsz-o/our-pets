@@ -19,7 +19,10 @@ class PetSettings extends Component {
                 litterbox: this.props.pet.litterbox
             },
             notifications: {
-
+                text_alert_walk: this.props.pet.walking,
+                text_alert_fed: this.props.pet.feeding,
+                text_alert_litterbox: this.props.pet.litterbox,
+                text_alert_medications: this.props.pet.medications
             }
         }
     }
@@ -64,12 +67,45 @@ class PetSettings extends Component {
         }
     });
   }
+  handleNotificationChangeForFeeding = () => {
+    this.setState({ 
+        notifications: {
+            ...this.state.notifications,
+            text_alert_fed: !this.state.notifications.text_alert_fed
+        } 
+    });
+  };
+  handleNotificationChangeForWalking = () => {
+    this.setState({ 
+        notifications: {
+            ...this.state.notifications,
+            text_alert_walk: !this.state.notifications.text_alert_walk
+        } 
+    });
+  };
+  handleNotificationChangeForLitterbox = () => {
+    this.setState({ 
+        notifications: {
+            ...this.state.notifications,
+            text_alert_litterbox: !this.state.notifications.text_alert_litterbox
+        } 
+    });
+  };
+  handleNotificationChangeForMedications = () => {
+    this.setState({ 
+        notifications: {
+            ...this.state.notifications,
+            text_alert_medications: !this.state.notifications.text_alert_medications
+        } 
+    });
+  };
   render() {
     let content = null;
 
     if (this.props.user.userName && this.props.pet.species_id === 1) {
       content = (
         <div>
+            {JSON.stringify(this.state)}
             <li className="pet-name-header">{this.props.pet.name}</li>  
             <li>Feeding 
                 <Checkbox
@@ -78,9 +114,9 @@ class PetSettings extends Component {
                     value="feeding"
                     color="primary"/>
                 <Switch
-                    checked={this.state.checkedA}
-                    onChange={this.handleChange('checkedA')}
-                    value="checkedA"/>
+                    checked={this.state.notifications.text_alert_fed}
+                    onChange={this.handleNotificationChangeForFeeding}
+                    value="text_alert_fed"/>
             </li>
             <li>Litterbox 
                 <Checkbox
@@ -88,6 +124,11 @@ class PetSettings extends Component {
                 onChange={this.handleChangeForLitterbox}
                 value="litterbox"
                 color="primary"/>
+                <Switch
+                    checked={this.state.notifications.text_alert_litterbox}
+                    onChange={this.handleNotificationChangeForLitterbox}
+                    value="text_alert_litterbox"
+                    disabled checked value={this.state.litterbox_disabled}/>
             </li>
             <li>Medications 
                 <Checkbox
@@ -95,6 +136,10 @@ class PetSettings extends Component {
                 onChange={this.handleChangeForMedications}
                 value="medications"
                 color="primary"/>
+                <Switch
+                    checked={this.state.notifications.text_alert_medications}
+                    onChange={this.handleNotificationChangeForMedications}
+                    value="text_alert_medications"/>
             </li>
         </div>
       );

@@ -1,25 +1,24 @@
 import { combineReducers } from 'redux';
 import { USER_ACTIONS } from '../actions/userActions';
 
-const id = (state = null, action) => {
+const fed_alert = (state = null, action) => {
   switch (action.type) {
     case USER_ACTIONS.SET_USER:
-      return action.user.id || state;
+      return action.user.text_alert_fed || state;
     case USER_ACTIONS.UNSET_USER:
       return null;
     default:
       return state;
   }
 };
-
-const userName = (state = null, action) => {
+const first_name = (state = null, action) => {
   switch (action.type) {
     case USER_ACTIONS.SET_USER:
-      return action.user.username || state;
+      return action.user.first_name || state; 
     case USER_ACTIONS.UNSET_USER:
       return null;
-    default:
-      return state;
+    default: 
+      return state; 
   }
 };
 const household_id = (state = null, action) => {
@@ -42,6 +41,16 @@ const household_nickname = (state = null, action) => {
       return state; 
   }
 };
+const id = (state = null, action) => {
+  switch (action.type) {
+    case USER_ACTIONS.SET_USER:
+      return action.user.id || state;
+    case USER_ACTIONS.UNSET_USER:
+      return null;
+    default:
+      return state;
+  }
+};
 const image_path = (state = null, action) => {
   switch (action.type) {
     case USER_ACTIONS.SET_USER:
@@ -51,27 +60,6 @@ const image_path = (state = null, action) => {
     default: 
       return state; 
   }
-};
-const first_name = (state = null, action) => {
-    switch (action.type) {
-      case USER_ACTIONS.SET_USER:
-      console.log(action.user);
-        return action.user.first_name || state; 
-      case USER_ACTIONS.UNSET_USER:
-        return null;
-      default: 
-        return state; 
-    }
-};
-const phone_number = (state = null, action) => {
-    switch (action.type) {
-      case USER_ACTIONS.SET_USER:
-      return action.user.phone_number || state; 
-    case USER_ACTIONS.UNSET_USER:
-      return null;
-    default: 
-      return state;  
-    }
 };
 const isLoading = (state = false, action) => {
   switch (action.type) {
@@ -83,7 +71,56 @@ const isLoading = (state = false, action) => {
       return state;
   }
 };
-
+const litterbox_alert = (state = null, action) => {
+  switch (action.type) {
+    case USER_ACTIONS.SET_USER:
+      return action.user.text_alert_litterbox || state;
+    case USER_ACTIONS.UNSET_USER:
+      return null;
+    default:
+      return state;
+  }
+};
+const medications_alert = (state = null, action) => {
+  switch (action.type) {
+    case USER_ACTIONS.SET_USER:
+      return action.user.text_alert_medications || state;
+    case USER_ACTIONS.UNSET_USER:
+      return null;
+    default:
+      return state;
+  }
+};
+const phone_number = (state = null, action) => {
+    switch (action.type) {
+      case USER_ACTIONS.SET_USER:
+      return action.user.phone_number || state; 
+    case USER_ACTIONS.UNSET_USER:
+      return null;
+    default: 
+      return state;  
+    }
+};
+const userName = (state = null, action) => {
+  switch (action.type) {
+    case USER_ACTIONS.SET_USER:
+      return action.user.username || state;
+    case USER_ACTIONS.UNSET_USER:
+      return null;
+    default:
+      return state;
+  }
+};
+const walk_alert = (state = null, action) => {
+  switch (action.type) {
+    case USER_ACTIONS.SET_USER:
+      return action.user.text_alert_walk || state;
+    case USER_ACTIONS.UNSET_USER:
+      return null;
+    default:
+      return state;
+  }
+};
 export default combineReducers({
   id,
   userName,
@@ -92,5 +129,9 @@ export default combineReducers({
   first_name, 
   phone_number,
   household_nickname, 
-  image_path
+  image_path, 
+  walk_alert,
+  fed_alert, 
+  litterbox_alert, 
+  medications_alert
 });
