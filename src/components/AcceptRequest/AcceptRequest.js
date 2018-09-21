@@ -45,7 +45,7 @@ class AcceptRequest extends Component {
     if (this.props.user.userName) {
       content = (
         <div>
-            <div className="card">
+            <div className="accept-card">
             <h3>[user] has invited you to join the [] household!</h3>
             <Button onClick={this.acceptInvitation}>Accept</Button><Button onClick={this.declineInvitation}>Decline</Button>
             </div>

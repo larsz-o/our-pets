@@ -66,7 +66,6 @@ class Dashboard extends Component {
               <h3>You currently [are/are not] in a household!</h3>
               <Button color="primary"variant="outlined" onClick={this.navigateTo}>Create Household</Button>
               <Button color="primary" variant="outlined">Join Household</Button>
-              <Button color="primary" variant="outlined" onClick={this.getPets}>Get Pets</Button>
             </div>
             <div className="container">
             {this.props.pets.map((pet, i) => {

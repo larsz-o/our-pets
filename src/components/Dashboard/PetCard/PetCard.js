@@ -12,6 +12,9 @@ class PetCard extends Component {
 handleClick = (property) => {
     this.props.history.push(property); 
 }
+///change fed and litterbox reports to functions that just grab the current date and time
+//and do a post request to the activity_details table
+//then work on the date and time pickers to make the current date and time default 
 
     render(){
         let content = null; 
