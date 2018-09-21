@@ -28,12 +28,13 @@ class PetCard extends Component {
           }
     }
     componentDidMount(){
-        this.getActivityData(1, this.props.pet_id);
-        this.getActivityData(2, this.props.pet_id);
-        this.getActivityData(3, this.props.pet_id);
-        this.getActivityData(4, this.props.pet_id);
+        this.getActivityData(1, this.props.pet.id);
+        this.getActivityData(2, this.props.pet.id);
+        this.getActivityData(3, this.props.pet.id);
+        this.getActivityData(4, this.props.pet.id);
     }
     getActivityData = (activityId, petId) => {
+        console.log('in getActitity data');
         axios({
             method: 'GET', 
             url: `/api/activities?activity=${activityId}&pet=${petId}`
@@ -200,10 +201,18 @@ togglePoopCheck = () => {
                         );
                     })}</Typography>
                      <Button onClick={this.handleClickOpen} variant="contained" color="primary">Walked</Button>
-                    <Typography gutterBottom variant="body1">Last fed: 9/19/18 at 8:00am </Typography>
+                    <Typography gutterBottom variant="body1">{this.state.lastFeeding.map((lastFed, i) => {
+                        return(
+                           <span key={i}>Last fed: {moment(lastFed.date).format('LL')} at {moment(lastFed.time).format('h:mm:ss a')}</span>
+                        );
+                    })}</Typography>
                     <Button onClick={()=>this.logFeeding(this.props.pet.id)} variant="contained" color="primary">Fed</Button>
-                    <Typography gutterBottom variant="body1">Medications last given: 9/19/18 at 8:00am</Typography>
-                    <Button onClick={this.handleClickOpen} variant="contained" color="primary">Medications Given</Button>
+                    <Typography gutterBottom variant="body1">{this.state.lastMedication.map((lastMed, i) => {
+                        return(
+                           <span key={i}>Last Medications Given: {moment(lastMed.date).format('LL')} at {moment(lastMed.time).format('h:mm:ss a')}</span>
+                        );
+                    })}</Typography>
+                    <Button onClick={()=>this.logMedication(this.props.pet.id)} variant="contained" color="primary">Medications Given</Button>
                     </CardContent>
                 </div>
                 <Dialog open={this.state.config.open} onClose={this.handleClose} aria-labelledby="walk-dialog-title">
@@ -251,11 +260,23 @@ togglePoopCheck = () => {
                <img src={this.props.pet.image_path} alt="pet"/>
                <CardContent>
                <Typography gutterBottom variant="headline" component="h2">{this.props.pet.name}</Typography>
-                   <Typography gutterBottom variant="body1">Litterbox last changed: 9/19/18 at 8:00am</Typography>
+                   <Typography gutterBottom variant="body1">{this.state.lastLitterbox.map((lastLitter, i) => {
+                        return(
+                           <span key={i}>Last Litterbox Change: {moment(lastLitter.date).format('LL')} at {moment(lastLitter.time).format('h:mm:ss a')}</span>
+                        );
+                    })}</Typography>
                     <Button onClick={()=> this.logLitterbox(this.props.pet.id)} variant="contained" color="primary">Litterbox Changed</Button>
-                   <Typography gutterBottom variant="body1">Last fed: 9/19/18 at 8:00am </Typography>
+                   <Typography gutterBottom variant="body1">{this.state.lastFeeding.map((lastFed, i) => {
+                        return(
+                           <span key={i}>Last fed: {moment(lastFed.date).format('LL')} at {moment(lastFed.time).format('h:mm:ss a')}</span>
+                        );
+                    })}</Typography>
                    <Button onClick={()=> this.logFeeding(this.props.pet.id)} variant="contained" color="primary">Fed</Button>
-                   <Typography gutterBottom variant="body1">Medications last given: 9/19/18 at 8:00am</Typography>
+                   <Typography gutterBottom variant="body1">{this.state.lastMedication.map((lastMed, i) => {
+                        return(
+                           <span key={i}>Medications Last Given: {moment(lastMed.date).format('LL')} at {moment(lastMed.time).format('h:mm:ss a')}</span>
+                        );
+                    })}</Typography>
                    <Button onClick={this.handleClickOpen} variant="contained" color="primary">Medications Given</Button>
                    </CardContent>
         </div>
