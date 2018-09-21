@@ -30,13 +30,15 @@ class EditSettings extends Component {
         <div>
             <p>You have a pending invitation</p>
             <AcceptRequest/>
-
         </div>
       );
-    } else if (this.props.user.userName && this.props.user.authorized) {
-       <div>
-           You have # of pending requests
-       </div>
+    } else if(this.props.user.userName && this.props.user.authorized) {
+       content = (
+        <div>
+            You have # of pending requests
+        </div>
+       );
+       
     }
 
     return (

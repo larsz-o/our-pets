@@ -13,6 +13,7 @@ const mapStateToProps = state => ({
 });
 
 class Dashboard extends Component {
+
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
     this.madeGetRequest = false;

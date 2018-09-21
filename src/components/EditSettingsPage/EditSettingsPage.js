@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import PetSettings from './PetSettings/PetSettings';
+import {Button} from '@material-ui/core'; 
 
 const mapStateToProps = state => ({
   user: state.user,
