@@ -44,7 +44,7 @@ router.get('/logout', (req, res) => {
 
 router.put('/household', (req, res) => {
   const userToAdd = req.body; 
-  const query = `UPDATE "person" SET "household_id" = $1 WHERE "id" = $2;`;
+  const query = `UPDATE "person" SET "household_id" = $1, "authorized" = true WHERE "id" = $2;`;
   for (let i = 0; i < userToAdd.users.length; i++){
     let newUser = userToAdd.users[i]; 
     pool.query(query, [userToAdd.household_id, newUser.person_id]).then((result) => {

@@ -63,11 +63,11 @@ router.put('/accept', (req, res) => {
         res.sendStatus(500); 
     });
 })
-// posts a new household 
+// posts a new household -- need to also do a put request to edit the req.user to authorized
 router.post('/createhousehold', (req, res) => {
     const householdToAdd = req.body;
-    const query = `INSERT INTO "households" ("nickname", "person_id", "authorized") VALUES ($1, $2, $3);`;
-        pool.query(query, [householdToAdd.nickname, householdToAdd.person_id, householdToAdd.authorized]).then((results) => {
+    const query = `INSERT INTO "households" ("nickname", "person_id") VALUES ($1, $2);`;
+        pool.query(query, [householdToAdd.nickname, householdToAdd.person_id]).then((results) => {
             console.log(results); 
             res.sendStatus(200); 
         }).catch((error) => {

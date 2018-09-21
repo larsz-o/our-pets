@@ -42,13 +42,13 @@ class AddPetsPage extends Component {
   handleInputChangeForSpeciesID = (event) => {
     let speciesInteger = parseInt(event.target.value, 10); 
     console.log(speciesInteger); 
-    if (event.target.value === 1){
+    if (speciesInteger === 1){
       this.setState({
         species_id: speciesInteger,
         walking: false, 
         litterbox: true
       });
-    } else if (event.target.value === 2){
+    } else if (speciesInteger === 2){
       this.setState({
         species_id: speciesInteger,
         walking: true, 
