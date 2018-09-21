@@ -44,16 +44,12 @@ editUser = () => {
     url: 'api/user/household', 
     data: this.props.household
   }).then((response) => {
-    console.log(response); 
     alert(`${this.props.household.nickname} Household created!`);
     this.props.history.push('/dashboard'); 
   }).catch((error) => {
     console.log('Error updating user information', error); 
   })
 }
-navigateToNextPage = () => {
-      this.props.history.push('/dashboard'); 
-  }
   render() {
     let content = null;
     if (this.props.user.userName) {

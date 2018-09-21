@@ -1,7 +1,7 @@
 const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
-
+//adding pets 
 router.post('/', (req, res) => {
     const petToAdd = req.body; 
     const query = `INSERT INTO "pets" ("name", "species_id", "birthday", "image_path", "household_id", "medications", "feeding", "litterbox", "walking") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);`; 
@@ -27,6 +27,7 @@ router.get('/', (req, res) => {
         res.sendStatus(500);
     });
 })
+//edit pet settings
 router.put('/settings', (req, res) => {
     const settings = req.body; 
     console.log('in edit pet settings. settings:', settings);
@@ -38,6 +39,7 @@ router.put('/settings', (req, res) => {
         res.sendStatus(500); 
     });
 })
+//delete pet 
 router.delete('/:id', (req, res) => {
     const petToDelete = req.params.id; 
     console.log(petToDelete);

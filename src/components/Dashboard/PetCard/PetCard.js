@@ -8,28 +8,78 @@ import axios from 'axios';
 const mapStateToProps = state => ({
     user: state.user,
   });
+
 class PetCard extends Component {
     constructor(props){
         super(props);
         this.state = {
-            open: false,
-            poop_check: false, 
-            medication: '',
-            time_start: '00:00:00',
-            time_end: '00:00:00',
-            notes: ''
+            config: {
+                open: false,
+                poop_check: false, 
+                medication: '',
+                time_start: '00:00:00',
+                time_end: '00:00:00',
+                notes: ''
+            },
+            lastWalk: [],
+            lastFeeding: [],
+            lastMedication: [],
+            lastLitterbox: []
           }
+    }
+    componentDidMount(){
+        this.getActivityData(1, this.props.pet_id);
+        this.getActivityData(2, this.props.pet_id);
+        this.getActivityData(3, this.props.pet_id);
+        this.getActivityData(4, this.props.pet_id);
+    }
+    getActivityData = (activityId, petId) => {
+        axios({
+            method: 'GET', 
+            url: `/api/activities?activity=${activityId}&pet=${petId}`
+        }).then((response) => {
+            console.log(response.data);
+            if (activityId == 1){
+                this.setState({
+                    lastFeeding: response.data 
+                });
+            } else if(activityId == 2){
+                this.setState({
+                    lastWalk: response.data
+                });
+            } else if (activityId == 3){
+                this.setState({
+                    lastLitterbox: response.data
+                });
+            } else if (activityId == 4){
+                this.setState({
+                    lastMedication: response.data
+                });
+            }
+        }).catch((error) => {
+            console.log('Error getting activity data');
+        })
     }
   handleChange = (property, event) => {
     this.setState({
-        [property]: event.target.value
+        config: {
+            [property]: event.target.value
+        }
     });
   };
   handleClickOpen = () => {
-    this.setState({ open: true });
+    this.setState({ 
+        config: {
+            open: true
+        }
+     });
   };
   handleClose = () => {
-    this.setState({ open: false });
+    this.setState({ 
+        config:{
+            open: false
+        } 
+    });
   }; 
   logWalk = (id) => {
     let date = new Date();
@@ -38,10 +88,10 @@ class PetCard extends Component {
     let walkLog = {
         date: currentDate, 
         time: currentTime, 
-        time_start: this.state.time_start,
-        time_end: this.state.time_end,
-        notes: this.state.notes,
-        poop_check: this.state.poop_check,
+        time_start: this.state.config.time_start,
+        time_end: this.state.config.time_end,
+        notes: this.state.config.notes,
+        poop_check: this.state.config.poop_check,
         activity_id: 2, 
         person_id: this.props.user.id, 
         pet_id: id
@@ -53,6 +103,7 @@ class PetCard extends Component {
     }).then((response) => {
         console.log('success', response.data);
         this.handleClose(); 
+        this.getActivityData(2, this.props.pet.id)
         //get current data and update DOM
     }).catch((error) => {
         console.log('Error submitting walk report', error); 
@@ -75,7 +126,7 @@ class PetCard extends Component {
         url: '/api/activities/',
         data: feedLog
     }).then((response) => {
-        //get latest data and update the DOM
+        this.getActivityData(1, this.props.pet.id)
         alert('Success!');
     }).catch((error) => {
         console.log('Error posting feeding log', error);
@@ -91,7 +142,7 @@ class PetCard extends Component {
         activity_id: 4,
         pet_id: id,
         person_id: this.props.user.id, 
-        medication: this.state.medication
+        medication: this.state.config.medication
     }
     axios({
         method: 'POST',
@@ -99,7 +150,7 @@ class PetCard extends Component {
         data: medLog
     }).then((response) => {
         this.handleClose();
-        //get latest data and update the DOM
+        this.getActivityData(4, this.props.pet.id)
         alert('Success!');
     }).catch((error) => {
         console.log('Error posting feeding log', error);
@@ -122,7 +173,7 @@ class PetCard extends Component {
         url: '/api/activities/',
         data: litterLog
     }).then((response) => {
-        //get latest data and update the DOM
+        this.getActivityData(3, this.props.pet.id)
         alert('Success!');
     }).catch((error) => {
         console.log('Error posting feeding log', error);
@@ -130,7 +181,7 @@ class PetCard extends Component {
 }
 togglePoopCheck = () => {
     this.setState({
-      poop_check: !this.state.poop_check
+      poop_check: !this.state.config.poop_check
     });
   }
     render(){
@@ -138,11 +189,16 @@ togglePoopCheck = () => {
      if(this.props.pet.species_id === 2 && this.props.user.userName){
          content = (
     <div>
+        {JSON.stringify(this.state.history)}
         <div className="card">
                 <img src={this.props.pet.image_path} alt="pet"/>
                 <CardContent>
                 <Typography gutterBottom variant="headline" component="h2">test{this.props.pet.name}</Typography>           
-                    <Typography gutterBottom variant="body1">Last walked: 9/19/18 at 8:00am</Typography>
+                    <Typography gutterBottom variant="body1">{this.state.lastWalk.map((lastWalk, i) => {
+                        return (
+                            <span key={i}>Last walked: {moment(lastWalk.date).format('LL')} at {moment(lastWalk.time).format('h:mm:ss a')}</span>
+                        );
+                    })}</Typography>
                      <Button onClick={this.handleClickOpen} variant="contained" color="primary">Walked</Button>
                     <Typography gutterBottom variant="body1">Last fed: 9/19/18 at 8:00am </Typography>
                     <Button onClick={()=>this.logFeeding(this.props.pet.id)} variant="contained" color="primary">Fed</Button>
@@ -150,7 +206,7 @@ togglePoopCheck = () => {
                     <Button onClick={this.handleClickOpen} variant="contained" color="primary">Medications Given</Button>
                     </CardContent>
                 </div>
-                <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="walk-dialog-title">
+                <Dialog open={this.state.config.open} onClose={this.handleClose} aria-labelledby="walk-dialog-title">
                     <DialogTitle id="walk-dialog-title">Walk Report</DialogTitle>
                     <DialogContent>
                         <DialogContentText>How did your walk go?</DialogContentText>
@@ -158,12 +214,13 @@ togglePoopCheck = () => {
                     <InputLabel>Time Start:</InputLabel>
                     <Input
                         type="time"
-                        value={this.state.time_start}
+                        value={this.state.config.time_start}
                         onChange={(event)=>this.handleChange('time_start', event)}/>
+                        <br/>
                     <InputLabel>Time End:</InputLabel>
                     <Input
                         type="time"
-                        value={this.state.time_end}
+                        value={this.state.config.time_end}
                         onChange={(event)=>this.handleChange('time_end', event)}/>
                     <InputLabel>Poop Check</InputLabel>
                     <Checkbox
@@ -182,7 +239,7 @@ togglePoopCheck = () => {
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleClose} color="primary">Cancel</Button>
-                        <Button onClick={()=>this.logWalk(this.props.pet.id)} color="primary">Subscribe</Button>
+                        <Button onClick={()=>this.logWalk(this.props.pet.id)} color="primary">Submit</Button>
                     </DialogActions>
                 </Dialog>
     </div>
@@ -202,7 +259,7 @@ togglePoopCheck = () => {
                    <Button onClick={this.handleClickOpen} variant="contained" color="primary">Medications Given</Button>
                    </CardContent>
         </div>
-        <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="med-dialog-title">
+        <Dialog open={this.state.config.open} onClose={this.handleClose} aria-labelledby="med-dialog-title">
                     <DialogTitle id="med-dialog-title">Walk Report</DialogTitle>
                     <DialogContent>
                         <DialogContentText>What medication did you give?</DialogContentText>

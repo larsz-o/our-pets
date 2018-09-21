@@ -1,7 +1,7 @@
 const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
-
+//template for all activity details posts
 router.post('/', (req, res) => {
     const reportData = req.body; 
     const query = `INSERT INTO "activity_details" ("activity_id", "pet_id", "person_id", "date", "time", "notes", "time_start", "time_end", "poop_check", "medication_name") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);`; 
@@ -11,26 +11,18 @@ router.post('/', (req, res) => {
         console.log('Error posting report', error); 
         res.sendStatus(500); 
     })
-})
-router.post('/fed', (req, res) => {
-    const logToAdd = req.body;
-    const query = `INSERT INTO "activity_details" ("activity_id", "pet_id", "person_id", "date", "time") VALUES ($1, $2, $3, $4, $5);`;
-    pool.query(query, [logToAdd.activity_id, logToAdd.pet_id, logToAdd.person_id, logToAdd.date, logToAdd.time]).then((results) => {
-        res.sendStatus(200);
+});
+router.get('/', (req, res) => {
+    const activity = req.query.activity;
+    const pet = req.query.pet; 
+    const query = `SELECT "time", "date" FROM "activity_details" WHERE "pet_id" = $1 AND "activity_id" = $2 ORDER BY "id" DESC LIMIT 1;`;
+    pool.query(query, [pet, activity]).then((results) => {
+        res.send(results.rows);
     }).catch((error) => {
-        console.log('Error posting fed report', error);
+        console.log('Error getting activity history', error); 
         res.sendStatus(500); 
     });
 })
-router.post('/litterbox', (req, res) => {
-    const logToAdd = req.body;
-    const query = `INSERT INTO "activity_details" ("activity_id", "pet_id", "person_id", "date", "time") VALUES ($1, $2, $3, $4, $5);`;
-    pool.query(query, [logToAdd.activity_id, logToAdd.pet_id, logToAdd.person_id, logToAdd.date, logToAdd.time]).then((results) => {
-        res.sendStatus(200);
-    }).catch((error) => {
-        console.log('Error posting litterbox report', error);
-        res.sendStatus(500); 
-    });
-})
+
 
 module.exports = router; 
