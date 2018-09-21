@@ -6,7 +6,6 @@ const newHousehold = {
     users: [],
     pets: [], 
 }
-
 const household = (state = newHousehold, action) => {
     if(action.type === 'SET_NICKNAME'){
         return {...state, nickname: action.payload}; 
@@ -25,7 +24,6 @@ const findUser = (state = [], action) => {
     }
     return state; 
 }
-
 export default combineReducers({
     household,
     findUser

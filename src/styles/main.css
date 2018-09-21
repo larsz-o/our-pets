@@ -12,9 +12,9 @@ body {
 }
 
 .instructions {
-    background-color: #00acb0;
+    background-color: beige;
     padding: 5px;
-    color: #ece7e7;
+    color: gray;
 }
 .float-right{
     float: right; 
@@ -53,7 +53,7 @@ input[type="submit"] {
 }
 
 .navbar {
-  background-color: #00acb0;
+  background-color: beige;
   width: 100%;
   border-radius: 0px;
 }

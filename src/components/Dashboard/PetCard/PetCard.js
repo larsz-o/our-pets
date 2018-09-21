@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux'; 
 import {Button, Typography, CardContent} from '@material-ui/core'; 
 import './petcard.css';
+import moment from 'moment'; 
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -9,6 +10,13 @@ const mapStateToProps = state => ({
  
 class PetCard extends Component {
 
+logFeeding = () => {
+    console.log('clicked log feeding');
+    let date = new Date();
+    let currentDate =  moment(date).format('LL');
+    let currentTime = moment(date).format('h:mm:ss a');
+    
+}
 handleClick = (property) => {
     this.props.history.push(property); 
 }
@@ -27,7 +35,7 @@ handleClick = (property) => {
                     <Typography gutterBottom variant="body1">Last walked: 9/19/18 at 8:00am</Typography>
                      <Button onClick={()=> this.handleClick('walkreport')} variant="contained" color="primary">Walked</Button>
                     <Typography gutterBottom variant="body1">Last fed: 9/19/18 at 8:00am </Typography>
-                    <Button onClick={()=> this.handleClick('fedreport')} variant="contained" color="primary">Fed</Button>
+                    <Button onClick={this.logFeeding} variant="contained" color="primary">Fed</Button>
                     <Typography gutterBottom variant="body1">Medications last given: 9/19/18 at 8:00am</Typography>
                     <Button onClick={()=> this.handleClick('medicationreport')} variant="contained" color="primary">Medications Given</Button>
                     </CardContent>
@@ -41,9 +49,9 @@ handleClick = (property) => {
                <CardContent>
                <Typography gutterBottom variant="headline" component="h2">{this.props.pet.name}</Typography>
                    <Typography gutterBottom variant="body1">Litterbox last changed: 9/19/18 at 8:00am</Typography>
-                    <Button onClick={()=> this.handleClick('litterboxreport')} variant="contained" color="primary">Litterbox Changed</Button>
+                    <Button onClick={this.logLitterbox} variant="contained" color="primary">Litterbox Changed</Button>
                    <Typography gutterBottom variant="body1">Last fed: 9/19/18 at 8:00am </Typography>
-                   <Button onClick={()=> this.handleClick('fedreport')} variant="contained" color="primary">Fed</Button>
+                   <Button onClick={this.logFeeding} variant="contained" color="primary">Fed</Button>
                    <Typography gutterBottom variant="body1">Medications last given: 9/19/18 at 8:00am</Typography>
                    <Button onClick={()=> this.handleClick('medicationreport')} variant="contained" color="primary">Medications Given</Button>
                    </CardContent>

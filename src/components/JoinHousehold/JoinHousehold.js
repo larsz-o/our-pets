@@ -24,15 +24,19 @@ class EditSettings extends Component {
 
   render() {
     let content = null;
-
-    if (this.props.user.userName) {
+//this needs more logic to have messages appear if there is one pending 
+    if (this.props.user.userName && !this.props.user.authorized) {
       content = (
         <div>
             <p>You have a pending invitation</p>
             <AcceptRequest/>
-            
+
         </div>
       );
+    } else if (this.props.user.userName && this.props.user.authorized) {
+       <div>
+           You have # of pending requests
+       </div>
     }
 
     return (

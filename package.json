@@ -22,6 +22,8 @@
     "express": "^4.16.3",
     "filestack-js": "^1.5.1",
     "filestack-react": "^2.0.0",
+    "material-ui-search-bar": "^0.4.2",
+    "moment": "^2.22.2",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "pg": "^7.4.1",

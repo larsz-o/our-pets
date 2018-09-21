@@ -6,6 +6,9 @@ import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import {Button} from '@material-ui/core'; 
 
+// "households"."nickname" as "household_nickname", "households"."authorized" as "authorized" JOIN "households" ON "households"."id" = "person"."household_id" 
+
+
 const mapStateToProps = state => ({
   user: state.user,
   household: state.household.household,
@@ -23,9 +26,12 @@ class Dashboard extends Component {
       this.props.history.push('/home');
     } else if (!this.props.user.isLoading && this.props.user.userName !== null && !this.madeGetRequest) {
       // only make this request one time after the user object has been populated
-      this.getPets();
+      this.getHousehold();
       this.madeGetRequest = true;
     }
+  }
+  getHousehold = () => {
+
   }
   getHouseholdMembers = () => {
     axios({
@@ -56,10 +62,9 @@ class Dashboard extends Component {
   render() {
     let content = null;
 
-    if (this.props.user.userName && this.props.user.household_id !== null && this.props.user.authorized) {
+    if (this.props.user.userName && this.props.user.household_id !== null) {
       content = (
         <div>
-          {JSON.stringify(this.props.pets)}
            <div id="welcome">
               <h1>Welcome, { this.props.user.userName }!</h1>
             </div>
@@ -75,7 +80,7 @@ class Dashboard extends Component {
     } else if (this.props.user.userName && this.props.user.household_id === null){
       content = (
        <div>
-        <h3>You currently [are/are not] in a household!</h3>
+        <h3>You currently are not in a household!</h3>
         <Button color="primary"variant="outlined" onClick={this.navigateTo('/createhousehold')}>Create Household</Button>
         {/* Join household will go to a page where they can search or accept any open invitations */}
         <Button color="primary" variant="outlined" onClick={()=>this.navigateTo('/joinhousehold')}>Join Household</Button>

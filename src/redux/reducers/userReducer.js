@@ -1,16 +1,6 @@
 import { combineReducers } from 'redux';
 import { USER_ACTIONS } from '../actions/userActions';
 
-const authorized = (state = null, action) => {
-  switch (action.type) {
-    case USER_ACTIONS.SET_USER:
-      return action.user.authorized || state;
-    case USER_ACTIONS.UNSET_USER:
-      return null;
-    default:
-      return state;
-  }
-};
 const fed_alert = (state = null, action) => {
   switch (action.type) {
     case USER_ACTIONS.SET_USER:
@@ -25,26 +15,6 @@ const first_name = (state = null, action) => {
   switch (action.type) {
     case USER_ACTIONS.SET_USER:
       return action.user.first_name || state; 
-    case USER_ACTIONS.UNSET_USER:
-      return null;
-    default: 
-      return state; 
-  }
-};
-const household_id = (state = null, action) => {
-  switch (action.type) {
-    case USER_ACTIONS.SET_USER:
-      return action.user.household_id || state;
-    case USER_ACTIONS.UNSET_USER:
-      return null;
-    default: 
-      return state; 
-  }
-};
-const household_nickname = (state = null, action) => {
-  switch (action.type) {
-    case USER_ACTIONS.SET_USER:
-      return action.user.household_nickname || state; 
     case USER_ACTIONS.UNSET_USER:
       return null;
     default: 
@@ -135,14 +105,11 @@ export default combineReducers({
   id,
   userName,
   isLoading,
-  household_id, 
   first_name, 
   phone_number,
-  household_nickname, 
   image_path, 
   walk_alert,
   fed_alert, 
   litterbox_alert, 
   medications_alert, 
-  authorized
 });
