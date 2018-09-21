@@ -2,10 +2,7 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
-/**
- * GET route template
- */
-//this route searches for existing users by their username to add to a household
+//this route gets existing users by their username to add to a household
 router.get('/user', (req, res) => {
     console.log('in query get username request');
     const searchTerm = req.query;
@@ -19,6 +16,7 @@ router.get('/user', (req, res) => {
         res.sendStatus(500);
     }); 
 });
+//gets the household_id of house by nickname 
 router.get('/', (req, res) => {
     console.log('in query get houseID request');
     const searchTerm = req.query.nickname;
@@ -32,10 +30,9 @@ router.get('/', (req, res) => {
         res.sendStatus(500);
     });
 });
+// gets all members of a household by household_id
 router.get('/members', (req, res) => {
-    console.log('getting household members');
     const queryParam = req.query.id; 
-    console.log(queryParam); 
     const query = `SELECT "person"."id", "username", "first_name" FROM "person" WHERE "household_id" = $1;`;
     pool.query(query, [queryParam]).then((results) => {
         res.send(results.rows);
@@ -44,14 +41,31 @@ router.get('/members', (req, res) => {
         res.sendStatus(500); 
     });
 });
+//changes an invited user to authorized once invitation is accepted
+router.put('/accept', (req, res) => {
+    const updates = req.body;
+    const query = `UPDATE "households" SET "authorized" = $1 WHERE "person_id" = $2 AND "id" = $3;`;
+    pool.query(query, [updates.authorized, req.user.id, updates.household_id]).then((results) => {
+        res.sendStatus(200); 
+    }).catch((error) => {
+        console.log('Error udpating household', error); 
+        res.sendStatus(500); 
+    });
+})
+// deletes a user from the household table if they decline the invitation
+router.put('/decline', (req, res) => {
+    const query = `DELETE FROM "households" WHERE "person_id" = $1;`;
+    pool.query(query, [req.user.id]).then((results) => {
+        res.sendStatus(200); 
+    }).catch((error) => {
+        console.log('Error udpating household', error); 
+        res.sendStatus(500); 
+    });
+})
 
-/**
- * POST route template
- */
+// posts a new household 
 router.post('/createhousehold', (req, res) => {
-    console.log('in create household post route');
     const householdToAdd = req.body;
-    console.log('householdtoAdd:', householdToAdd); 
     const query = `INSERT INTO "households" ("nickname", "person_id", "authorized") VALUES ($1, $2, $3);`;
         pool.query(query, [householdToAdd.nickname, householdToAdd.person_id, householdToAdd.authorized]).then((results) => {
             console.log(results); 

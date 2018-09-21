@@ -21,6 +21,7 @@ import MedicationReport from './components/MedicationsReport/MedicationsReport';
 import WalkReport from './components/WalkReport/WalkReport';
 import MyAccount from './components/MyAccountPage/MyAccountPage';
 import EditSettings from './components/EditSettingsPage/EditSettingsPage'; 
+import AcceptRequest from './components/AcceptRequest/AcceptRequest'; 
 
 import './styles/main.css';
 
@@ -85,6 +86,10 @@ const App = () => (
          <Route 
           path="/editsettings"
           component={EditSettings}
+        />
+        <Route 
+          path="/acceptrequest"
+          component={AcceptRequest}
         />
         {/* OTHERWISE (no path!) */}
         <Route render={() => <h1>404</h1>} />

@@ -20,7 +20,7 @@ class AddUsersPage extends Component {
   }
   addUserToHousehold = (member) => {
     console.log(member); 
-    const action = {type: 'SET_NEW_USERS', payload: { person_id: member.id, username: member.username, authorized: true, role_id: 2} };
+    const action = {type: 'SET_NEW_USERS', payload: { person_id: member.id, username: member.username, authorized: false, role_id: 2} };
     this.props.dispatch(action); 
     this.props.history.push('/confirmhousehold'); 
   }

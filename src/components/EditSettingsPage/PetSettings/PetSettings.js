@@ -181,7 +181,7 @@ class PetSettings extends Component {
                     onChange={this.handleNotificationChangeForMedications}
                     value="text_alert_medications"/>
             </li>
-            <Button variant="contained" color="primary" onClick={this.updateUserSettings}>Save Settings</Button>
+            <Button variant="contained" color="primary" onClick={this.updateUserSettings}>Save</Button>
         </div>
       );
     } else if (this.props.user.userName && this.props.pet.species_id === 2){
@@ -222,7 +222,7 @@ class PetSettings extends Component {
                         onChange={this.handleNotificationChangeForMedications}
                         value="text_alert_medications"/>
                 </li>
-                <Button variant="contained" color="primary" onClick={this.updateUserSettings}>Save Settings</Button>
+                <Button variant="contained" color="primary" onClick={this.updateUserSettings}>Save</Button>
             </div>
           );
     }
