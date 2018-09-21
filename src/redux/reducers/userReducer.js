@@ -121,6 +121,16 @@ const walk_alert = (state = null, action) => {
       return state;
   }
 };
+const role = (state = null, action) => {
+  switch (action.type) {
+    case USER_ACTIONS.SET_USER:
+      return action.user.role || state;
+    case USER_ACTIONS.UNSET_USER:
+      return null;
+    default:
+      return state;
+  }
+};
 export default combineReducers({
   id,
   userName,
@@ -133,5 +143,6 @@ export default combineReducers({
   fed_alert, 
   litterbox_alert, 
   medications_alert, 
-  authorized
+  authorized,
+  role
 });

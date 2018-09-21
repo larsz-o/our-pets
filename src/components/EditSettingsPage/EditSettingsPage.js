@@ -25,7 +25,7 @@ class EditSettings extends Component {
   render() {
     let content = null;
 
-    if (this.props.user.userName) {
+    if (this.props.user.userName && this.props.user.role === 1) {
       content = (
         <div>
         <h2>Pets</h2>
@@ -37,6 +37,39 @@ class EditSettings extends Component {
                     })}
             </ul>
         <h2>Household</h2>
+        <ul>
+
+        {this.props.members.map((member, i) => {
+          return(
+            <li key={i}>
+            {member.name}  <Button>Remove Member</Button>
+            </li>
+          );
+        })}
+        </ul>
+        </div>
+      );
+    } else if (this.props.user.userName) {
+      content = (
+        <div>
+        <h2>Pets</h2>
+        <ul>
+            {this.props.pets.map((pet, i) => {
+                return(
+                  <PetSettings history={this.props.history} key={i} pet={pet}/>
+                        );
+                    })}
+            </ul>
+        <h2>Household</h2>
+        <ul>
+        {this.props.members.map((member, i) => {
+          return(
+            <li key={i}>
+            {member.name}
+            </li>
+          );
+        })}
+        </ul>
         </div>
       );
     }
