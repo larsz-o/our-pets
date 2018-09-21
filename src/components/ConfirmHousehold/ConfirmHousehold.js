@@ -8,7 +8,7 @@ import './confirm.css'
 
 const mapStateToProps = state => ({
   user: state.user,
-  household: state.household.household
+  household: state.householdBuilder.household
 });
 
 class ConfirmHousehold extends Component {

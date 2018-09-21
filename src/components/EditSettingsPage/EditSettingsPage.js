@@ -7,7 +7,8 @@ import PetSettings from './PetSettings/PetSettings';
 const mapStateToProps = state => ({
   user: state.user,
   pets: state.currentHousehold.currentPets,
-  members: state.currentHousehold.currentHouseholdMembers
+  members: state.currentHousehold.currentHouseholdMembers,
+  household: state.currentHousehold.householdNickname
 });
 
 class EditSettings extends Component {

@@ -8,7 +8,7 @@ import axios from 'axios';
 
 const mapStateToProps = state => ({
   user: state.user,
-  household: state.household.household
+  household: state.householdBuilder.household
 });
 
 class CreateHousehold extends Component {

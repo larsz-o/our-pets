@@ -6,12 +6,9 @@ import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import {Button} from '@material-ui/core'; 
 
-// "households"."nickname" as "household_nickname", "households"."authorized" as "authorized" JOIN "households" ON "households"."id" = "person"."household_id" 
-
-
 const mapStateToProps = state => ({
   user: state.user,
-  household: state.household.household,
+  household: state.householdBuilder.household,
   pets: state.currentHousehold.currentPets
 });
 

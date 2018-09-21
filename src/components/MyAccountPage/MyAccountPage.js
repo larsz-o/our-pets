@@ -4,7 +4,6 @@ import {Link} from 'react-router-dom';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import {Paper} from '@material-ui/core'; 
-import axios from 'axios';
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -28,7 +27,6 @@ class MyAccount extends Component {
     if (this.props.user.userName) {
       content = (
         <div>
-          {JSON.stringify(this.props.household)}
           <h1>Welcome, {this.props.user.first_name}</h1>
           <Link to='/editsettings' className="float-right">Edit Settings</Link>
           <br/>

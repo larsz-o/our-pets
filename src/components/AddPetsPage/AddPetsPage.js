@@ -7,7 +7,7 @@ import {Button} from '@material-ui/core';
 
 const mapStateToProps = state => ({
   user: state.user,
-  pets: state.household.household.pets
+  pets: state.householdBuilder.household.pets
 });
 
 class AddPetsPage extends Component {

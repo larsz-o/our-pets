@@ -6,7 +6,6 @@ import axios from 'axios';
 
 const mapStateToProps = state => ({
   user: state.user,
-  pets: state.currentHousehold.currentPets
 });
 
 class PetSettings extends Component {
@@ -157,7 +156,7 @@ class PetSettings extends Component {
     if (this.props.user.userName && this.props.pet.species_id === 1 && this.props.user.authorized) {
       content = (
         <div>
-            {JSON.stringify(this.state)}
+            {JSON.stringify(this.props.pet)}
             <li className="pet-name-header">{this.props.pet.name}</li>  
             <li>Feeding 
                 <Checkbox
