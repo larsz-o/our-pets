@@ -41,7 +41,7 @@ class MyAccount extends Component {
               <p>Pets:  
              {this.props.pets.map((pet, i) => {
                return(
-                <span key={i}>  {pet.name}  </span>);
+                <span key={i}> {pet.name}  </span>);
               })}
               </p>
               <p>Household Members: 

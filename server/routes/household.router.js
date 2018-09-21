@@ -44,7 +44,7 @@ router.get('/nickname', (req, res) => {
 // gets all members of a household by household_id
 router.get('/members', (req, res) => {
     const queryParam = req.query.id; 
-    const query = `SELECT "person"."id", "username", "first_name" FROM "person" WHERE "household_id" = $1;`;
+    const query = `SELECT "person"."id", "username", "first_name", "authorized" FROM "person" JOIN "households" ON "households"."id" = "person"."household_id" WHERE "household_id" = $1;`;
     pool.query(query, [queryParam]).then((results) => {
         res.send(results.rows);
     }).catch((error) => {
@@ -55,11 +55,11 @@ router.get('/members', (req, res) => {
 //changes an invited user to authorized once invitation is accepted
 router.put('/accept', (req, res) => {
     const updates = req.body;
-    const query = `UPDATE "households" SET "authorized" = $1 WHERE "person_id" = $2 AND "id" = $3;`;
-    pool.query(query, [updates.authorized, req.user.id, updates.household_id]).then((results) => {
+    const query = `UPDATE "person" SET "authorized" = $1 WHERE "person_id" = $2;`;
+    pool.query(query, [updates.authorized, req.user.id]).then((results) => {
         res.sendStatus(200); 
     }).catch((error) => {
-        console.log('Error udpating household', error); 
+        console.log('Error authorizing user', error); 
         res.sendStatus(500); 
     });
 })

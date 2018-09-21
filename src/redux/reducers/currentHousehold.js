@@ -21,5 +21,5 @@ const householdNickname = (state = [], action) => {
 export default combineReducers({
     currentPets,
     currentHouseholdMembers,
-    householdNickname
+    householdNickname, 
   });

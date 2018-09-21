@@ -36,7 +36,6 @@ logFeeding = (id) => {
 }
  //calculates current date and time to post to the database as time and date of litterbox change
 logLitterbox = (id) => {
-    console.log(id);
     let date = new Date();
     let currentDate =  moment(date).format('LL');
     let currentTime = moment(date).format('h:mm:ss a');

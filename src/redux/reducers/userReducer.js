@@ -1,6 +1,16 @@
 import { combineReducers } from 'redux';
 import { USER_ACTIONS } from '../actions/userActions';
 
+const authorized = (state = {}, action) => {
+  switch (action.type) {
+    case USER_ACTIONS.SET_USER:
+      return action.user.authorized || state;
+    case USER_ACTIONS.UNSET_USER:
+      return null;
+    default:
+      return state;
+  }
+} 
 const fed_alert = (state = null, action) => {
   switch (action.type) {
     case USER_ACTIONS.SET_USER:
@@ -123,4 +133,5 @@ export default combineReducers({
   fed_alert, 
   litterbox_alert, 
   medications_alert, 
+  authorized
 });

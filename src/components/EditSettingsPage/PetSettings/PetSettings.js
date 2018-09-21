@@ -152,11 +152,10 @@ class PetSettings extends Component {
   }
   render() {
     let content = null;
-
+   
     if (this.props.user.userName && this.props.pet.species_id === 1 && this.props.user.authorized) {
       content = (
         <div>
-            {JSON.stringify(this.props.pet)}
             <li className="pet-name-header">{this.props.pet.name}</li>  
             <li>Feeding 
                 <Checkbox
@@ -195,6 +194,7 @@ class PetSettings extends Component {
             <Button variant="outlined" onClick={this.removePet}>Remove Pet</Button>
         </div>
       );
+      //&& this.props.user.authorized
     } else if (this.props.user.userName && this.props.pet.species_id === 2 && this.props.user.authorized){
         content = (
             <div>

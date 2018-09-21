@@ -30,9 +30,9 @@ class EditSettings extends Component {
         <div>
         <h2>Pets</h2>
         <ul>
-                {this.props.pets.map((pet, i) => {
-                     return(
-                      <PetSettings history={this.props.history} key={i} pet={pet}/>
+            {this.props.pets.map((pet, i) => {
+                return(
+                  <PetSettings history={this.props.history} key={i} pet={pet}/>
                         );
                     })}
             </ul>
