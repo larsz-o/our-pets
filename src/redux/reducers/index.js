@@ -3,14 +3,14 @@ import user from './userReducer';
 import login from './loginReducer';
 import household from './createHouseholdReducer';
 import findUser from './findUserReducer';
-import beings from './otherBeingsReducer'; 
+import currentHousehold from './currentHousehold.js'; 
 
 const store = combineReducers({
   user,
   login,
   household,
   findUser, 
-  beings
+  currentHousehold
 });
 
 export default store;

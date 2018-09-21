@@ -6,7 +6,7 @@ import axios from 'axios';
 
 const mapStateToProps = state => ({
   user: state.user,
-  pets: state.beings.currentPets
+  pets: state.currentHousehold.currentPets
 });
 
 class PetSettings extends Component {

@@ -7,8 +7,8 @@ import AcceptRequest from '../AcceptRequest/AcceptRequest.js';
 
 const mapStateToProps = state => ({
   user: state.user,
-  pets: state.beings.currentPets,
-  members: state.beings.currentHouseholdMembers
+  pets: state.currentHousehold.currentPets,
+  members: state.currentHousehold.currentHouseholdMembers
 });
 
 class EditSettings extends Component {

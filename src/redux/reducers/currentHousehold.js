@@ -12,7 +12,14 @@ const currentHouseholdMembers = (state = [], action) => {
     }
     return state; 
 }
+const householdNickname = (state = [], action) => {
+    if (action.type === 'SET_CURRENT_HOUSEHOLD_NICKNAME'){
+        return action.payload;
+    } 
+    return state; 
+}
 export default combineReducers({
     currentPets,
-    currentHouseholdMembers
+    currentHouseholdMembers,
+    householdNickname
   });

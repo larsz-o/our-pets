@@ -4,18 +4,19 @@ import {Link} from 'react-router-dom';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import {Paper} from '@material-ui/core'; 
+import axios from 'axios';
 
 const mapStateToProps = state => ({
   user: state.user,
-  pets: state.beings.currentPets,
-  members: state.beings.currentHouseholdMembers
+  pets: state.currentHousehold.currentPets,
+  members: state.currentHousehold.currentHouseholdMembers,
+  household: state.currentHousehold.householdNickname
 });
 
 class MyAccount extends Component {
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
   }
-
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
       this.props.history.push('home');
@@ -27,14 +28,18 @@ class MyAccount extends Component {
     if (this.props.user.userName) {
       content = (
         <div>
-          {JSON.stringify(this.props.pets)}
+          {JSON.stringify(this.props.household)}
           <h1>Welcome, {this.props.user.first_name}</h1>
           <Link to='/editsettings' className="float-right">Edit Settings</Link>
           <br/>
           <Paper>
             <img src={this.props.user.image_path} alt={this.props.user.username}/>
             <p>Upload user photo:</p>
-              <p>Household Name: {this.props.user.household_nickname}</p>
+              <p>Household Name: {this.props.household.map((name, i) => {
+                return(
+                  <span key={i}>{name.nickname}</span>
+                );
+              })}</p>
               <p>Pets:  
              {this.props.pets.map((pet, i) => {
                return(

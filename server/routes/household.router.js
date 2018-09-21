@@ -30,6 +30,17 @@ router.get('/', (req, res) => {
         res.sendStatus(500);
     });
 });
+//gets the nickname of a household by id
+router.get('/nickname', (req, res) => {
+    console.log('in get household nickname route');
+    const query = `SELECT "nickname" FROM "households" WHERE "id" = $1;`;
+    pool.query(query, [req.user.household_id]).then((results) => {
+        res.send(results.rows);
+    }).catch((error) => {
+        console.log('Error getting household nickname', error);
+        res.sendStatus(500);
+    });
+})
 // gets all members of a household by household_id
 router.get('/members', (req, res) => {
     const queryParam = req.query.id; 

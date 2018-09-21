@@ -12,7 +12,7 @@ import {Button} from '@material-ui/core';
 const mapStateToProps = state => ({
   user: state.user,
   household: state.household.household,
-  pets: state.beings.currentPets
+  pets: state.currentHousehold.currentPets
 });
 
 class Dashboard extends Component {
@@ -26,12 +26,9 @@ class Dashboard extends Component {
       this.props.history.push('/home');
     } else if (!this.props.user.isLoading && this.props.user.userName !== null && !this.madeGetRequest) {
       // only make this request one time after the user object has been populated
-      this.getHousehold();
+      this.getPets();
       this.madeGetRequest = true;
     }
-  }
-  getHousehold = () => {
-
   }
   getHouseholdMembers = () => {
     axios({
@@ -40,9 +37,21 @@ class Dashboard extends Component {
     }).then((response) => {
       const action = {type: 'SET_HOUSEHOLD_MEMBERS', payload: response.data};
       this.props.dispatch(action); 
+      this.getHouseholdName(); 
     }).catch((error) => {
       console.log('Error getting household members', error); 
     })
+  }
+  getHouseholdName = () => {
+    axios({
+      method: 'GET', 
+      url: '/api/household/nickname'
+    }).then((response) => {
+      const action = {type: 'SET_CURRENT_HOUSEHOLD_NICKNAME', payload: response.data};
+      this.props.dispatch(action); 
+    }).catch((error) => {
+      console.log('error getting household nickname', error);
+    });
   }
   getPets = () => {
     axios({
