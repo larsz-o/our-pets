@@ -22,5 +22,15 @@ router.post('/fed', (req, res) => {
         res.sendStatus(500); 
     });
 })
+router.post('/litterbox', (req, res) => {
+    const logToAdd = req.body;
+    const query = `INSERT INTO "activity_details" ("activity_id", "pet_id", "person_id", "date", "time") VALUES ($1, $2, $3, $4, $5);`;
+    pool.query(query, [logToAdd.activity_id, logToAdd.pet_id, logToAdd.person_id, logToAdd.date, logToAdd.time]).then((results) => {
+        res.sendStatus(200);
+    }).catch((error) => {
+        console.log('Error posting litterbox report', error);
+        res.sendStatus(500); 
+    });
+})
 
 module.exports = router; 

@@ -19,7 +19,7 @@ router.post('/', (req, res) => {
 //gets pets by household ID
 router.get('/', (req, res) => {
     const householdId = req.query.id; 
-    const query = `SELECT * FROM "pets" JOIN "households" ON "pets"."household_id" = "households"."id" WHERE "households"."id" = $1;`;
+    const query = `SELECT "pets"."id", "pets"."name", "pets"."species_id", "pets"."birthday", "pets"."image_path", "pets"."household_id", "pets"."medications", "pets"."feeding", "pets"."walking", "pets"."litterbox" FROM "pets" JOIN "households" ON "pets"."household_id" = "households"."id" WHERE "households"."id" = $1;`;
     pool.query(query, [householdId]).then((results) => {
         res.send(results.rows); 
     }).catch((error) => {

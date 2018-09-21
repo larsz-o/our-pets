@@ -11,8 +11,8 @@ const mapStateToProps = state => ({
  
 class PetCard extends Component {
 
+    //calculates current date and time to post to the database as time and date of feeding
 logFeeding = (id) => {
-    console.log('clicked log feeding');
     let date = new Date();
     let currentDate =  moment(date).format('LL');
     let currentTime = moment(date).format('h:mm:ss a');
@@ -34,13 +34,34 @@ logFeeding = (id) => {
         console.log('Error posting feeding log', error);
     })
 }
+ //calculates current date and time to post to the database as time and date of litterbox change
+logLitterbox = (id) => {
+    console.log(id);
+    let date = new Date();
+    let currentDate =  moment(date).format('LL');
+    let currentTime = moment(date).format('h:mm:ss a');
+    let litterLog = {
+        date: currentDate, 
+        time: currentTime,
+        activity_id: 3,
+        pet_id: id,
+        person_id: this.props.user.id
+    }
+    axios({
+        method: 'POST',
+        url: '/api/activities/litterbox',
+        data: litterLog
+    }).then((response) => {
+        console.log('success', response.data);
+        alert('Success!');
+    }).catch((error) => {
+        console.log('Error posting feeding log', error);
+    });
+}
+
 handleClick = (property) => {
     this.props.history.push(property); 
 }
-///change fed and litterbox reports to functions that just grab the current date and time
-//and do a post request to the activity_details table
-//then work on the date and time pickers to make the current date and time default 
-
     render(){
         let content = null; 
      if(this.props.pet.species_id === 2 && this.props.user.userName){
