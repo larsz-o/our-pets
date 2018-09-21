@@ -17,7 +17,7 @@ class AcceptRequest extends Component {
   acceptInvitation = () => {
      axios({
          method: 'PUT', 
-         url: '/api/households/accept',
+         url: '/api/household/accept',
          data: {authorized: true, household_id: this.props.user.household_id}
      }).then((response) => {
          console.log(response.data);
@@ -27,15 +27,8 @@ class AcceptRequest extends Component {
      });
   }
   declineInvitation = () => {
-      axios({
-          method: 'DELETE', 
-          url: '/api/households/decline'
-      }).then((response) => {
-        alert('Invitation declined!'); 
-        this.props.history.push('/dashboard')
-      }).catch((error) => {
-          console.log('Error declining invitation', error); 
-      });
+      alert('Invitation declined!'); 
+      this.props.history.push('/dashboard'); 
   }
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
@@ -52,7 +45,7 @@ class AcceptRequest extends Component {
     if (this.props.user.userName) {
       content = (
         <div>
-            <div className="accept-card">
+            <div className="card">
             <h3>[user] has invited you to join the [] household!</h3>
             <Button onClick={this.acceptInvitation}>Accept</Button><Button onClick={this.declineInvitation}>Decline</Button>
             </div>

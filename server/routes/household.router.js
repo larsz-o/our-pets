@@ -52,17 +52,6 @@ router.put('/accept', (req, res) => {
         res.sendStatus(500); 
     });
 })
-// deletes a user from the household table if they decline the invitation
-router.put('/decline', (req, res) => {
-    const query = `DELETE FROM "households" WHERE "person_id" = $1;`;
-    pool.query(query, [req.user.id]).then((results) => {
-        res.sendStatus(200); 
-    }).catch((error) => {
-        console.log('Error udpating household', error); 
-        res.sendStatus(500); 
-    });
-})
-
 // posts a new household 
 router.post('/createhousehold', (req, res) => {
     const householdToAdd = req.body;

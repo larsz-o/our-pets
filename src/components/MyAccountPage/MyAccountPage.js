@@ -4,7 +4,6 @@ import {Link} from 'react-router-dom';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import {Paper} from '@material-ui/core'; 
-import axios from 'axios';
 
 const mapStateToProps = state => ({
   user: state.user,
