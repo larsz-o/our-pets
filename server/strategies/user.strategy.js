@@ -8,7 +8,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-  pool.query('SELECT "person"."id", "username", "first_name", "household_id", "phone_number", "image_path", "role", "text_alert_walk", "text_alert_fed", "text_alert_litterbox", "text_alert_medications", "households"."nickname" as "household_nickname" FROM person JOIN "households" ON "households"."id" = "person"."household_id" WHERE "person"."id" = $1;', [id]).then((result) => {
+  pool.query('SELECT "person"."id", "username", "first_name", "household_id", "phone_number", "image_path", "role", "text_alert_walk", "text_alert_fed", "text_alert_litterbox", "text_alert_medications", "households"."nickname" as "household_nickname", "households"."authorized" as "authorized" FROM person JOIN "households" ON "households"."id" = "person"."household_id" WHERE "person"."id" = $1;', [id]).then((result) => {
     // Handle Errors
     const user = result && result.rows && result.rows[0];
 

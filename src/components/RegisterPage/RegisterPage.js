@@ -4,6 +4,7 @@ import axios from 'axios';
 import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
 import {Button} from '@material-ui/core'; 
+import './RegisterPage.css'
 
 class RegisterPage extends Component {
   constructor(props) {
@@ -82,7 +83,7 @@ class RegisterPage extends Component {
     return (
       <div>
         {this.renderAlert()}
-        <form>
+        <form className="register-form">
           <h1>Register User</h1>
           <div>
             <label htmlFor="username">

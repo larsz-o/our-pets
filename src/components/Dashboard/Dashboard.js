@@ -50,22 +50,18 @@ class Dashboard extends Component {
       console.log('Error getting pets', error);
     })
   }
-  navigateTo = () => {
-    this.props.history.push('/createhousehold'); 
+  navigateTo = (link) => {
+    this.props.history.push(link); 
   }
   render() {
     let content = null;
 
-    if (this.props.user.userName) {
+    if (this.props.user.userName && this.props.user.household_id !== null && this.props.user.authorized) {
       content = (
         <div>
           {JSON.stringify(this.props.pets)}
            <div id="welcome">
               <h1>Welcome, { this.props.user.userName }!</h1>
-              {/* do logic to figure this out */}
-              <h3>You currently [are/are not] in a household!</h3>
-              <Button color="primary"variant="outlined" onClick={this.navigateTo}>Create Household</Button>
-              <Button color="primary" variant="outlined">Join Household</Button>
             </div>
             <div className="container">
             {this.props.pets.map((pet, i) => {
@@ -75,6 +71,15 @@ class Dashboard extends Component {
             })}
             </div>
         </div>
+      );
+    } else if (this.props.user.userName && this.props.user.household_id === null){
+      content = (
+       <div>
+        <h3>You currently [are/are not] in a household!</h3>
+        <Button color="primary"variant="outlined" onClick={this.navigateTo('/createhousehold')}>Create Household</Button>
+        {/* Join household will go to a page where they can search or accept any open invitations */}
+        <Button color="primary" variant="outlined" onClick={()=>this.navigateTo('/joinhousehold')}>Join Household</Button>
+      </div>
       );
     }
     return (

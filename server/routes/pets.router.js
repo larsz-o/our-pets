@@ -38,5 +38,15 @@ router.put('/settings', (req, res) => {
         res.sendStatus(500); 
     });
 })
-
+router.delete('/:id', (req, res) => {
+    const petToDelete = req.params.id; 
+    console.log(petToDelete);
+    const query = `DELETE FROM "pets" WHERE "id" = $1;`;
+    pool.query(query, [petToDelete]).then((results) => {
+        res.sendStatus(200);
+    }).catch((error) => {
+        console.log('Error deleting pet', error); 
+        res.sendStatus(500); 
+    });
+})
 module.exports = router;

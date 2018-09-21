@@ -112,6 +112,17 @@ class PetSettings extends Component {
         } 
     });
   };
+  removePet = () => {
+      axios({
+          method: 'DELETE',
+          url: `/api/pets/${this.props.pet.id}`
+      }).then((response) => {
+          alert('Pet removed.');
+          this.getPets();
+      }).catch((error) => {
+          console.log('Error removing pet', error);
+      });
+  }
   updatePetSettings = () => {
       console.log('in updatePetSettings')
       axios({
@@ -143,7 +154,7 @@ class PetSettings extends Component {
   render() {
     let content = null;
 
-    if (this.props.user.userName && this.props.pet.species_id === 1) {
+    if (this.props.user.userName && this.props.pet.species_id === 1 && this.props.user.authorized) {
       content = (
         <div>
             {JSON.stringify(this.state)}
@@ -182,9 +193,10 @@ class PetSettings extends Component {
                     value="text_alert_medications"/>
             </li>
             <Button variant="contained" color="primary" onClick={this.updateUserSettings}>Save</Button>
+            <Button variant="outlined" onClick={this.removePet}>Remove Pet</Button>
         </div>
       );
-    } else if (this.props.user.userName && this.props.pet.species_id === 2){
+    } else if (this.props.user.userName && this.props.pet.species_id === 2 && this.props.user.authorized){
         content = (
             <div>
                 {JSON.stringify(this.state)}
@@ -223,6 +235,7 @@ class PetSettings extends Component {
                         value="text_alert_medications"/>
                 </li>
                 <Button variant="contained" color="primary" onClick={this.updateUserSettings}>Save</Button>
+                <Button variant="outlined" onClick={this.removePet}>Remove Pet</Button>
             </div>
           );
     }

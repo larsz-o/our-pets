@@ -8,7 +8,7 @@ import {Button} from '@material-ui/core';
 
 const mapStateToProps = state => ({
   user: state.user,
-  findUser: state.findUser.findUser
+  findUser: state.household.findUser
 });
 
 class AddUsersPage extends Component {
