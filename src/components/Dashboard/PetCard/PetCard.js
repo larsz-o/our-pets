@@ -15,8 +15,8 @@ class PetCard extends Component {
             open: false,
             poop_check: false, 
             medication: '',
-            time_start: '',
-            time_end: '',
+            time_start: '00:00:00',
+            time_end: '00:00:00',
             notes: ''
           }
     }
@@ -175,7 +175,6 @@ togglePoopCheck = () => {
                         id="notes"
                         label="notes"
                         type="text"
-                        value={this.state.poop_check}
                         onChange={(event)=>this.handleChange('notes', event)}
                         fullWidth
                         />

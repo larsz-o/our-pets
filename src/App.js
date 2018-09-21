@@ -15,8 +15,6 @@ import AddPetsPage from './components/AddPetsPage/AddPetsPage';
 import CreateHousehold from './components/CreateHousehold/CreateHousehold';
 import AddUsers from './components/AddUsersPage/AddUsersPage'; 
 import ConfirmHousehold from './components/ConfirmHousehold/ConfirmHousehold';
-import MedicationReport from './components/MedicationsReport/MedicationsReport';
-import WalkReport from './components/WalkReport/WalkReport';
 import MyAccount from './components/MyAccountPage/MyAccountPage';
 import EditSettings from './components/EditSettingsPage/EditSettingsPage'; 
 import JoinHousehold from './components/JoinHousehold/JoinHousehold'; 
@@ -60,14 +58,6 @@ const App = () => (
          <Route 
           path="/confirmhousehold"
           component={ConfirmHousehold}
-        />
-         <Route 
-          path="/medicationreport"
-          component={MedicationReport}
-        />
-         <Route 
-          path="/walkreport"
-          component={WalkReport}
         />
         <Route 
           path="/myaccount"
