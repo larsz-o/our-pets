@@ -64,28 +64,28 @@ class PetCard extends Component {
             console.log('Error getting activity data');
         })
     }
-  handleChange = (property, event) => {
+    handleChange = (property, event) => {
     this.setState({
         config: {
             [property]: event.target.value
         }
     });
   };
-  handleClickOpen = () => {
+    handleClickOpen = () => {
     this.setState({ 
         open: true
      });
   };
-  handleClose = () => {
+    handleClose = () => {
     this.setState({ 
         open: false
     });
   }; 
-  logWalk = (id) => {
-    let date = new Date();
-    let currentDate =  moment(date).format('LL');
-    let currentTime = moment(date).format('h:mm:ss a');
-    let walkLog = {
+    logWalk = (id) => {
+        let date = new Date();
+        let currentDate =  moment(date).format('LL');
+        let currentTime = moment(date).format('h:mm:ss a');
+        let walkLog = {
         date: currentDate, 
         time: currentTime, 
         time_start: this.state.config.time_start,
@@ -95,33 +95,33 @@ class PetCard extends Component {
         activity_id: 2, 
         person_id: this.props.user.id, 
         pet_id: id
-    }
-    axios({
-        method: 'POST',
-        url: '/api/activities/',
-        data: walkLog
-    }).then((response) => {
-        console.log('success', response.data);
-        this.handleClose(); 
-        this.getActivityData(2, this.props.pet.id);
-        swal('Good job!', 'You are awesome!', 'success');
-        //get current data and update DOM
-    }).catch((error) => {
-        console.log('Error submitting walk report', error); 
+        }
+            axios({
+            method: 'POST',
+            url: '/api/activities/',
+            data: walkLog
+        }).then((response) => {
+            console.log('success', response.data);
+            this.handleClose(); 
+             //get current data and update DOM
+            this.getActivityData(2, this.props.pet.id);
+            swal('Good job!', 'You are awesome!', 'success');
+        }).catch((error) => {
+            console.log('Error submitting walk report', error); 
     });
   }
 //calculates current date and time to post to the database as time and date of feeding
-  logFeeding = (id) => {
-    let date = new Date();
-    let currentDate =  moment(date).format('LL');
-    let currentTime = moment(date).format('h:mm:ss a');
-    let feedLog = {
-        date: currentDate, 
-        time: currentTime,
-        activity_id: 1,
-        pet_id: id,
-        person_id: this.props.user.id
-    }
+logFeeding = (id) => {
+        let date = new Date();
+        let currentDate =  moment(date).format('LL');
+        let currentTime = moment(date).format('h:mm:ss a');
+        let feedLog = {
+            date: currentDate, 
+            time: currentTime,
+            activity_id: 1,
+            pet_id: id,
+            person_id: this.props.user.id
+     }
     axios({
         method: 'POST',
         url: '/api/activities/',
@@ -133,7 +133,7 @@ class PetCard extends Component {
         console.log('Error posting feeding log', error);
     });
 }
- logMedication = (id) => {
+logMedication = (id) => {
     let date = new Date();
     let currentDate =  moment(date).format('LL');
     let currentTime = moment(date).format('h:mm:ss a');
@@ -158,7 +158,7 @@ class PetCard extends Component {
     });
    }
  //calculates current date and time to post to the database as time and date of litterbox change
-  logLitterbox = (id) => {
+logLitterbox = (id) => {
     let date = new Date();
     let currentDate =  moment(date).format('LL');
     let currentTime = moment(date).format('h:mm:ss a');
@@ -219,32 +219,16 @@ togglePoopCheck = () => {
                     <DialogContent>
                         <DialogContentText>How did your walk go?</DialogContentText>
                     <InputLabel>Time Start:</InputLabel>
-                    <Input
-                        type="time"
-                        value={this.state.config.time}
-                        onChange={(event)=>this.handleChange('time_start', event)}
-                        fullWidth/>
+                    <Input type="time" value={this.state.config.time} onChange={(event)=>this.handleChange('time_start', event)} fullWidth/>
                         <br/>
                     <InputLabel>Time End:</InputLabel>
-                    <Input
-                        type="time"
-                        value={this.state.config.time_end}
-                        onChange={(event)=>this.handleChange('time_end', event)}
-                        fullWidth/>
+                    <Input type="time" value={this.state.config.time_end} onChange={(event)=>this.handleChange('time_end', event)} fullWidth/>
                     <InputLabel>Poop Check</InputLabel>
                     <br/>
                     <Checkbox
                         onChange={this.togglePoopCheck}
                         color="primary"/>
-                         <TextField
-                        autoFocus
-                        margin="dense"
-                        id="notes"
-                        label="notes"
-                        type="text"
-                        onChange={(event)=>this.handleChange('notes', event)}
-                        fullWidth
-                        />
+                         <TextField autoFocus margin="dense" id="notes" label="notes" type="text" onChange={(event)=>this.handleChange('notes', event)} fullWidth/>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleClose} color="primary">Cancel</Button>
@@ -281,18 +265,10 @@ togglePoopCheck = () => {
                    </CardContent>
         </div>
             <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="med-dialog-title">
-                    <DialogTitle id="med-dialog-title">Walk Report</DialogTitle>
+                    <DialogTitle id="med-dialog-title">Medication Report</DialogTitle>
                     <DialogContent>
                         <DialogContentText>What medication did you give?</DialogContentText>
-                        <TextField
-                        autoFocus
-                        margin="dense"
-                        id="notes"
-                        label="Medication name"
-                        type="text"
-                        onChange={(event)=>this.handleChange('medication', event)}
-                        fullWidth
-                        />
+                        <TextField autoFocus margin="dense" id="notes" label="Medication name" type="text" onChange={(event)=>this.handleChange('medication', event)} fullWidth/>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleClose} color="primary">Cancel</Button>
