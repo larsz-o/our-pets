@@ -4,6 +4,8 @@ import {Button, Typography, Input, CardContent, Dialog, DialogActions, DialogCon
 import './petcard.css';
 import moment from 'moment'; 
 import axios from 'axios';
+import swal from 'sweetalert';
+
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -14,13 +16,14 @@ class PetCard extends Component {
         super(props);
         this.state = {
             config: {
-                open: false,
                 poop_check: false, 
                 medication: '',
                 time_start: '00:00:00',
                 time_end: '00:00:00',
-                notes: ''
+                notes: '',
+                time: '00:00:00'
             },
+            open: false,
             lastWalk: [],
             lastFeeding: [],
             lastMedication: [],
@@ -70,16 +73,12 @@ class PetCard extends Component {
   };
   handleClickOpen = () => {
     this.setState({ 
-        config: {
-            open: true
-        }
+        open: true
      });
   };
   handleClose = () => {
     this.setState({ 
-        config:{
-            open: false
-        } 
+        open: false
     });
   }; 
   logWalk = (id) => {
@@ -104,7 +103,8 @@ class PetCard extends Component {
     }).then((response) => {
         console.log('success', response.data);
         this.handleClose(); 
-        this.getActivityData(2, this.props.pet.id)
+        this.getActivityData(2, this.props.pet.id);
+        swal('Good job!', 'You are awesome!', 'success');
         //get current data and update DOM
     }).catch((error) => {
         console.log('Error submitting walk report', error); 
@@ -128,7 +128,7 @@ class PetCard extends Component {
         data: feedLog
     }).then((response) => {
         this.getActivityData(1, this.props.pet.id)
-        alert('Success!');
+        swal('Good job!', 'You did it!', 'success');
     }).catch((error) => {
         console.log('Error posting feeding log', error);
     });
@@ -152,7 +152,7 @@ class PetCard extends Component {
     }).then((response) => {
         this.handleClose();
         this.getActivityData(4, this.props.pet.id)
-        alert('Success!');
+        swal('Good job!', 'Wow, thank you!!', 'success');
     }).catch((error) => {
         console.log('Error posting feeding log', error);
     });
@@ -175,7 +175,7 @@ class PetCard extends Component {
         data: litterLog
     }).then((response) => {
         this.getActivityData(3, this.props.pet.id)
-        alert('Success!');
+        swal('Good job!', 'Thanks so much!', 'success');
     }).catch((error) => {
         console.log('Error posting feeding log', error);
     });
@@ -190,7 +190,6 @@ togglePoopCheck = () => {
      if(this.props.pet.species_id === 2 && this.props.user.userName){
          content = (
     <div>
-        {JSON.stringify(this.state.history)}
         <div className="card">
                 <img src={this.props.pet.image_path} alt="pet"/>
                 <CardContent>
@@ -215,23 +214,25 @@ togglePoopCheck = () => {
                     <Button onClick={()=>this.logMedication(this.props.pet.id)} variant="contained" color="primary">Medications Given</Button>
                     </CardContent>
                 </div>
-                <Dialog open={this.state.config.open} onClose={this.handleClose} aria-labelledby="walk-dialog-title">
+                <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="walk-dialog-title">
                     <DialogTitle id="walk-dialog-title">Walk Report</DialogTitle>
                     <DialogContent>
                         <DialogContentText>How did your walk go?</DialogContentText>
-                    <form>
                     <InputLabel>Time Start:</InputLabel>
                     <Input
                         type="time"
-                        value={this.state.config.time_start}
-                        onChange={(event)=>this.handleChange('time_start', event)}/>
+                        value={this.state.config.time}
+                        onChange={(event)=>this.handleChange('time_start', event)}
+                        fullWidth/>
                         <br/>
                     <InputLabel>Time End:</InputLabel>
                     <Input
                         type="time"
                         value={this.state.config.time_end}
-                        onChange={(event)=>this.handleChange('time_end', event)}/>
+                        onChange={(event)=>this.handleChange('time_end', event)}
+                        fullWidth/>
                     <InputLabel>Poop Check</InputLabel>
+                    <br/>
                     <Checkbox
                         onChange={this.togglePoopCheck}
                         color="primary"/>
@@ -244,7 +245,6 @@ togglePoopCheck = () => {
                         onChange={(event)=>this.handleChange('notes', event)}
                         fullWidth
                         />
-                    </form>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleClose} color="primary">Cancel</Button>
@@ -280,7 +280,7 @@ togglePoopCheck = () => {
                    <Button onClick={this.handleClickOpen} variant="contained" color="primary">Medications Given</Button>
                    </CardContent>
         </div>
-        <Dialog open={this.state.config.open} onClose={this.handleClose} aria-labelledby="med-dialog-title">
+            <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="med-dialog-title">
                     <DialogTitle id="med-dialog-title">Walk Report</DialogTitle>
                     <DialogContent>
                         <DialogContentText>What medication did you give?</DialogContentText>

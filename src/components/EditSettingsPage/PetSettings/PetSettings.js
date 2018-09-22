@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { USER_ACTIONS } from '../../../redux/actions/userActions';
 import {Checkbox, Switch, Button} from '@material-ui/core'; 
 import axios from 'axios';
+import swal from 'sweetalert';
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -116,7 +117,7 @@ class PetSettings extends Component {
           method: 'DELETE',
           url: `/api/pets/${this.props.pet.id}`
       }).then((response) => {
-          alert('Pet removed.');
+          swal('Pet removed.');
           this.getPets();
       }).catch((error) => {
           console.log('Error removing pet', error);
@@ -130,7 +131,7 @@ class PetSettings extends Component {
           data: this.state.activity_settings
       }).then((response) => {
           console.log(response.data); 
-          alert('Settings updated!');
+         swal('Cool!', 'Settings updated!', 'success');
           this.getPets();
       }).catch((error) => {
           console.log('Error updating pet activity settings', error);

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import swal from 'sweetalert';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import {Button} from '@material-ui/core'; 
@@ -32,7 +32,7 @@ class CreateHousehold extends Component {
       this.getHouseholdID();
     }).catch((error) => {
       console.log('Error posting household', error);
-      alert('Something went wrong posting the household. Try a different nickname.'); 
+      swal('Oh no', 'Something went wrong posting the household. Try a different nickname.', 'warning'); 
     })
   }
   componentDidMount() {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios'; 
-
+import swal from 'sweetalert';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import {Button} from '@material-ui/core'; 
@@ -51,13 +51,13 @@ class AddUsersPage extends Component {
     }).then((response) => {
         let userToAdd = response.data;
         if (userToAdd.username !== ''){
-        alert(`${userToAdd[0].username} found! Awesome!`); 
+        swal(`'Nice!', ${userToAdd[0].username} found!`); 
         console.log(userToAdd); 
         const action = {type: 'SET_SEARCHED_USER', payload: userToAdd};
         this.props.dispatch(action); 
     }
     }).catch((error) => {
-        alert(`Could not find user.`); 
+        swal(':(', 'Could not find user.', 'success'); 
         console.log('Error finding user', error); 
     })
   } // end searchForUsers

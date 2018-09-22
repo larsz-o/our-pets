@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import swal from 'sweetalert';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import {Button} from '@material-ui/core'; 
@@ -69,7 +69,7 @@ class AddPetsPage extends Component {
   sendPetsInfoToRedux = () => {
     const action = {type: 'SET_NEW_PETS', payload: this.state};
     this.props.dispatch(action); 
-    alert('Pet added!');
+    swal('Nice!', 'Pet added!', 'success');
   }
   render() {
     let content = null;

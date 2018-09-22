@@ -5,6 +5,7 @@ import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
 import {Button} from '@material-ui/core'; 
 import './RegisterPage.css'
+import swal from 'sweetalert';
 
 class RegisterPage extends Component {
   constructor(props) {
@@ -75,7 +76,7 @@ class RegisterPage extends Component {
     if (this.state.password === this.state.confirm_password){
       return true;
     } else {
-      alert('Entered passwords do not match! Try again.');
+      swal('Oh no!', 'Entered passwords do not match! Try again.', 'warning');
       return false; 
     }
   }

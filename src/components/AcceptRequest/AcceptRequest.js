@@ -5,7 +5,7 @@ import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import { Button } from '@material-ui/core';
 import axios from 'axios';
-
+import swal from 'sweetalert';
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -21,13 +21,14 @@ class AcceptRequest extends Component {
          data: {authorized: true, household_id: this.props.user.household_id}
      }).then((response) => {
          console.log(response.data);
-         //navigate to dashboard? 
+         swal('Nice!', 'Invitation accepted!', 'success');
+         this.history.push('/dashboard');
      }).catch((error) => {
          console.log('Error changing authorization', error); 
      });
   }
   declineInvitation = () => {
-      alert('Invitation declined!'); 
+      swal('Turn them down!', 'Invitation declined!', 'success'); 
       this.props.history.push('/dashboard'); 
   }
   componentDidMount() {

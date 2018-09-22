@@ -5,6 +5,7 @@ import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import {Button, Paper} from '@material-ui/core'; 
 import './confirm.css'
+import swal from 'sweetalert';
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -44,7 +45,7 @@ editUser = () => {
     url: 'api/user/household', 
     data: this.props.household
   }).then((response) => {
-    alert(`${this.props.household.nickname} Household created!`);
+    swal(`'Nice!', '${this.props.household.nickname} Household created!', 'success'`);
     this.props.history.push('/dashboard'); 
   }).catch((error) => {
     console.log('Error updating user information', error); 
