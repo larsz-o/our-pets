@@ -14,6 +14,7 @@ const householdRouter = require('./routes/household.router');
 const petsRouter = require('./routes/pets.router'); 
 const activitiesRouter = require('./routes/activities.router');
 const textmsgRouter = require('./routes/textmsg.router');
+const inboxRouter = require('./routes/inbox.router'); 
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -32,6 +33,7 @@ app.use('/api/household', householdRouter);
 app.use('/api/pets', petsRouter); 
 app.use('/api/activities', activitiesRouter); 
 app.use('/api/text', textmsgRouter); 
+app.use('/api/inbox', inboxRouter);
 
 // Serve static files
 app.use(express.static('build'));
