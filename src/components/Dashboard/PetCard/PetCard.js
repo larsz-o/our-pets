@@ -40,19 +40,19 @@ class PetCard extends Component {
             url: `/api/activities?activity=${activityId}&pet=${petId}`
         }).then((response) => {
             console.log(response.data);
-            if (activityId == 1){
+            if (activityId === 1){
                 this.setState({
                     lastFeeding: response.data 
                 });
-            } else if(activityId == 2){
+            } else if(activityId === 2){
                 this.setState({
                     lastWalk: response.data
                 });
-            } else if (activityId == 3){
+            } else if (activityId === 3){
                 this.setState({
                     lastLitterbox: response.data
                 });
-            } else if (activityId == 4){
+            } else if (activityId === 4){
                 this.setState({
                     lastMedication: response.data
                 });
@@ -194,22 +194,22 @@ togglePoopCheck = () => {
         <div className="card">
                 <img src={this.props.pet.image_path} alt="pet"/>
                 <CardContent>
-                <Typography gutterBottom variant="headline" component="h2">test{this.props.pet.name}</Typography>           
+                <Typography gutterBottom variant="headline" component="h2">{this.props.pet.name}</Typography>           
                     <Typography gutterBottom variant="body1">{this.state.lastWalk.map((lastWalk, i) => {
                         return (
-                            <span key={i}>Last walked: {moment(lastWalk.date).format('LL')} at {moment(lastWalk.time).format('h:mm:ss a')}</span>
+                            <span key={i}>Last walked: {moment(lastWalk.date).format('LL')} at {lastWalk.time}</span>
                         );
                     })}</Typography>
                      <Button onClick={this.handleClickOpen} variant="contained" color="primary">Walked</Button>
                     <Typography gutterBottom variant="body1">{this.state.lastFeeding.map((lastFed, i) => {
                         return(
-                           <span key={i}>Last fed: {moment(lastFed.date).format('LL')} at {moment(lastFed.time).format('h:mm:ss a')}</span>
+                           <span key={i}>Last fed: {moment(lastFed.date).format('LL')} at {lastFed.time}</span>
                         );
                     })}</Typography>
                     <Button onClick={()=>this.logFeeding(this.props.pet.id)} variant="contained" color="primary">Fed</Button>
                     <Typography gutterBottom variant="body1">{this.state.lastMedication.map((lastMed, i) => {
                         return(
-                           <span key={i}>Last Medications Given: {moment(lastMed.date).format('LL')} at {moment(lastMed.time).format('h:mm:ss a')}</span>
+                           <span key={i}>Last Medications Given: {moment(lastMed.date).format('LL')} at {lastMed.time}</span>
                         );
                     })}</Typography>
                     <Button onClick={()=>this.logMedication(this.props.pet.id)} variant="contained" color="primary">Medications Given</Button>
@@ -262,19 +262,19 @@ togglePoopCheck = () => {
                <Typography gutterBottom variant="headline" component="h2">{this.props.pet.name}</Typography>
                    <Typography gutterBottom variant="body1">{this.state.lastLitterbox.map((lastLitter, i) => {
                         return(
-                           <span key={i}>Last Litterbox Change: {moment(lastLitter.date).format('LL')} at {moment(lastLitter.time).format('h:mm:ss a')}</span>
+                           <span key={i}>Last Litterbox Change: {moment(lastLitter.date).format('LL')} at {lastLitter.time}</span>
                         );
                     })}</Typography>
                     <Button onClick={()=> this.logLitterbox(this.props.pet.id)} variant="contained" color="primary">Litterbox Changed</Button>
                    <Typography gutterBottom variant="body1">{this.state.lastFeeding.map((lastFed, i) => {
                         return(
-                           <span key={i}>Last fed: {moment(lastFed.date).format('LL')} at {moment(lastFed.time).format('h:mm:ss a')}</span>
+                           <span key={i}>Last fed: {moment(lastFed.date).format('LL')} at {lastFed.time}</span>
                         );
                     })}</Typography>
                    <Button onClick={()=> this.logFeeding(this.props.pet.id)} variant="contained" color="primary">Fed</Button>
                    <Typography gutterBottom variant="body1">{this.state.lastMedication.map((lastMed, i) => {
                         return(
-                           <span key={i}>Medications Last Given: {moment(lastMed.date).format('LL')} at {moment(lastMed.time).format('h:mm:ss a')}</span>
+                           <span key={i}>Medications Last Given: {moment(lastMed.date).format('LL')} at {lastMed.time}</span>
                         );
                     })}</Typography>
                    <Button onClick={this.handleClickOpen} variant="contained" color="primary">Medications Given</Button>
