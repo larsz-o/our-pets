@@ -12,6 +12,9 @@ const Nav = () => (
         <li>
         <Button component={Link} to="/myaccount">My Account</Button>
         </li>
+        <li>
+        <Button component={Link} to="/inbox">Inbox</Button>
+        </li>
       </ul>
     </div>
   </div>

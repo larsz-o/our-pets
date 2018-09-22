@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import 'react-phone-number-input/style.css';
-import PhoneInput from 'react-phone-number-input';
+// import 'react-phone-number-Input/style.css';
+// import PhoneInput from 'react-phone-number-Input';
 import {Button, Input} from '@material-ui/core'; 
 import './RegisterPage.css'
 import swal from 'sweetalert';
@@ -89,7 +89,7 @@ class RegisterPage extends Component {
           <div>
             <label htmlFor="username">
               Username:
-              <input
+              <Input
                 type="text"
                 name="username"
                 value={this.state.username}
@@ -101,7 +101,7 @@ class RegisterPage extends Component {
           <div>
             <label htmlFor="password">
               Password:
-              <input
+              <Input
                 type="password"
                 name="password"
                 value={this.state.password}
@@ -113,7 +113,7 @@ class RegisterPage extends Component {
           <div>
             <label htmlFor="confirm-password">
               Confirm Password:
-              <input
+              <Input
                 type="password"
                 name="confirm-password"
                 value={this.state.confirm_password}
@@ -125,7 +125,7 @@ class RegisterPage extends Component {
           <div>
             <label htmlFor="first-name">
               First Name:
-              <input
+              <Input
                 type="text"
                 name="first-name"
                 value={this.state.first_name}
@@ -137,12 +137,12 @@ class RegisterPage extends Component {
           <div>
             <label htmlFor="phone-number">
               Phone Number:
-              <PhoneInput
+              {/* <PhoneInput
               country="US"
               placeholder="Enter phone number"
               value={ this.state.phone_number }
               onChange={ phone_number => this.setState({ phone_number }) }
-              required />
+              required /> */}
             </label>
           </div>
           <div>

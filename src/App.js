@@ -17,7 +17,7 @@ import AddUsers from './components/AddUsersPage/AddUsersPage';
 import ConfirmHousehold from './components/ConfirmHousehold/ConfirmHousehold';
 import MyAccount from './components/MyAccountPage/MyAccountPage';
 import EditSettings from './components/EditSettingsPage/EditSettingsPage'; 
-import JoinHousehold from './components/JoinHousehold/JoinHousehold'; 
+import Inbox from './components/Inbox/Inbox'; 
 
 import './styles/main.css';
 
@@ -68,8 +68,8 @@ const App = () => (
           component={EditSettings}
         />
         <Route 
-          path="/joinhousehold"
-          component={JoinHousehold}
+          path="/inbox"
+          component={Inbox}
         />
         {/* OTHERWISE (no path!) */}
         <Route render={() => <h1>404</h1>} />

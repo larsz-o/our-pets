@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import AcceptRequest from '../AcceptRequest/AcceptRequest.js';
+import AcceptRequest from '../AcceptRequest/AcceptRequest';
 
 
 const mapStateToProps = state => ({
