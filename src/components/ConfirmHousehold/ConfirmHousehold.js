@@ -35,10 +35,9 @@ class ConfirmHousehold extends Component {
         axios({
           method: 'POST', 
           url: '/api/text/confirm',
-          data: {number: this.props.member[i].phone_number, message: `${this.props.user.first_name} has invited you to join their household on Did You Feed Them? To accept: http://localhost:3000/#/joinhousehold`}
+          data: {number: this.props.member[i].phone_number, message: `${this.props.user.first_name} has invited you to join their household on Did You Feed Them? Check your inbox [url] to accept!`}
         }).then((response) => {
-          console.log('text alert sent', response.data); 
-          this.props.history.push('/dashboard'); 
+          this.sendInvitation(this.props.member[i]); 
         }).catch((error) => {
           console.log('Error sending invitation', error); 
         });
@@ -69,14 +68,26 @@ editUser = () => {
     console.log('Error updating user information', error); 
   })
 }
+sendInvitation = (member) => {
+  axios({
+    method: 'POST', 
+    url: '/api/inbox',
+    data: {sender: this.props.user.id, receiver: member.id, message: `${this.props.user.first_name} has invited you to join their household. Do you accept their invitation?`}
+  }).then((response)=> {
+    this.props.history.push('/dashboard'); 
+  }).catch((error)=> {
+    console.log('Error sending invitation to inbox', error); 
+  });
+  
+}
   render() {
     let content = null;
     if (this.props.user.userName) {
       content = (
         <div className="confirmDiv">
           <Paper>
-            <h2>Confirm Household</h2>
-            <p>Nickname:</p>
+            <h2>Does this look right?</h2>
+            <p>Household Nickname:</p>
             <ul>
               <li>{this.props.household.nickname}</li>
             </ul>

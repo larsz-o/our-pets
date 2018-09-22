@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import AcceptRequest from '../AcceptRequest/AcceptRequest';
-
+import {Button, Typography, Input, Select, MenuItem, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails} from '@material-ui/core';
+import './inbox.css';
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -24,21 +24,20 @@ class EditSettings extends Component {
 
   render() {
     let content = null;
-//this needs more logic to have messages appear if there is one pending 
-    if (this.props.user.userName && !this.props.user.authorized) {
+    if (this.props.user.userName) {
       content = (
         <div>
-            <p>You have a pending invitation</p>
-            <AcceptRequest/>
+           <div>
+            <ExpansionPanel>
+              <ExpansionPanelSummary>Pending Invitations</ExpansionPanelSummary>
+              {/* need to collect invitations and then map them here */}
+              <ExpansionPanelDetails>
+
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+           </div>
         </div>
       );
-    } else if(this.props.user.userName && this.props.user.authorized) {
-       content = (
-        <div>
-            You have # of pending requests
-        </div>
-       );
-       
     }
 
     return (

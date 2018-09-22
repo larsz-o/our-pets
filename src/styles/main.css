@@ -1,5 +1,6 @@
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+body, html {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100%; 
 }
 .container {
     text-align: center;
@@ -12,9 +13,9 @@ body {
 }
 
 .instructions {
-    background-color: beige;
+   background-color: white; 
     padding: 5px;
-    color: gray;
+    color: gray;  
 }
 .float-right{
     float: right; 
