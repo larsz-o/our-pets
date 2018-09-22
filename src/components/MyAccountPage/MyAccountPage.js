@@ -47,7 +47,7 @@ class MyAccount extends Component {
               <p>Household Members: 
                 {this.props.members.map((member, i) => {
                   return(
-                    <span key={i}>  {member.username}  </span>
+                    <span key={i}>  {member.first_name}  </span>
                   );
                 })}
               </p>

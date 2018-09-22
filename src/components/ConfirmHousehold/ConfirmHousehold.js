@@ -46,6 +46,7 @@ editUser = () => {
     data: this.props.household
   }).then((response) => {
     swal(`'Nice!', '${this.props.household.nickname} Household created!', 'success'`);
+    this.alertUser();
     this.props.history.push('/dashboard'); 
   }).catch((error) => {
     console.log('Error updating user information', error); 

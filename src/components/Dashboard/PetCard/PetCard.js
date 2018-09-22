@@ -128,7 +128,7 @@ logFeeding = (id) => {
     }).then((response) => {
         this.getActivityData(1, this.props.pet.id);
         swal('Nice!', 'Thanks for feeding!', 'success');
-        this.notifyHousehold(1);
+        this.notifyHousehold(1, currentDate, currentTime);
     }).catch((error) => {
         console.log('Error posting feeding log', error);
     });
@@ -182,25 +182,25 @@ logLitterbox = (id) => {
         console.log('Error posting feeding log', error);
     });
 }
-notifyHousehold = (activityID) => {
+notifyHousehold = (activityID, date, time) => {
     for (let i = 0; i < this.props.members.length; i++){
         if (this.props.members[i].text_alert_fed && activityID === 1 && this.props.members[i].id !== this.props.user.id){
-            this.sendAlert(this.props.members[i], this.props.user, this.props.pet, 'fed', this.state.lastFeeding[0]);
+            this.sendAlert(this.props.members[i], this.props.user, this.props.pet, 'fed', date, time);
         } else if (this.props.members[i].text_alert_walk && activityID === 2 && this.props.members[i].id !== this.props.user.id){
-            this.sendAlert(this.props.members[i], this.props.user, this.props.pet, 'walked', this.state.lastWalk[0]);
+            this.sendAlert(this.props.members[i], this.props.user, this.props.pet, 'walked', date, time);
         } else if (this.props.members[i].text_alert_litterbox && activityID === 3 && this.props.members[i].id !== this.props.user.id){
-            this.sendAlert(this.props.members[i], this.props.user, this.props.pet, 'changed the litterbox for', this.state.lastLitterbox[0]);
+            this.sendAlert(this.props.members[i], this.props.user, this.props.pet, 'changed the litterbox for', date, time);
         } else if (this.props.members[i].text_alert_medications && activityID === 4 && this.props.members[i].id !== this.props.user.id){
-            this.sendAlert(this.props.members[i], this.props.user, this.props.pet, 'gave medications to', this.state.lastWalk[0]);
+            this.sendAlert(this.props.members[i], this.props.user, this.props.pet, 'gave medications to', date, time);
         }
     }
 }
-sendAlert = (member, user, pet, description, activity) => {
+sendAlert = (member, user, pet, description, date, time) => {
     axios({
         method: 'POST', 
         url: '/api/text/activity', 
         data: {number: member.phone_number, 
-            message: `${user.first_name} ${description} ${pet.name} on ${moment(activity.date).format('LL')} at ${activity.time}`}
+            message: `${user.first_name} ${description} ${pet.name} on ${date} at ${time}`}
         }).then((response) => {
             console.log(response.data);
         }).catch((error) => {

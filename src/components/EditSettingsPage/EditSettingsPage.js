@@ -43,7 +43,7 @@ class EditSettings extends Component {
         {this.props.members.map((member, i) => {
           return(
             <li key={i}>
-            {member.username}  <Button>Remove Member</Button>
+            {member.first_name}  <Button>Remove Member</Button>
             </li>
           );
         })}
@@ -66,7 +66,7 @@ class EditSettings extends Component {
         {this.props.members.map((member, i) => {
           return(
             <li key={i}>
-            {member.name}
+            {member.first_name}
             </li>
           );
         })}

@@ -68,7 +68,6 @@ class AddUsersPage extends Component {
     if (this.props.user.userName) {
       content = (
         <div>
-             {JSON.stringify(this.props.userList)}
           <h2>Search for Registered Users: </h2>
           <input type="text" placeholder="Search by username" value={this.state.search_term} onChange={this.handleInputChangeFor('search_term')}/> 
           <Button onClick={this.searchForUsers}>Submit</Button>
