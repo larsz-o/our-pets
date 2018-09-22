@@ -6,9 +6,9 @@ import moment from 'moment';
 import axios from 'axios';
 import swal from 'sweetalert';
 
-
 const mapStateToProps = state => ({
     user: state.user,
+    members: state.currentHousehold.currentHouseholdMembers
   });
 
 class PetCard extends Component {
@@ -59,7 +59,7 @@ class PetCard extends Component {
                 });
             }
         }).catch((error) => {
-            console.log('Error getting activity data');
+            console.log('Error getting activity data', error);
         })
     }
     handleChange = (property, event) => {
@@ -101,9 +101,10 @@ class PetCard extends Component {
         }).then((response) => {
             console.log('success', response.data);
             this.handleClose(); 
-             //get current data and update DOM
+             //gets current data and update DOM
             this.getActivityData(2, this.props.pet.id);
-            swal('Good job!', 'You are awesome!', 'success');
+            swal('Awesome!', 'Thanks for walking!', 'success');
+            this.notifyHousehold(2);
         }).catch((error) => {
             console.log('Error submitting walk report', error); 
     });
@@ -125,8 +126,9 @@ logFeeding = (id) => {
         url: '/api/activities/',
         data: feedLog
     }).then((response) => {
-        this.getActivityData(1, this.props.pet.id)
-        swal('Good job!', 'You did it!', 'success');
+        this.getActivityData(1, this.props.pet.id);
+        swal('Nice!', 'Thanks for feeding!', 'success');
+        this.notifyHousehold(1);
     }).catch((error) => {
         console.log('Error posting feeding log', error);
     });
@@ -150,7 +152,8 @@ logMedication = (id) => {
     }).then((response) => {
         this.handleClose();
         this.getActivityData(4, this.props.pet.id)
-        swal('Good job!', 'Wow, thank you!!', 'success');
+        swal('Nice!', 'Medications given!', 'success');
+        this.notifyHousehold(4);
     }).catch((error) => {
         console.log('Error posting feeding log', error);
     });
@@ -173,9 +176,35 @@ logLitterbox = (id) => {
         data: litterLog
     }).then((response) => {
         this.getActivityData(3, this.props.pet.id)
-        swal('Good job!', 'Thanks so much!', 'success');
+        swal('Nice work!', 'Litterbox managed!', 'success');
+        this.notifyHousehold(3);
     }).catch((error) => {
         console.log('Error posting feeding log', error);
+    });
+}
+notifyHousehold = (activityID) => {
+    for (let i = 0; i < this.props.members.length; i++){
+        if (this.props.members[i].text_alert_fed && activityID === 1 && this.props.members[i].id !== this.props.user.id){
+            this.sendAlert(this.props.members[i], this.props.user, this.props.pet, 'fed', this.state.lastFeeding[0]);
+        } else if (this.props.members[i].text_alert_walk && activityID === 2 && this.props.members[i].id !== this.props.user.id){
+            this.sendAlert(this.props.members[i], this.props.user, this.props.pet, 'walked', this.state.lastWalk[0]);
+        } else if (this.props.members[i].text_alert_litterbox && activityID === 3 && this.props.members[i].id !== this.props.user.id){
+            this.sendAlert(this.props.members[i], this.props.user, this.props.pet, 'changed the litterbox for', this.state.lastLitterbox[0]);
+        } else if (this.props.members[i].text_alert_medications && activityID === 4 && this.props.members[i].id !== this.props.user.id){
+            this.sendAlert(this.props.members[i], this.props.user, this.props.pet, 'gave medications to', this.state.lastWalk[0]);
+        }
+    }
+}
+sendAlert = (member, user, pet, description, activity) => {
+    axios({
+        method: 'POST', 
+        url: '/api/text/activity', 
+        data: {number: member.phone_number, 
+            message: `${user.first_name} ${description} ${pet.name} on ${moment(activity.date).format('LL')} at ${activity.time}`}
+        }).then((response) => {
+            console.log(response.data);
+        }).catch((error) => {
+            console.log('Error with alert', error);
     });
 }
 togglePoopCheck = () => {

@@ -4,6 +4,7 @@ import { USER_ACTIONS } from '../../../redux/actions/userActions';
 import {Checkbox, Switch, Button} from '@material-ui/core'; 
 import axios from 'axios';
 import swal from 'sweetalert';
+import './petsettings.css'
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -22,10 +23,10 @@ class PetSettings extends Component {
                 pet_id: this.props.pet.id
             },
             notifications: {
-                text_alert_walk: this.props.members.text_alert_walk,
-                text_alert_fed: this.props.members.text_alert_fed,
-                text_alert_litterbox: this.props.members.text_alert_litterbox,
-                text_alert_medications: this.props.members.text_alert_medications
+                text_alert_walk: this.props.user.text_alert_walk,
+                text_alert_fed: this.props.user.text_alert_fed,
+                text_alert_litterbox: this.props.user.text_alert_litterbox,
+                text_alert_medications: this.props.user.text_alert_medications
             }
         }
     }
@@ -146,7 +147,7 @@ class PetSettings extends Component {
           url: '/api/user/settings',
           data: this.state.notifications
       }).then((response) => {
-          console.log(response.data); 
+          this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
           this.updatePetSettings();
       }).catch((error) => {
           console.log('Error updating notification settings', error); 
@@ -158,7 +159,7 @@ class PetSettings extends Component {
     if (this.props.user.userName && this.props.pet.species_id === 1 && this.props.user.authorized) {
       content = (
         <div>
-            <li className="pet-name-header">{this.props.pet.name}</li>  
+            <li className="petNameHeader">{this.props.pet.name}</li>  
             <li>Feeding 
                 <Checkbox
                     checked={this.state.activity_settings.feeding}
@@ -194,14 +195,13 @@ class PetSettings extends Component {
             </li>
             <Button variant="contained" color="primary" onClick={this.updateUserSettings}>Save</Button>
             <Button variant="outlined" onClick={this.removePet}>Remove Pet</Button>
+            <br/>
         </div>
       );
-      //&& this.props.user.authorized
     } else if (this.props.user.userName && this.props.pet.species_id === 2 && this.props.user.authorized){
         content = (
             <div>
-                {JSON.stringify(this.state)}
-                <li className="pet-name-header">{this.props.pet.name}</li>  
+                <li className="petNameHeader">{this.props.pet.name}</li>  
                 <li>Feeding 
                     <Checkbox
                         checked={this.state.activity_settings.feeding}
@@ -220,7 +220,7 @@ class PetSettings extends Component {
                         value="walking"
                         color="primary"/>
                     <Switch
-                        checked={this.state.notifications.text_alert_walking}
+                        checked={this.state.notifications.text_alert_walk}
                         onChange={this.handleNotificationChangeForWalking}
                         value="text_alert_walking"/>
                 </li>
