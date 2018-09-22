@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-// import 'react-phone-number-Input/style.css';
-// import PhoneInput from 'react-phone-number-Input';
+import 'react-phone-number-input/style.css';
+import PhoneInput from 'react-phone-number-input';
 import {Button, Input} from '@material-ui/core'; 
 import './RegisterPage.css'
 import swal from 'sweetalert';
@@ -84,8 +84,8 @@ class RegisterPage extends Component {
     return (
       <div>
         {this.renderAlert()}
-        <form className="register-form">
-          <h1>Register User</h1>
+          <h1>Register</h1>
+          <form>
           <div>
             <label htmlFor="username">
               Username:
@@ -137,12 +137,12 @@ class RegisterPage extends Component {
           <div>
             <label htmlFor="phone-number">
               Phone Number:
-              {/* <PhoneInput
+              <PhoneInput
               country="US"
               placeholder="Enter phone number"
               value={ this.state.phone_number }
               onChange={ phone_number => this.setState({ phone_number }) }
-              required /> */}
+              required />
             </label>
           </div>
           <div>
