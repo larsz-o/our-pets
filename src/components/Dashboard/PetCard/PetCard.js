@@ -96,7 +96,7 @@ class PetCard extends Component {
         }
             axios({
             method: 'POST',
-            url: '/api/activities/',
+            url: '/api/activities',
             data: walkLog
         }).then((response) => {
             console.log('success', response.data);
@@ -123,7 +123,7 @@ logFeeding = (id) => {
      }
     axios({
         method: 'POST',
-        url: '/api/activities/',
+        url: '/api/activities',
         data: feedLog
     }).then((response) => {
         this.getActivityData(1, this.props.pet.id);
@@ -147,7 +147,7 @@ logMedication = (id) => {
     }
     axios({
         method: 'POST',
-        url: '/api/activities/',
+        url: '/api/activities',
         data: medLog
     }).then((response) => {
         this.handleClose();
@@ -172,7 +172,7 @@ logLitterbox = (id) => {
     }
     axios({
         method: 'POST',
-        url: '/api/activities/',
+        url: '/api/activities',
         data: litterLog
     }).then((response) => {
         this.getActivityData(3, this.props.pet.id)
@@ -198,7 +198,7 @@ notifyHousehold = (activityID, date, time) => {
 sendAlert = (member, user, pet, description, date, time) => {
     axios({
         method: 'POST', 
-        url: '/api/text/activity', 
+        url: '/api/text', 
         data: {number: member.phone_number, 
             message: `${user.first_name} ${description} ${pet.name} on ${date} at ${time}`}
         }).then((response) => {

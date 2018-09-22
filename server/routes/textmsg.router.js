@@ -6,7 +6,7 @@ const SENDER = process.env.TWILIO_SENDER
 const twilio = require('twilio');
 const client = new twilio(SID, TOKEN);
 
-router.post('/activity', (req, res) => {
+router.post('/', (req, res) => {
     if(!SID || !TOKEN) {
       return res.json({message: 'add TWILIO_SID and TWILIO_TOKEN to .env file.'})
     }
@@ -22,4 +22,5 @@ router.post('/activity', (req, res) => {
         res.sendStatus(500); 
     });
 });
+
 module.exports = router; 

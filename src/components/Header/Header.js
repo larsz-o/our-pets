@@ -14,7 +14,7 @@ class Header extends Component{
     return(
     <div className="instructions">
       <div>
-        <h1 className="lead">Our Pets</h1>
+        <h1 className="lead">Did You Feed Them?</h1>
         <Button className="float-right" onClick={this.logout}>Log Out</Button>
     </div>
   </div>

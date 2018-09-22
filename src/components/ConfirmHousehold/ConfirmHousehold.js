@@ -9,7 +9,8 @@ import swal from 'sweetalert';
 
 const mapStateToProps = state => ({
   user: state.user,
-  household: state.householdBuilder.household
+  household: state.householdBuilder.household,
+  member: state.householdBuilder.household.users
 });
 
 class ConfirmHousehold extends Component {
@@ -26,6 +27,23 @@ class ConfirmHousehold extends Component {
     }).catch((error) => {
       console.log('Error adding pets', error); 
     });
+  }
+  // will send a text message to each added household member, asking them to confirm their invitation
+  alertUser = () =>{
+    for (let i = 0; i < this.props.member.length; i++){
+      if(!this.props.member[i].authorized){
+        axios({
+          method: 'POST', 
+          url: '/api/text/confirm',
+          data: {number: this.props.member[i].phone_number, message: `${this.props.user.first_name} has invited you to join their household on Did You Feed Them? To accept: http://localhost:3000/#/joinhousehold`}
+        }).then((response) => {
+          console.log('text alert sent', response.data); 
+          this.props.history.push('/dashboard'); 
+        }).catch((error) => {
+          console.log('Error sending invitation', error); 
+        });
+      }
+    }
   }
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
@@ -47,7 +65,6 @@ editUser = () => {
   }).then((response) => {
     swal(`'Nice!', '${this.props.household.nickname} Household created!', 'success'`);
     this.alertUser();
-    this.props.history.push('/dashboard'); 
   }).catch((error) => {
     console.log('Error updating user information', error); 
   })
