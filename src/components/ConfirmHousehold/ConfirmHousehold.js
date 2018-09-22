@@ -35,7 +35,7 @@ class ConfirmHousehold extends Component {
         axios({
           method: 'POST', 
           url: '/api/text/confirm',
-          data: {number: this.props.member[i].phone_number, message: `Hi ${this.props.member[i].username}! ${this.props.user.username} has invited you to join their household on Did You Feed Them? Check out the invitation in your inbox: [url]`}
+          data: {number: this.props.member[i].phone_number, message: `Hi ${this.props.member[i].username}! ${this.props.user.username} has invited you to join their household on Did You Feed Them? so that you can coordinate pet care. Check out the invitation in your inbox: [url]`}
         }).then((response) => {
           this.sendInvitation(this.props.member[i]); 
         }).catch((error) => {

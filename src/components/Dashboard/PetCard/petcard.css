@@ -1,14 +1,4 @@
-.card {
-    height: 600px;
-    width: 250px; 
-    padding: 10px;
-    margin: 20px;
-    float: left; 
-    border: 1px solid gray;
-}
-.card:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-}
+
 img {
     width: 250px;
     height: 250px;

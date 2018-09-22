@@ -1,4 +1,20 @@
-
+.headline{
+    background-color: tomato; 
+}
+.inbox-card {
+    height: 200px;
+    width: 250px; 
+    padding: 10px;
+    margin-top: 25px;
+    margin-left: 25px;
+    margin-right: 25px;
+    text-align: center; 
+    border: 1px solid gray;
+    float: left; 
+}
+.inbox-card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
 .inbox-header{
     background-color: tomato;
     height: 50px;

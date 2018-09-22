@@ -55,7 +55,7 @@ router.get('/members', (req, res) => {
 //changes an invited user to authorized once invitation is accepted
 router.put('/accept', (req, res) => {
     const updates = req.body;
-    const query = `UPDATE "person" SET "authorized" = $1 WHERE "person_id" = $2;`;
+    const query = `UPDATE "person" SET "authorized" = $1 WHERE "id" = $2;`;
     pool.query(query, [updates.authorized, req.user.id]).then((results) => {
         res.sendStatus(200); 
     }).catch((error) => {
