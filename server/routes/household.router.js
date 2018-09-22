@@ -44,7 +44,7 @@ router.get('/nickname', (req, res) => {
 // gets all members of a household by household_id
 router.get('/members', (req, res) => {
     const queryParam = req.query.id; 
-    const query = `SELECT "person"."id", "username", "first_name", "authorized" FROM "person" JOIN "households" ON "households"."id" = "person"."household_id" WHERE "household_id" = $1;`;
+    const query = `SELECT "person"."id", "username", "first_name", "authorized", "phone_number", "text_alert_walk", "text_alert_fed", "text_alert_litterbox", "text_alert_medications" FROM "person" JOIN "households" ON "households"."id" = "person"."household_id" WHERE "household_id" = $1;`;
     pool.query(query, [queryParam]).then((results) => {
         res.send(results.rows);
     }).catch((error) => {

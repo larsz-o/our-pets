@@ -11,7 +11,6 @@ passport.deserializeUser((id, done) => {
   pool.query('SELECT "person"."id", "role", "authorized", "username", "first_name", "household_id", "phone_number", "image_path", "role", "text_alert_walk", "text_alert_fed", "text_alert_litterbox", "text_alert_medications" FROM person WHERE "person"."id" = $1;', [id]).then((result) => {
     // Handle Errors
     const user = result && result.rows && result.rows[0];
-
     if (!user) {
       // user not found
       done(null, false, { message: 'Incorrect credentials.' });

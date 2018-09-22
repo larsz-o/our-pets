@@ -37,12 +37,10 @@ class PetCard extends Component {
         this.getActivityData(4, this.props.pet.id);
     }
     getActivityData = (activityId, petId) => {
-        console.log('in getActitity data');
         axios({
             method: 'GET', 
             url: `/api/activities?activity=${activityId}&pet=${petId}`
         }).then((response) => {
-            console.log(response.data);
             if (activityId === 1){
                 this.setState({
                     lastFeeding: response.data 

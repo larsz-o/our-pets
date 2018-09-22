@@ -7,6 +7,7 @@ import swal from 'sweetalert';
 
 const mapStateToProps = state => ({
   user: state.user,
+  members: state.currentHousehold.currentHouseholdMembers,
 });
 
 class PetSettings extends Component {
@@ -21,10 +22,10 @@ class PetSettings extends Component {
                 pet_id: this.props.pet.id
             },
             notifications: {
-                text_alert_walk: this.props.pet.walking,
-                text_alert_fed: this.props.pet.feeding,
-                text_alert_litterbox: this.props.pet.litterbox,
-                text_alert_medications: this.props.pet.medications
+                text_alert_walk: this.props.members.text_alert_walk,
+                text_alert_fed: this.props.members.text_alert_fed,
+                text_alert_litterbox: this.props.members.text_alert_litterbox,
+                text_alert_medications: this.props.members.text_alert_medications
             }
         }
     }

@@ -11,16 +11,6 @@ const authorized = (state = {}, action) => {
       return state;
   }
 } 
-const fed_alert = (state = null, action) => {
-  switch (action.type) {
-    case USER_ACTIONS.SET_USER:
-      return action.user.text_alert_fed || state;
-    case USER_ACTIONS.UNSET_USER:
-      return null;
-    default:
-      return state;
-  }
-};
 const first_name = (state = null, action) => {
   switch (action.type) {
     case USER_ACTIONS.SET_USER:
@@ -71,60 +61,70 @@ const isLoading = (state = false, action) => {
       return state;
   }
 };
-const litterbox_alert = (state = null, action) => {
-  switch (action.type) {
-    case USER_ACTIONS.SET_USER:
-      return action.user.text_alert_litterbox || state;
-    case USER_ACTIONS.UNSET_USER:
-      return null;
-    default:
-      return state;
-  }
-};
-const medications_alert = (state = null, action) => {
-  switch (action.type) {
-    case USER_ACTIONS.SET_USER:
-      return action.user.text_alert_medications || state;
-    case USER_ACTIONS.UNSET_USER:
-      return null;
-    default:
-      return state;
-  }
-};
 const phone_number = (state = null, action) => {
     switch (action.type) {
       case USER_ACTIONS.SET_USER:
-      return action.user.phone_number || state; 
+      return action.user.phone_number; 
     case USER_ACTIONS.UNSET_USER:
       return null;
     default: 
       return state;  
     }
 };
+const role = (state = null, action) => {
+  switch (action.type) {
+    case USER_ACTIONS.SET_USER:
+      return action.user.role;
+    case USER_ACTIONS.UNSET_USER:
+      return null;
+    default:
+      return state;
+  }
+};
+const text_alert_fed = (state = null, action) => {
+  switch (action.type) {
+    case USER_ACTIONS.SET_USER:
+      return action.user.text_alert_fed;
+    case USER_ACTIONS.UNSET_USER:
+      return null;
+    default:
+      return state;
+  }
+};
+const text_alert_litterbox = (state = null, action) => {
+  switch (action.type) {
+    case USER_ACTIONS.SET_USER:
+      return action.user.text_alert_litterbox;
+    case USER_ACTIONS.UNSET_USER:
+      return null;
+    default:
+      return state;
+  }
+};
+const text_alert_medications = (state = null, action) => {
+  switch (action.type) {
+    case USER_ACTIONS.SET_USER:
+      return action.user.text_alert_medications;
+    case USER_ACTIONS.UNSET_USER:
+      return null;
+    default:
+      return state;
+  }
+};
+const text_alert_walk = (state = null, action) => {
+  switch (action.type) {
+    case USER_ACTIONS.SET_USER:
+      return action.user.text_alert_walk;
+    case USER_ACTIONS.UNSET_USER:
+      return null;
+    default:
+      return state;
+  }
+};
 const userName = (state = null, action) => {
   switch (action.type) {
     case USER_ACTIONS.SET_USER:
       return action.user.username || state;
-    case USER_ACTIONS.UNSET_USER:
-      return null;
-    default:
-      return state;
-  }
-};
-const walk_alert = (state = null, action) => {
-  switch (action.type) {
-    case USER_ACTIONS.SET_USER:
-      return action.user.text_alert_walk || state;
-    case USER_ACTIONS.UNSET_USER:
-      return null;
-    default:
-      return state;
-  }
-};
-const role = (state = null, action) => {
-  switch (action.type) {
-    case USER_ACTIONS.SET_USER:
-      return action.user.role || state;
     case USER_ACTIONS.UNSET_USER:
       return null;
     default:
@@ -139,10 +139,10 @@ export default combineReducers({
   household_id,
   phone_number,
   image_path, 
-  walk_alert,
-  fed_alert, 
-  litterbox_alert, 
-  medications_alert, 
   authorized,
-  role
+  role,
+  text_alert_fed, 
+  text_alert_walk,
+  text_alert_medications,
+  text_alert_litterbox
 });
