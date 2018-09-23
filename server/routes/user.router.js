@@ -43,27 +43,35 @@ router.get('/logout', (req, res) => {
 });
 
 router.put('/household', (req, res) => {
-  const userToAdd = req.body; 
-  const query = `UPDATE "person" SET "household_id" = $1, "authorized" = true WHERE "id" = $2;`;
-  for (let i = 0; i < userToAdd.users.length; i++){
-    let newUser = userToAdd.users[i]; 
-    pool.query(query, [userToAdd.household_id, newUser.person_id]).then((result) => {
-      res.sendStatus(200);
-    }).catch((error) => {
-      console.log('Error updating user', error); 
-      res.sendStatus(500); 
-    });
+  if(req.isAuthenticated){
+    const userToAdd = req.body; 
+    const query = `UPDATE "person" SET "household_id" = $1, "authorized" = true WHERE "id" = $2;`;
+    for (let i = 0; i < userToAdd.users.length; i++){
+      let newUser = userToAdd.users[i]; 
+      pool.query(query, [userToAdd.household_id, newUser.person_id]).then((result) => {
+        res.sendStatus(200);
+      }).catch((error) => {
+        console.log('Error updating user', error); 
+        res.sendStatus(500); 
+      });
+    }
+  } else {
+    res.sendStatus(403);
   }
 });
 router.put('/settings', (req, res) => {
-  const settings = req.body; 
-  const query = `UPDATE "person" SET "text_alert_litterbox" = $1, "text_alert_medications" = $2, "text_alert_walk" = $3, "text_alert_fed" = $4 WHERE "id" = $5;`;
-  pool.query(query, [settings.text_alert_litterbox, settings.text_alert_medications, settings.text_alert_walk, settings.text_alert_fed, req.user.id]).then((results) => {
-    res.sendStatus(200);
-  }).catch((error) => {
-    console.log('Error updating notification settings', error);
-    res.sendStatus(500); 
-  });
-})
+  if(req.isAuthenticated){
+    const settings = req.body; 
+    const query = `UPDATE "person" SET "text_alert_litterbox" = $1, "text_alert_medications" = $2, "text_alert_walk" = $3, "text_alert_fed" = $4 WHERE "id" = $5;`;
+    pool.query(query, [settings.text_alert_litterbox, settings.text_alert_medications, settings.text_alert_walk, settings.text_alert_fed, req.user.id]).then((results) => {
+      res.sendStatus(200);
+    }).catch((error) => {
+      console.log('Error updating notification settings', error);
+      res.sendStatus(500); 
+    });
+  } else {
+    res.sendStatus(403);
+  }
+});
 
 module.exports = router;

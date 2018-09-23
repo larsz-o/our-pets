@@ -24,9 +24,10 @@ body, html {
 }
 
 .instructions {
-   background-color: white; 
+   background-color: beige; 
     padding: 5px;
-    color: gray;  
+    color: gray; 
+    height: 150px;  
 }
 .float-right{
     float: right; 

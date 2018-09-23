@@ -7,6 +7,7 @@ const twilio = require('twilio');
 const client = new twilio(SID, TOKEN);
 
 router.post('/', (req, res) => {
+if(req.isAuthenticated){
     if(!SID || !TOKEN) {
       return res.json({message: 'add TWILIO_SID and TWILIO_TOKEN to .env file.'})
     }
@@ -21,6 +22,8 @@ router.post('/', (req, res) => {
         console.log('Error with text', error);
         res.sendStatus(500); 
     });
+} else {
+    res.sendStatus(403);
+}   
 });
-
 module.exports = router; 
