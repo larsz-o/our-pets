@@ -17,19 +17,23 @@ class EditSettings extends Component {
   constructor(props){
     super(props);
     this.state = {
-      messages: []
+      messages: [],
+      archivedMessages: []
     }
   }
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
     this.getMessages();
+    this.getArchivedMessages();
   }
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
       this.props.history.push('/home');
     }
   }
-  acceptInvitation = () => {
+  // accept will send a PUT request authorizing the member as a household member 
+  // then, the message will be archived the user's inbox
+  acceptInvitation = (messageID) => {
     axios({
       method: 'PUT', 
       url: '/api/household/accept',
@@ -37,12 +41,25 @@ class EditSettings extends Component {
     }).then((response) => {
       console.log(response.data);
       swal('Nice!', 'Invitation accepted!', 'success');
-      this.props.history.push('/dashboard');
+      this.archiveMessage(messageID);
     }).catch((error) => {
       console.log('Error changing authorization', error); 
     });
   }
-  declineInvitation = () => {
+  //changes the status of a message to archived, then adds it to the archived message array on state
+  archiveMessage = (messageID) => {
+   axios({
+      method: 'PUT', 
+      url: '/api/inbox',
+      data: {id: messageID}
+    }).then((response) => {
+      this.getArchivedMessages();
+    }).catch((error) => {
+      console.log('Error archving message', error); 
+    });
+  }
+  //decline will delete the message if confirmed
+  declineInvitation = (messageID) => {
     swal({
       title: 'Are you sure?',
       icon: 'warning', 
@@ -53,15 +70,30 @@ class EditSettings extends Component {
       swal('Invitation declined!', {
         icon: 'success',
       });
+      this.archiveMessage(messageID)
     } else {
       swal('You can keep thinking about this one.');
     }
   });
 }
+//gets old messages upon component mounting successfully
+getArchivedMessages = () => {
+  axios({
+    method: 'GET',
+    url: '/api/inbox?archived=true'
+  }).then((response) => {
+    this.setState({
+      archivedMessages: response.data
+    });
+  }).catch((error) => {
+    console.log('Error getting messages', error); 
+  });
+}
+//gets current messages when component mounts 
   getMessages = () => {
     axios({
       method: 'GET',
-      url: '/api/inbox'
+      url: '/api/inbox?archived=false'
     }).then((response) => {
       this.setState({
         messages: response.data
@@ -72,25 +104,57 @@ class EditSettings extends Component {
   }
   render() {
     let content = null;
-    if (this.props.user.userName) {
+    if (this.props.user.userName && this.state.messages.length > 0) {
       content = (
         <div>
            <div> 
               {this.state.messages.map((message, i) => {
                 return (
+                  <div>
+                  <h3>New Messages: </h3>
                   <div key={i} className="inbox-card">
                     <h3 className="headline">Message from {message.sender}</h3>
                     {message.message}
                     <br/><br/>
-                  <Button variant="contained" color="primary" size="small" onClick={this.acceptInvitation}>Accept</Button>  <Button size="small" variant="contained" onClick={this.declineInvitation}>Decline</Button>
+                  <Button variant="contained" color="primary" size="small" onClick={()=>this.acceptInvitation(message.id)}>Accept</Button>  <Button size="small" variant="contained" onClick={() => this.declineInvitation(message.id)}>Decline</Button>
                   </div>
+                </div>
                 );
               })}
            </div>
+           <div>
+             {this.state.archivedMessages.map((oldMessage, i) => {
+               return(
+                <div key={i}>
+                    <h3>Archived Messages: </h3>
+                  <div className="archived-inbox-card">
+                    <h3 className="headline">Message from {oldMessage.sender}</h3>
+                    {oldMessage.message}
+                  </div>
+              </div>
+               );
+             })}
+           </div>
         </div>
       );
+    } else if (this.props.user.userName && this.state.messages.length === 0){
+      content = (
+        <div>
+          <p>No new messages.</p>
+             {this.state.archivedMessages.map((oldMessage, i) => {
+               return(
+                <div key={i}>
+                <h3>Archived Messages: </h3>
+                <div className="archived-inbox-card">
+                <h3 className="headline">Message from {oldMessage.sender}</h3>
+                {oldMessage.message}
+              </div>
+            </div>
+               );
+             })}
+           </div>
+      );
     }
-
     return (
       <div>
         <Nav />
