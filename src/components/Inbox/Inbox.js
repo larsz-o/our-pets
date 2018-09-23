@@ -58,7 +58,7 @@ class EditSettings extends Component {
       console.log('Error archving message', error); 
     });
   }
-  //decline will delete the message if confirmed
+  //decline will archive the message if confirmed
   declineInvitation = (messageID) => {
     swal({
       title: 'Are you sure?',
@@ -107,6 +107,8 @@ getArchivedMessages = () => {
     if (this.props.user.userName && this.state.messages.length > 0) {
       content = (
         <div>
+          <Button variant="contained">Compose New Message</Button>
+          {/* create a dialog form with Material UI to send a short message to another user. this should definitely be a separate component */}
            <div> 
               {this.state.messages.map((message, i) => {
                 return (
@@ -140,6 +142,7 @@ getArchivedMessages = () => {
     } else if (this.props.user.userName && this.state.messages.length === 0){
       content = (
         <div>
+          <Button variant="contained">Compose New Message</Button>
           <p>No new messages.</p>
              {this.state.archivedMessages.map((oldMessage, i) => {
                return(

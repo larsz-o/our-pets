@@ -23,7 +23,7 @@ import './styles/main.css';
 
 const App = () => (
   <div>
-    <Header title="Our Pets" />
+    <Header/>
     <Router>
       <Switch>
         <Redirect exact from="/" to="/home" />
