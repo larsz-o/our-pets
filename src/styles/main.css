@@ -2,6 +2,9 @@ body, html {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     height: 100%; 
 }
+a{
+    text-decoration: none; 
+}
 .card {
     height: 600px;
     width: 250px; 
@@ -18,16 +21,11 @@ body, html {
     padding: 0px; 
     line-height: .5em; 
 }
-.instructions h1 {
-    font-size: 24px;
-    font-weight: 700;
-}
-
 .instructions {
    background-color: beige; 
     padding: 5px;
     color: gray; 
-    height: 150px;  
+    height: 100px;  
 }
 .float-right{
     float: right; 
@@ -76,11 +74,6 @@ ul {
     padding: 0;
     overflow: hidden;
 }
-
-li {
-    /* float: left; */
-}
-
 li a {
     display: block;
     color: white;
@@ -89,11 +82,20 @@ li a {
     text-decoration: none;
 
 }
-
 /* Change the link color to #111 (black) on hover */
 li a:hover {
     text-decoration: underline;
     color: #eee;
+}
+#heading {
+    /* text-align: center;  */
+    margin-top: 15px; 
+    margin-left: 30px; 
+    font-size: 3em; 
+}
+#subheading {
+    text-align: center;
+    font-style: italic;
 }
 #welcome {
     text-align: center; 

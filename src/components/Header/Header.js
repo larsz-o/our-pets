@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-
+import {Typography} from '@material-ui/core';
 class Header extends Component{
   render(){
     return(
     <div className="instructions">
-      <h1 className="lead">Did You Feed Them?</h1>
+      <Typography id="heading" variant="display4">Our Pets</Typography>
+      <Typography id="subheading" variant="body1">Did you feed them?</Typography>
   </div>
     );
   }

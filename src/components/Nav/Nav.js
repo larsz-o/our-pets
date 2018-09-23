@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Button, Menu, MenuItem} from '@material-ui/core';
 import { triggerLogout } from '../../redux/actions/loginActions';
 import {connect} from 'react-redux'; 
-import {ListRounded} from '@material-ui/icons'; 
+
 
 class Nav extends Component {
   constructor(props){
@@ -15,10 +15,8 @@ class Nav extends Component {
   handleClick = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
-  handleClose = (url) => {
+  handleClose = () => {
     this.setState({ anchorEl: null });
-    // this.context.router.push(url);
-
   };
   logout = () => {
     this.props.dispatch(triggerLogout());
@@ -34,7 +32,7 @@ class Nav extends Component {
           aria-haspopup="true"
           onClick={this.handleClick}
         >
-         <ListRounded/>
+         Menu
         </Button>
     <Menu
       id="simple-menu"
@@ -42,9 +40,10 @@ class Nav extends Component {
       open={Boolean(anchorEl)}
       onClose={this.handleClose}
       >
-          <MenuItem onClick={()=>this.handleClose('/dashboard')}>Dashboard</MenuItem>
-          <MenuItem onClick={()=>this.handleClose('/myaccount')}>My Account</MenuItem>
-          <MenuItem onClick={()=>this.handleClose('/inbox')}>Inbox</MenuItem>
+          <a href="/#/dashboard"><MenuItem onClick={this.handleClose}>Dashboard</MenuItem></a>
+          <a href="/#/inbox"><MenuItem onClick={this.handleClose}>Inbox</MenuItem></a>
+          <a href="/#/myaccount"><MenuItem onClick={this.handleClose}>My Account</MenuItem></a>
+          <a href="/#/editsettings"><MenuItem onClick={this.handleClose}>Settings</MenuItem></a>
           <MenuItem onClick={this.logout}>Logout</MenuItem>
       </Menu>   
     </div>
