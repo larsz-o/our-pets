@@ -4,7 +4,7 @@ import PetCard from './PetCard/PetCard.js';
 import axios from 'axios'; 
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import {Button} from '@material-ui/core'; 
+import {Button, Typography} from '@material-ui/core'; 
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -14,10 +14,17 @@ const mapStateToProps = state => ({
 });
 
 class Dashboard extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      message: ''
+    }
+  }
 
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
     this.madeGetRequest = false;
+    this.getMessages();
     
   }
   componentDidUpdate() {
@@ -53,6 +60,21 @@ class Dashboard extends Component {
       console.log('error getting household nickname', error);
     });
   }
+  //checks to see if there are new messages for the user and alerts them via text on the DOM if yes  
+  getMessages = () => {
+    axios({
+      method: 'GET',
+      url: '/api/inbox?archived=false'
+    }).then((response) => {
+      if(response.data.length > 0){
+        this.setState({
+          message: 'You have new inbox messages!'
+        });
+      }
+    }).catch((error) => {
+      console.log('Error getting messages', error); 
+    });
+  }
   getPets = () => {
     axios({
       method: 'GET', 
@@ -76,6 +98,7 @@ class Dashboard extends Component {
         <div>
            <div id="welcome">
               <h1>Welcome, { this.props.user.userName }!</h1>
+              <Typography variant="body1">{this.state.message}</Typography>
             </div>
             <div className="container">
             {this.props.pets.map((pet, i) => {
@@ -90,6 +113,7 @@ class Dashboard extends Component {
       content = (
        <div>
         <h3>You currently are not in a household!</h3>
+        <Typography variant="body1">{this.state.message}</Typography>
         <Button color="primary"variant="outlined" onClick={this.navigateTo('/createhousehold')}>Create Household</Button>
         {/* Join household will go to a page where they can search or accept any open invitations */}
         <Button color="primary" variant="outlined" onClick={()=>this.navigateTo('/joinhousehold')}>Join Household</Button>

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import PetSettings from './PetSettings/PetSettings';
-import {Button} from '@material-ui/core'; 
+import {Button, Typography} from '@material-ui/core'; 
 import axios from 'axios'; 
 import swal from 'sweetalert';
 
@@ -68,6 +68,7 @@ class EditSettings extends Component {
       content = (
         <div>
         <h2>Pets</h2>
+        <Typography variant="subheading">Edit Notification Settings: </Typography>
         <ul>
             {this.props.pets.map((pet, i) => {
                 return(

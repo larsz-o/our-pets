@@ -72,7 +72,7 @@ class EditSettings extends Component {
       dangerMode: true
   }).then((willDelete) => {
     if (willDelete){
-      swal('Invitation declined!', {
+      swal('Message Deleted!', {
         icon: 'success',
       });
       this.archiveMessage(messageID)
@@ -90,6 +90,7 @@ getArchivedMessages = () => {
     this.setState({
       archivedMessages: response.data
     });
+    this.getMessages(); 
   }).catch((error) => {
     console.log('Error getting messages', error); 
   });
