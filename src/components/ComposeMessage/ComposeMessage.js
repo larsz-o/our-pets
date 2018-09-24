@@ -3,12 +3,15 @@ import {Button, Dialog, DialogTitle, DialogContent, DialogContentText, Input} fr
 import axios from 'axios';
 import swal from 'sweetalert';
 import {connect} from 'react-redux'; 
+import { USER_ACTIONS } from '../../redux/actions/userActions';
 
 
 const mapStateToProps = state => ({
     user: state.user,
-    household: state.householdBuilder.findHousehold
+    household: state.householdBuilder.findHousehold,
+    nextPage: state.nextPage.nextPage
   });
+
 class ComposeMessage extends Component {
     constructor(props){
         super(props);
@@ -19,6 +22,15 @@ class ComposeMessage extends Component {
             message: ''
           };
     }
+    componentDidMount() {
+        this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
+      }
+      componentDidUpdate() {
+        if (!this.props.user.isLoading && this.props.user.userName === null) {
+          this.props.dispatch({type: 'NEXT_PAGE', payload: '/inbox'});
+          this.props.history.push(this.props.nextPage);
+        }
+      }
     handleClickOpen = () => {
         console.log('clicked');
         this.setState({ open: true });

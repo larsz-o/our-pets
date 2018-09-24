@@ -9,7 +9,8 @@ import {Button} from '@material-ui/core';
 const mapStateToProps = state => ({
   user: state.user,
   household: state.householdBuilder.household,
-  pets: state.currentHousehold.currentPets
+  pets: state.currentHousehold.currentPets,
+  nextPage: state.nextPage.nextPage
 });
 
 class Dashboard extends Component {
@@ -21,7 +22,8 @@ class Dashboard extends Component {
   }
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
-      this.props.history.push('/home');
+      this.props.dispatch({type: 'NEXT_PAGE', payload: '/inbox'});
+      this.props.history.push(this.props.nextPage);
     } else if (!this.props.user.isLoading && this.props.user.userName !== null && !this.madeGetRequest) {
       // only make this request one time after the user object has been populated
       this.getPets();

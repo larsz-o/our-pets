@@ -10,7 +10,8 @@ import swal from 'sweetalert';
 const mapStateToProps = state => ({
   user: state.user,
   household: state.householdBuilder.household,
-  member: state.householdBuilder.household.users
+  member: state.householdBuilder.household.users,
+  nextPage: state.nextPage.nextPage
 });
 
 class ConfirmHousehold extends Component {
@@ -49,7 +50,8 @@ class ConfirmHousehold extends Component {
   }
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
-      this.props.history.push('home');
+      this.props.dispatch({type: 'NEXT_PAGE', payload: '/inbox'});
+          this.props.history.push(this.props.nextPage);
     }
   }
   //editUser makes a put request to existing users, adding the household_id to their database entry. 

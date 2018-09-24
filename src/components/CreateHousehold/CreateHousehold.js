@@ -8,7 +8,8 @@ import axios from 'axios';
 
 const mapStateToProps = state => ({
   user: state.user,
-  household: state.householdBuilder.household
+  household: state.householdBuilder.household.authorized,
+  nextPage: state.nextPage.nextPage
 });
 
 class CreateHousehold extends Component {
@@ -40,7 +41,8 @@ class CreateHousehold extends Component {
   }
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
-      this.props.history.push('home');
+      this.props.dispatch({type: 'NEXT_PAGE', payload: '/inbox'});
+      this.props.history.push(this.props.nextPage);
     }
   }
   //getHouseholdID gets the household_id that was just created and calls sendUsersToRedux, adding the currently signed in user's information to the createhousehold reducer
@@ -89,7 +91,7 @@ class CreateHousehold extends Component {
             <ExpansionPanelSummary><h2>Create Household</h2></ExpansionPanelSummary>
             <ExpansionPanelDetails>
               <label>Household Nickname:</label>
-              <Input type="text" value={this.state.nickname} onChange={this.handleInputChangeFor('nickname')} placeholder="e.g. The Yellow House" required/>
+              <Input type="text" value={this.state.nickname} onChange={this.handleInputChangeFor('nickname')} placeholder="e.g. The Yellow House" required/><br/>
               <Button variant="outlined" color="primary" onClick={this.sendNickNameToRedux}>Submit</Button>
             </ExpansionPanelDetails>
           </ExpansionPanel>

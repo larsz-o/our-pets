@@ -8,7 +8,8 @@ const mapStateToProps = state => ({
   user: state.user,
   pets: state.currentHousehold.currentPets,
   members: state.currentHousehold.currentHouseholdMembers,
-  household: state.currentHousehold.householdNickname
+  household: state.currentHousehold.householdNickname,
+  nextPage: state.nextPage.nextPage
 });
 
 class MyAccount extends Component {
@@ -17,7 +18,8 @@ class MyAccount extends Component {
   }
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
-      this.props.history.push('home');
+      this.props.dispatch({type: 'NEXT_PAGE', payload: '/inbox'});
+      this.props.history.push(this.props.nextPage);
     }
   }
   render() {

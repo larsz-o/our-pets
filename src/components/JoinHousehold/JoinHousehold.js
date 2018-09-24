@@ -4,10 +4,12 @@ import {Input, Button, Typography} from '@material-ui/core';
 import axios from 'axios';
 import swal from 'sweetalert'; 
 import Nav from '../Nav/Nav';
+import { USER_ACTIONS } from '../../redux/actions/userActions';
 
 const mapStateToProps = state => ({
     user: state.user,
-    household: state.householdBuilder.findHousehold
+    household: state.householdBuilder.findHousehold,
+    nextPage: state.nextPage.nextPage
   });
 class JoinHousehold extends Component {
     constructor(props){
@@ -17,6 +19,15 @@ class JoinHousehold extends Component {
             results: []
         }
     }
+    componentDidMount() {
+        this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
+      }
+      componentDidUpdate() {
+        if (!this.props.user.isLoading && this.props.user.userName === null) {
+          this.props.dispatch({type: 'NEXT_PAGE', payload: '/inbox'});
+          this.props.history.push(this.props.nextPage);
+        }
+      }
     getHouseholdMembers = (householdID) => {
         axios({
           method: 'GET', 
@@ -30,8 +41,9 @@ class JoinHousehold extends Component {
         })
       }
     handleSearchTermChange = (event) => {
+        let searchTerm = '%' + event.target.value + '%'
         this.setState({
-            search_term: event.target.value
+            search_term: searchTerm
         });
     }
     // sends an alert to the admin for the household asking to join the house
@@ -61,7 +73,7 @@ class JoinHousehold extends Component {
             url: `/api/household?nickname=${this.state.search_term}`
         }).then((response) => {
             if(response.data.length === 0){
-                swal('Oh no!', 'Household not found. Nickname must be exact.', 'warning'); 
+                swal('Oh no!', 'Household not found.', 'warning'); 
             } else {
                 const action = {type: 'SET_HOUSE_TO_JOIN', payload: response.data};
                 this.props.dispatch(action);

@@ -6,6 +6,7 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 
 const mapStateToProps = state => ({
   user: state.user,
+  nextPage: state.nextPage.nextPage
 });
 
 class DataReports extends Component {
@@ -15,7 +16,8 @@ class DataReports extends Component {
 
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
-      this.props.history.push('home');
+      this.props.dispatch({type: 'NEXT_PAGE', payload: '/inbox'});
+      this.props.history.push(this.props.nextPage);
     }
   }
 

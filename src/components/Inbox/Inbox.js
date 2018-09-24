@@ -13,7 +13,8 @@ import moment from 'moment';
 const mapStateToProps = state => ({
   user: state.user,
   pets: state.currentHousehold.currentPets,
-  members: state.currentHousehold.currentHouseholdMembers
+  members: state.currentHousehold.currentHouseholdMembers, 
+  nextPage: state.nextPage.nextPage
 });
 
 class EditSettings extends Component {
@@ -31,7 +32,8 @@ class EditSettings extends Component {
   }
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
-      this.props.history.push('/home');
+      this.props.dispatch({type: 'NEXT_PAGE', payload: '/inbox'});
+      this.props.history.push(this.props.nextPage);
     }
   }
   // accept will send a PUT request authorizing the member as a household member 

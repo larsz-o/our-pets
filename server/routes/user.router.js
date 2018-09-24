@@ -11,7 +11,6 @@ router.get('/', rejectUnauthenticated, (req, res) => {
   // Send back user object from database
   res.send(req.user);
 });
-
 // Handles POST request with new user data
 // The only thing different from this and every other post we've seen
 // is that the password gets encrypted before being inserted
@@ -45,7 +44,7 @@ router.get('/logout', (req, res) => {
 router.put('/household', (req, res) => {
   if(req.isAuthenticated){
     const userToAdd = req.body; 
-    const query = `UPDATE "person" SET "household_id" = $1, "authorized" = true, "role" = $2 WHERE "id" = $3;`;
+    const query = `UPDATE "person" SET "household_id" = $1, "authorized" = true, "role" = $3 WHERE "id" = $4;`;
     for (let i = 0; i < userToAdd.users.length; i++){
       let newUser = userToAdd.users[i]; 
       pool.query(query, [userToAdd.household_id, newUser.role, newUser.person_id]).then((result) => {
@@ -59,6 +58,20 @@ router.put('/household', (req, res) => {
     res.sendStatus(403);
   }
 });
+router.put('/removefrom', (req, res) => {
+  if(req.isAuthenticated && req.user.role === 1){
+    const userToRemove = req.body; 
+    const query = `UPDATE "person" SET "household_id" = $1, authorized = false WHERE "id" = $2;`; 
+    pool.query(query, [userToRemove.household_id, userToRemove.id]).then((results) => {
+      res.sendStatus(200);
+    }).catch((error) => {
+      console.log('Error removing user', error); 
+      res.sendStatus(500); 
+    });
+  } else {
+    res.sendStatus(403); 
+  }
+})
 router.put('/settings', (req, res) => {
   if(req.isAuthenticated){
     const settings = req.body; 

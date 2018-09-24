@@ -7,7 +7,8 @@ import {Button, Input, Select, MenuItem, ExpansionPanel, ExpansionPanelSummary, 
 
 const mapStateToProps = state => ({
   user: state.user,
-  pets: state.householdBuilder.household.pets
+  pets: state.householdBuilder.household.pets,
+  nextPage: state.nextPage.nextPage
 });
 
 class AddPetsPage extends Component {
@@ -30,7 +31,8 @@ class AddPetsPage extends Component {
 
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
-      this.props.history.push('home');
+      this.props.dispatch({type: 'NEXT_PAGE', payload: '/inbox'});
+      this.props.history.push(this.props.nextPage);
     }
   }
   handleInputChangeFor = propertyName => (event) => { 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { USER_ACTIONS } from '../../../redux/actions/userActions';
-import {Checkbox, Switch, Button} from '@material-ui/core'; 
+import {Switch, Button} from '@material-ui/core'; 
 import axios from 'axios';
 import swal from 'sweetalert';
 import './petsettings.css'
@@ -9,19 +9,13 @@ import './petsettings.css'
 const mapStateToProps = state => ({
   user: state.user,
   members: state.currentHousehold.currentHouseholdMembers,
+  nextPage: state.nextPage.nextPage
 });
 
 class PetSettings extends Component {
     constructor(props){
         super(props); 
         this.state = {
-            activity_settings: {
-                feeding: this.props.pet.feeding,
-                medications: this.props.pet.medications,
-                walking: this.props.pet.walking, 
-                litterbox: this.props.pet.litterbox,
-                pet_id: this.props.pet.id
-            },
             notifications: {
                 text_alert_walk: this.props.user.text_alert_walk,
                 text_alert_fed: this.props.user.text_alert_fed,
@@ -35,7 +29,8 @@ class PetSettings extends Component {
   }
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
-      this.props.history.push('/home');
+        this.props.dispatch({type: 'NEXT_PAGE', payload: '/inbox'});
+        this.props.history.push(this.props.nextPage);
     }
   }
   getPets = () => {
@@ -49,39 +44,7 @@ class PetSettings extends Component {
       console.log('Error getting pets', error);
     })
   }
-  // these functions should be refactored
-  handleChangeForFeeding = () => {
-    this.setState({
-        activity_settings: {
-            ...this.state.activity_settings, 
-            feeding: !this.state.activity_settings.feeding,
-        }
-    });
-  }
-  handleChangeForLitterbox = () => {
-    this.setState({
-        activity_settings: {
-            ...this.state.activity_settings, 
-            litterbox: !this.state.activity_settings.litterbox,
-        }
-    });
-  }
-  handleChangeForMedications = () => {
-    this.setState({
-        activity_settings: {
-            ...this.state.activity_settings, 
-            medications: !this.state.activity_settings.medications,
-        }
-    });
-  }
-  handleChangeForWalking = () => {
-    this.setState({
-        activity_settings: {
-            ...this.state.activity_settings, 
-            walking: !this.state.activity_settings.walking,
-        }
-    });
-  }
+  //these functions can be refactored 
   handleNotificationChangeForFeeding = () => {
     this.setState({ 
         notifications: {
@@ -125,20 +88,6 @@ class PetSettings extends Component {
           console.log('Error removing pet', error);
       });
   }
-  updatePetSettings = () => {
-      console.log('in updatePetSettings')
-      axios({
-          method: 'PUT', 
-          url: '/api/pets/settings', 
-          data: this.state.activity_settings
-      }).then((response) => {
-          console.log(response.data); 
-         swal('Cool!', 'Settings updated!', 'success');
-          this.getPets();
-      }).catch((error) => {
-          console.log('Error updating pet activity settings', error);
-      });
-  }
   //updates notification settings, then calls edit pets, which will update the data collection settings
   updateUserSettings = () => {
       console.log('in updateUserSettings');
@@ -161,33 +110,18 @@ class PetSettings extends Component {
         <div>
             <li className="petNameHeader">{this.props.pet.name}</li>  
             <li>Feeding 
-                <Checkbox
-                    checked={this.state.activity_settings.feeding}
-                    onChange={this.handleChangeForFeeding}
-                    value="feeding"
-                    color="primary"/>
                 <Switch
                     checked={this.state.notifications.text_alert_fed}
                     onChange={this.handleNotificationChangeForFeeding}
                     value="text_alert_fed"/>
             </li>
             <li>Litterbox 
-                <Checkbox
-                    checked={this.state.activity_settings.litterbox}
-                    onChange={this.handleChangeForLitterbox}
-                    value="litterbox"
-                    color="primary"/>
                 <Switch
                     checked={this.state.notifications.text_alert_litterbox}
                     onChange={this.handleNotificationChangeForLitterbox}
                     value="text_alert_litterbox"/>
             </li>
             <li>Medications 
-                <Checkbox
-                    checked={this.state.activity_settings.medications}
-                    onChange={this.handleChangeForMedications}
-                    value="medications"
-                    color="primary"/>
                 <Switch
                     checked={this.state.notifications.text_alert_medications}
                     onChange={this.handleNotificationChangeForMedications}
@@ -203,33 +137,18 @@ class PetSettings extends Component {
             <div>
                 <li className="petNameHeader">{this.props.pet.name}</li>  
                 <li>Feeding 
-                    <Checkbox
-                        checked={this.state.activity_settings.feeding}
-                        onChange={this.handleChangeForFeeding}
-                        value="feeding"
-                        color="primary"/>
                     <Switch
                         checked={this.state.notifications.text_alert_fed}
                         onChange={this.handleNotificationChangeForFeeding}
                         value="text_alert_fed"/>
                 </li>
                 <li>Walking
-                    <Checkbox
-                        checked={this.state.activity_settings.walking}
-                        onChange={this.handleChangeForWalking}
-                        value="walking"
-                        color="primary"/>
                     <Switch
                         checked={this.state.notifications.text_alert_walk}
                         onChange={this.handleNotificationChangeForWalking}
                         value="text_alert_walking"/>
                 </li>
                 <li>Medications 
-                    <Checkbox
-                        checked={this.state.activity_settings.medications}
-                        onChange={this.handleChangeForMedications}
-                        value="medications"
-                        color="primary"/>
                     <Switch
                         checked={this.state.notifications.text_alert_medications}
                         onChange={this.handleNotificationChangeForMedications}
