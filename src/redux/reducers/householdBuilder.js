@@ -24,7 +24,14 @@ const findUser = (state = [], action) => {
     }
     return state; 
 }
+const findHousehold = (state = [], action) => {
+    if(action.type === 'SET_HOUSE_TO_JOIN'){
+        return action.payload;
+    }
+    return state; 
+}
 export default combineReducers({
     household,
-    findUser
+    findUser, 
+    findHousehold
   });

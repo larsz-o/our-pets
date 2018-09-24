@@ -23,7 +23,7 @@ router.get('/', (req, res) => {
     if(req.isAuthenticated){
         const searchTerm = req.query.nickname;
         console.log(searchTerm); 
-        const query = `SELECT "id" from "households" WHERE "nickname" ILIKE $1;`;
+        const query = `SELECT "id", "nickname" from "households" WHERE "nickname" ILIKE $1;`;
         pool.query(query, [searchTerm]).then((results) => {
             res.send(results.rows);
             console.log(results.rows); 
@@ -53,8 +53,10 @@ router.get('/nickname', (req, res) => {
 router.get('/members', (req, res) => {
     if(req.isAuthenticated){
         const queryParam = req.query.id; 
-        const query = `SELECT "person"."id", "username", "first_name", "authorized", "phone_number", "text_alert_walk", "text_alert_fed", "text_alert_litterbox", "text_alert_medications" FROM "person" JOIN "households" ON "households"."id" = "person"."household_id" WHERE "household_id" = $1;`;
+        console.log('in get household members', queryParam);
+        const query = `SELECT "person"."id", "username", "first_name", "authorized", "phone_number", "role", "text_alert_walk", "text_alert_fed", "text_alert_litterbox", "text_alert_medications" FROM "person" JOIN "households" ON "households"."id" = "person"."household_id" WHERE "household_id" = $1;`;
         pool.query(query, [queryParam]).then((results) => {
+            console.log(results.rows);
             res.send(results.rows);
         }).catch((error) => {
             console.log('Error getting household members', error); 
