@@ -88,12 +88,12 @@ class JoinHousehold extends Component {
                 <Nav/>
                 <Typography variant="headline" gutterBottom>Search for an existing household to join</Typography>
                 <br/>
-                <Input onChange={this.handleSearchTermChange} placeholder="household nickname"/> <Button variant="contained" onClick={this.submitSearch}>Search</Button>
+                <Input onChange={this.handleSearchTermChange} placeholder="Enter nickname"/>  <Button size="small" variant="contained" onClick={this.submitSearch}>Search</Button>
                 <div>
                     <ul>
                     {this.props.household.map((results, i) => {
                         return(
-                            <li key={i}>{results.nickname}<Button variant="contained" onClick={() => this.getHouseholdMembers(results.id)}>Join Household</Button></li>
+                            <li key={i}>{results.nickname}  <Button variant="contained" size="small" onClick={() => this.getHouseholdMembers(results.id)}>Join</Button></li>
                         );
                     })}
                     </ul>

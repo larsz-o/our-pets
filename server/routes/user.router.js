@@ -40,7 +40,19 @@ router.get('/logout', (req, res) => {
   req.logout();
   res.sendStatus(200);
 });
-
+router.put('/photo', (req, res) => {
+  if(req.isAuthenticated){
+    const photoToAdd = req.body.url;
+    const query = `UPDATE "person" SET "image_path" = $1 WHERE "id" = $2;`;
+    pool.query(query, [photoToAdd, req.user.id]).then((results) => {
+      res.sendStatus(200);
+    }).catch((error) => {
+      res.sendStatus(500); 
+    })
+  } else {
+    res.sendStatus(403);
+  }
+})
 router.put('/household', (req, res) => {
   if(req.isAuthenticated){
     const userToAdd = req.body; 

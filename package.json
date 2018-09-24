@@ -6,10 +6,6 @@
   "dependencies": {
     "@material-ui/core": "^3.1.0",
     "@material-ui/icons": "^3.0.1",
-    "@uppy/core": "^0.27.2",
-    "@uppy/dashboard": "^0.27.4",
-    "@uppy/react": "^0.27.4",
-    "@uppy/tus": "^0.27.4",
     "axios": "^0.17.1",
     "bcrypt": "^2.0.1",
     "body-parser": "^1.18.2",
@@ -21,7 +17,7 @@
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.7.0",
     "express": "^4.16.3",
-    "filestack-js": "^1.5.1",
+    "filestack-js": "^1.6.0",
     "filestack-react": "^2.0.0",
     "moment": "^2.22.2",
     "passport": "^0.4.0",
@@ -38,8 +34,7 @@
     "redux-logger": "^3.0.6",
     "redux-saga": "^0.16.0",
     "sweetalert": "^2.1.0",
-    "twilio": "^3.20.0",
-    "uppy": "^0.27.4"
+    "twilio": "^3.20.0"
   },
   "scripts": {
     "start": "node server/server.js",

@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import {Paper} from '@material-ui/core'; 
+import ReactFilestack from 'filestack-react';
+import axios from 'axios';
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -11,7 +13,13 @@ const mapStateToProps = state => ({
   household: state.currentHousehold.householdNickname,
   nextPage: state.nextPage.nextPage
 });
-
+const options = {
+  accept: 'image/*',
+  maxFiles: 1,
+  storeTo: {
+    location: 's3',
+  },
+};
 class MyAccount extends Component {
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
@@ -21,6 +29,16 @@ class MyAccount extends Component {
       this.props.dispatch({type: 'NEXT_PAGE', payload: '/inbox'});
       this.props.history.push(this.props.nextPage);
     }
+  }
+  getPictureURL = (result) => {
+    let url = result.filesUploaded[0].url; 
+    axios({
+      method: 'PUT', 
+      url: '/api/user/photo', 
+      data: {url: url}
+    }).then((response) => {
+      this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
+    })
   }
   render() {
     let content = null;
@@ -33,6 +51,11 @@ class MyAccount extends Component {
           <Paper>
             <img src={this.props.user.image_path} alt={this.props.user.username}/>
             <p>Upload user photo:</p>
+            <ReactFilestack
+                  apikey='ACGkY2eEqTDG52A5eOG3Az'
+                  buttonText="Upload picture"
+                  options={options}
+                  onSuccess={this.getPictureURL}/>
               <p>Household Name: {this.props.household.map((name, i) => {
                 return(
                   <span key={i}>{name.nickname}</span>

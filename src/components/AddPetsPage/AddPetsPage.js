@@ -4,13 +4,20 @@ import swal from 'sweetalert';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import {Button, Input, Select, MenuItem, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Checkbox} from '@material-ui/core'; 
+import ReactFilestack from 'filestack-react';
 
 const mapStateToProps = state => ({
   user: state.user,
   pets: state.householdBuilder.household.pets,
   nextPage: state.nextPage.nextPage
 });
-
+const options = {
+  accept: 'image/*',
+  maxFiles: 1,
+  storeTo: {
+    location: 's3',
+  },
+};
 class AddPetsPage extends Component {
   constructor(props) {
     super(props);
@@ -65,6 +72,13 @@ class AddPetsPage extends Component {
   navigateToNextPage = () => {
       this.props.history.push('/addusers'); 
   }
+  //callback function from fileStack upload 
+  getPictureURL = (result) => {
+    let url = result.filesUploaded[0].url; 
+    this.setState({
+      image_path: url
+    });
+  }
   //sendPetsInfoToRedux dispatches the pets entered so that it can be used as the rest of the information is collected.
   // once this form is completed, users are sent to the next page to enter information about any co-owners. 
   sendPetsInfoToRedux = () => {
@@ -101,11 +115,14 @@ class AddPetsPage extends Component {
                 <Input type="date" value={this.state.birthday} onChange={this.handleInputChangeFor('birthday')} required/>
             </ExpansionPanelDetails>
             <ExpansionPanelDetails>
-                {/* this will be changed into a FileStack or Uppy component */}
                 <label>
                 Image: 
                 </label>
-                <Input type="text" value={this.state.image_path} onChange={this.handleInputChangeFor('image_path')} required/>
+                <ReactFilestack
+                  apikey='ACGkY2eEqTDG52A5eOG3Az'
+                  buttonText="Upload picture"
+                  options={options}
+                  onSuccess={this.getPictureURL}/>
             </ExpansionPanelDetails>
             <ExpansionPanelDetails>
                <p>Any medications to track?</p> <Checkbox id="medication" value={this.state.medications.toString()} unchecked="false" onChange={this.handleMedicationChange}/>
