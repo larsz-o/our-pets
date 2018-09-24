@@ -67,7 +67,10 @@ input[type="submit"] {
 .navbar li {
     float: left; 
 }
-
+.right{
+    text-align: right; 
+    margin-top: 15px; 
+}
 ul {
     list-style-type: none;
     margin: 0;

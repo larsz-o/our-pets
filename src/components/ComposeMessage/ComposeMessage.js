@@ -59,7 +59,7 @@ sendMessage = () => {
     axios({
         method: 'POST', 
         url: 'api/inbox', 
-        data: {sender: this.props.user.id, receiver: this.state.receiver.id, message: this.state.message}
+        data: {receiver: this.state.receiver.id, message: this.state.message}
     }).then((response) => {
         swal('Success!', 'Message sent!', 'success');
     }).catch((error) => {
@@ -68,8 +68,8 @@ sendMessage = () => {
 }
     render(){
         return(
-            <div>
-            <Button onClick={this.handleClickOpen} variant="contained" color="primary">Compose New Message</Button>
+            <div className="right">
+            <Button size="small" onClick={this.handleClickOpen} variant="outlined">Compose New Message</Button>
             <Dialog 
                 open={this.state.open}
                 onClose={this.handleClose}
@@ -92,7 +92,7 @@ sendMessage = () => {
                     Message: <Input value={this.state.message} onChange={this.handleInputChangeFor('message')}/>
                 </DialogContent>
                 <DialogContent>
-                    <Button onClick={this.sendMessage}>Send</Button>
+                    <Button onClick={this.handleClose}>Cancel</Button><Button onClick={this.sendMessage}>Send</Button>
                 </DialogContent>
             </Dialog>
             </div>
