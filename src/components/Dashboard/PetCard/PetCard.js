@@ -267,6 +267,7 @@ togglePoopCheck = () => {
      } else if (this.props.pet.species_id === 1 && this.props.user.userName){
         content = (
         <div>
+            {JSON.stringify(this.props.pet)}
             <div className="card">
                <img src={this.props.pet.image_path} alt="pet"/>
                <CardContent>

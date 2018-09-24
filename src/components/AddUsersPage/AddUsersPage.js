@@ -39,6 +39,7 @@ class AddUsersPage extends Component {
     });
   }
   navigateToNextPage = () => {
+    swal('FYI', 'If you want to add users to your household later, they will have to search for your household by its nickname.', 'warning'); 
       this.props.history.push('/confirmhousehold'); 
   }
   //searchForUsers queries the database for the entered search term and adds the results to an array in local state

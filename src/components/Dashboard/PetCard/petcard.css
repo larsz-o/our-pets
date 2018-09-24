@@ -3,3 +3,15 @@ img {
     width: 250px;
     height: 250px;
 }
+#walk-false{
+    display: none;
+}
+#fed-false{
+    display: none;
+}
+#litterbox-false{
+    display: none;
+}
+#medications-false{
+    display: none;
+}
