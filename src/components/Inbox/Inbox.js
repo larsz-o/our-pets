@@ -8,6 +8,7 @@ import './inbox.css';
 import axios from 'axios';
 import swal from 'sweetalert'; 
 import ComposeMessage from '../ComposeMessage/ComposeMessage';
+import moment from 'moment'; 
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -42,7 +43,7 @@ class EditSettings extends Component {
       data: {authorized: true, household_id: this.props.user.household_id}
     }).then((response) => {
       console.log(response.data);
-      swal('Nice!', 'Invitation accepted!', 'success');
+      swal('Done!', 'Message archived!', 'success');
       this.archiveMessage(messageID);
     }).catch((error) => {
       console.log('Error changing authorization', error); 
@@ -111,16 +112,15 @@ getArchivedMessages = () => {
         <div>
           <ComposeMessage/>
            <div> 
+           <h3>New Messages: </h3>
               {this.state.messages.map((message, i) => {
                 return (
                   <div>
-                  <h3>New Messages: </h3>
-                  <div key={i} className="inbox-card">
-                    <h3 className="headline">Message from {message.sender}</h3>
-                    {message.message}
-                    <br/><br/>
-                  <Button variant="contained" color="primary" size="small" onClick={()=>this.acceptInvitation(message.id)}>Accept</Button>  <Button size="small" variant="contained" onClick={() => this.declineInvitation(message.id)}>Decline</Button>
-                  </div>
+                  <ExpansionPanel>
+                      <ExpansionPanelSummary expandIcon={<ExpandMore/>}>Message from {message.sender} - {moment(message.date).format('MM-DD-YYYY')}</ExpansionPanelSummary>
+                      <ExpansionPanelDetails>{message.message}</ExpansionPanelDetails>
+                      <Button variant="contained" color="primary" size="small" onClick={()=>this.acceptInvitation(message.id)}>Okay</Button>  <Button size="small" variant="contained" onClick={() => this.declineInvitation(message.id)}>Delete</Button>
+                    </ExpansionPanel>
                 </div>
                 );
               })}
@@ -131,7 +131,7 @@ getArchivedMessages = () => {
                return(
                 <div key={i}>
                     <ExpansionPanel>
-                      <ExpansionPanelSummary>Message from {oldMessage.sender}<span className="float-right"><ExpandMore/></span></ExpansionPanelSummary>
+                      <ExpansionPanelSummary expandIcon={<ExpandMore/>}>Message from {oldMessage.sender} - {moment(oldMessage.date).format('MM-DD-YYYY')}</ExpansionPanelSummary>
                       <ExpansionPanelDetails>{oldMessage.message}</ExpansionPanelDetails>
                     </ExpansionPanel>
                   </div>
@@ -150,7 +150,7 @@ getArchivedMessages = () => {
                return(
                 <div key={i}>
                     <ExpansionPanel>
-                      <ExpansionPanelSummary>Message from {oldMessage.sender}<span className="float-right"><ExpandMore/></span></ExpansionPanelSummary>
+                      <ExpansionPanelSummary expandIcon={<ExpandMore/>}>Message from {oldMessage.sender} - {moment(oldMessage.date).format('MM-DD-YYYY')}</ExpansionPanelSummary>
                       <ExpansionPanelDetails>{oldMessage.message}</ExpansionPanelDetails>
                     </ExpansionPanel>
                 </div>

@@ -4,6 +4,7 @@ import axios from 'axios';
 import swal from 'sweetalert';
 import {connect} from 'react-redux'; 
 
+
 const mapStateToProps = state => ({
     user: state.user,
     household: state.householdBuilder.findHousehold
@@ -56,10 +57,11 @@ sendMessage = () => {
     this.setState({
         open: false
     });
+    let date = new Date(); 
     axios({
         method: 'POST', 
         url: 'api/inbox', 
-        data: {receiver: this.state.receiver.id, message: this.state.message}
+        data: {receiver: this.state.receiver.id, message: this.state.message, date: date}
     }).then((response) => {
         swal('Success!', 'Message sent!', 'success');
     }).catch((error) => {
