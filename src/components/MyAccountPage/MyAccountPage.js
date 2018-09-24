@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {Link} from 'react-router-dom'; 
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import {Paper} from '@material-ui/core'; 
@@ -28,7 +27,6 @@ class MyAccount extends Component {
       content = (
         <div>
           <h1>Welcome, {this.props.user.first_name}</h1>
-          <Link to='/editsettings' className="float-right">Edit Settings</Link>
           <br/>
           <Paper>
             <img src={this.props.user.image_path} alt={this.props.user.username}/>

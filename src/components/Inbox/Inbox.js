@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import {Button} from '@material-ui/core';
+import {Button, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails} from '@material-ui/core';
+import ExpandMore from '@material-ui/icons/ExpandMore'; 
 import './inbox.css';
 import axios from 'axios';
 import swal from 'sweetalert'; 
@@ -125,15 +126,15 @@ getArchivedMessages = () => {
               })}
            </div>
            <div>
+           <h3>Archived Messages: </h3>
              {this.state.archivedMessages.map((oldMessage, i) => {
                return(
                 <div key={i}>
-                    <h3>Archived Messages: </h3>
-                  <div className="archived-inbox-card">
-                    <h3 className="headline">Message from {oldMessage.sender}</h3>
-                    {oldMessage.message}
+                    <ExpansionPanel>
+                      <ExpansionPanelSummary>Message from {oldMessage.sender}<span className="float-right"><ExpandMore/></span></ExpansionPanelSummary>
+                      <ExpansionPanelDetails>{oldMessage.message}</ExpansionPanelDetails>
+                    </ExpansionPanel>
                   </div>
-              </div>
                );
              })}
            </div>
@@ -144,15 +145,15 @@ getArchivedMessages = () => {
         <div>
           <Button variant="contained">Compose New Message</Button>
           <p>No new messages.</p>
+          <h3>Archived Messages: </h3>
              {this.state.archivedMessages.map((oldMessage, i) => {
                return(
                 <div key={i}>
-                <h3>Archived Messages: </h3>
-                <div className="archived-inbox-card">
-                <h3 className="headline">Message from {oldMessage.sender}</h3>
-                {oldMessage.message}
-              </div>
-            </div>
+                    <ExpansionPanel>
+                      <ExpansionPanelSummary>Message from {oldMessage.sender}<span className="float-right"><ExpandMore/></span></ExpansionPanelSummary>
+                      <ExpansionPanelDetails>{oldMessage.message}</ExpansionPanelDetails>
+                    </ExpansionPanel>
+                </div>
                );
              })}
            </div>
