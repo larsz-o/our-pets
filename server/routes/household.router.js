@@ -6,7 +6,7 @@ const router = express.Router();
 router.get('/user', (req, res) => {
     if(req.isAuthenticated){
         const searchTerm = req.query;
-        const query = `SELECT "username", "phone_number", "id" FROM "person" WHERE "username" ILIKE $1;`;
+        const query = `SELECT "username", "phone_number", "id", "first_name" FROM "person" WHERE "username" ILIKE $1;`;
         pool.query(query, [searchTerm.username]).then((results) => {
             console.log(results.rows); 
             res.send(results.rows);

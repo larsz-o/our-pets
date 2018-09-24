@@ -7,6 +7,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import './inbox.css';
 import axios from 'axios';
 import swal from 'sweetalert'; 
+import ComposeMessage from '../ComposeMessage/ComposeMessage';
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -108,8 +109,7 @@ getArchivedMessages = () => {
     if (this.props.user.userName && this.state.messages.length > 0) {
       content = (
         <div>
-          <Button variant="contained">Compose New Message</Button>
-          {/* create a dialog form with Material UI to send a short message to another user. this should definitely be a separate component */}
+          <ComposeMessage/>
            <div> 
               {this.state.messages.map((message, i) => {
                 return (
@@ -143,7 +143,7 @@ getArchivedMessages = () => {
     } else if (this.props.user.userName && this.state.messages.length === 0){
       content = (
         <div>
-          <Button variant="contained">Compose New Message</Button>
+          <ComposeMessage/>
           <p>No new messages.</p>
           <h3>Archived Messages: </h3>
              {this.state.archivedMessages.map((oldMessage, i) => {
