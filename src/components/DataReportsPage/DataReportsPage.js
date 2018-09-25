@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import {Select, MenuItem, Button} from '@material-ui/core'; 
-import ReportingTableComponent from '../ReportingTableComponent/ReportingTableComponent';
+import {Select, MenuItem, Button, Typography, InputLabel} from '@material-ui/core'; 
+import ReportingComponent from '../ReportingTableComponent/ReportingTableComponent';
 import axios from 'axios'; 
 
 const mapStateToProps = state => ({
   user: state.user,
-  nextPage: state.nextPage.nextPage
+  nextPage: state.nextPage.nextPage, 
+  pets: state.currentHousehold.currentPets
 });
-
 class DataReports extends Component {
   constructor(props){
     super(props);
@@ -18,6 +18,7 @@ class DataReports extends Component {
     pet_id: '',
     activity_id: '', 
     activityData: [],
+    query_limit: 5
   }
 }
   componentDidMount() {
@@ -30,10 +31,10 @@ class DataReports extends Component {
     }
   }
   getActivityData = () => {
-    if(this.state.activity_id === 1 || this.state.activity_id === 3){
+    if(this.state.activity_id === '1' || this.state.activity_id === '3'){
       axios({
         method: 'GET', 
-        url: `/api/activities/data?pet=${this.state.pet_id}&activity=${this.state.activity_id}`
+        url: `/api/activities/data?pet=${this.state.pet_id}&activity=${this.state.activity_id}&limit=${this.state.query_limit}`
       }).then((response) => {
         console.log(response.data);
         this.setState({
@@ -43,10 +44,10 @@ class DataReports extends Component {
       }).catch((error) => {
         console.log('Error getting activity data', error); 
       });
-    } else if (this.state.activity_id === 2 || this.state.activity_id === 4){
+    } else if (this.state.activity_id === '2' || this.state.activity_id === '4'){
       axios({
         method: 'GET', 
-        url: `/api/activities/expandeddata?pet=${this.state.pet_id}&activity=${this.state.activity_id}`
+        url: `/api/activities/expandeddata?pet=${this.state.pet_id}&activity=${this.state.activity_id}&limit=${this.state.query_limit}`
       }).then((response) => {
         console.log(response.data);
         this.setState({
@@ -69,23 +70,38 @@ class DataReports extends Component {
     if (this.props.user.userName && this.props.user.household_id !== null) {
       content = (
         <div>
-          <h3>Pet Activity Data</h3>
+          <div className="heading-container">
+          <Typography variant="display1">Pet Activity Data</Typography>
+          <Typography>Search for pet activity history</Typography>
+          </div>
+          <InputLabel>Pet </InputLabel>
           <Select value={this.state.pet_id} onChange={(event)=>this.handleChangeFor('pet_id', event)}> 
-            <MenuItem value="12">Dionne</MenuItem>
-            <MenuItem value="14">Reed</MenuItem>
+          {this.props.pets.map((pet, i)=> {
+            return(
+              <MenuItem key={i} value={pet.id}>{pet.name}</MenuItem>
+            );
+          })}
           </Select>
+          <InputLabel>Activity </InputLabel> 
           <Select value={this.state.activity_id} onChange={(event)=>this.handleChangeFor('activity_id', event)}>
-            <MenuItem value="1">Feeding</MenuItem>
-            <MenuItem value="2">Walking</MenuItem>
-            <MenuItem value="3">Litterbox</MenuItem>
+            <MenuItem value="1">Feedings</MenuItem>
+            <MenuItem value="2">Walks</MenuItem>
+            <MenuItem value="3">Litterbox Changes</MenuItem>
             <MenuItem value="4">Medications</MenuItem>
           </Select>
+          <br/>
+          <InputLabel>Limit Results To: </InputLabel>
+          <Select value={this.state.query_limit} onChange={(event)=>this.handleChangeFor('query_limit', event)}>
+            <MenuItem value={5}>5</MenuItem>
+            <MenuItem value={10}>10</MenuItem>
+            <MenuItem value={20}>20</MenuItem>
+            <MenuItem value={30}>30</MenuItem>
+          </Select>
             <Button onClick={this.getActivityData}>Submit</Button>
-          <ReportingTableComponent activityData={this.state.activityData}/>
+          <ReportingComponent pet={this.state.pet_id} activityID={this.state.activity_id} activityData={this.state.activityData}/>
         </div> 
       );
-    }
-
+    } 
     return (
       <div>
         <Nav />

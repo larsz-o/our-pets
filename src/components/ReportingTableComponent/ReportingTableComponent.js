@@ -1,108 +1,74 @@
 import React, { Component } from 'react';
-import {Table, TableHead, TableBody, TableRow, TableCell} from '@material-ui/core';
+import {Typography} from '@material-ui/core';
 import moment from 'moment'; 
+import './Reports.css'; 
 
 class ReportingTableComponent extends Component {
-    render(){
-        let content = null; 
-        if(this.props.activityData.activity_id === 1 || this.props.activityData.activity_id === 3){
-        content =(
-                <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Pet Name</TableCell>
-                    <TableCell>Activity</TableCell>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Time</TableCell>
-                    <TableCell>Owner</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                    {this.props.activityData.map((activity, i) => {
-                        return(
-                        <TableRow key={i}>
-                        <TableCell>{activity.pet_name}</TableCell>
-                        <TableCell>{activity.type}</TableCell>
-                        <TableCell>{moment(activity.date).format('MM-DD-YYYY')}</TableCell>
-                        <TableCell>{activity.time}</TableCell>
-                        <TableCell>{activity.owner_name}</TableCell>
-                        </TableRow>
-                        );
-                    })}
-                </TableBody>
-              </Table>
+    render() {
+        let content = null;
+        if (this.props.activityID === '1') {
+          content = (
+            <div>
+             {this.props.activityData.map((activity, i) => {
+                 return(
+                 <div className="report-card-small" key={i}>
+               <Typography>{activity.type} by {activity.owner_name}<br/>
+                on {moment(activity.date).format('MMMM Do YYYY')} at {activity.time}.</Typography> 
+                </div>
+                );
+             })}
+            </div>
+          );
+        } else if (this.props.activityID === '3'){
+            content = (
+              <div>
+             {this.props.activityData.map((activity, i) => {
+                 return(
+                 <div className="report-card-small" key={i}>
+               <Typography>{activity.type} changed by {activity.owner_name}<br/>
+                on {moment(activity.date).format('MMMM Do YYYY')} at {activity.time}.</Typography> 
+                </div>
+                    );
+                 })}
+              </div>
             );
-        } else if (this.props.activity_id === 2){
-            content =(
-                <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Pet Name</TableCell>
-                    <TableCell>Activity</TableCell>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Time Start</TableCell>
-                    <TableCell>Time End</TableCell>
-                    <TableCell>Poop Check</TableCell>
-                    <TableCell>Notes</TableCell>
-                    <TableCell>Owner</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                    {this.props.activityData.map((activity, i) => {
-                        return(
-                    <TableRow key={i}>
-                        <TableCell>{activity.pet_name}</TableCell>
-                        <TableCell>{activity.type}</TableCell>
-                        <TableCell>{moment(activity.date).format('MM-DD-YYYY')}</TableCell>
-                        <TableCell>{activity.time_start}</TableCell>
-                        <TableCell>{activity.time_end}</TableCell>
-                        <TableCell>{activity.poop_check}</TableCell>
-                        <TableCell>{activity.notes}</TableCell>
-                        <TableCell>{activity.owner_name}</TableCell>
-                    </TableRow>
-                        );
-                    })}
-                </TableBody>
-              </Table>
+          } else if (this.props.activityID === '2'){
+            content = (
+              <div>
+               {this.props.activityData.map((activity, i) => {
+                   return(
+                 <div className="report-card" key={i}>
+               <Typography>{activity.type} by {activity.owner_name}<br/>
+                on {moment(activity.date).format('MMMM Do YYYY')}<br/>
+                from {activity.time_start} to {activity.time_end}.</Typography> 
+                <Typography>Pooped?: {activity.poop_check}</Typography>
+                <Typography>Notes: {activity.notes}</Typography>
+                </div>
+                );
+                 })}
+              </div>
             );
-    } else if (this.props.activity_id === 4){
-    content =(
-        <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Pet Name</TableCell>
-            <TableCell>Activity</TableCell>
-            <TableCell>Date</TableCell>
-            <TableCell>Time</TableCell>
-            <TableCell>Medication</TableCell>
-            <TableCell>Notes</TableCell>
-            <TableCell>Owner</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-        {this.props.activityData.map((activity, i) => {
-                        return(
-                    <TableRow key={i}>
-                        <TableCell>{activity.pet_name}</TableCell>
-                        <TableCell>{activity.type}</TableCell>
-                        <TableCell>{moment(activity.date).format('MM-DD-YYYY')}</TableCell>
-                        <TableCell>{activity.time_start}</TableCell>
-                        <TableCell>{activity.time_end}</TableCell>
-                        <TableCell>{activity.poop_check}</TableCell>
-                        <TableCell>{activity.notes}</TableCell>
-                        <TableCell>{activity.owner_name}</TableCell>
-                    </TableRow>
-                        );
-                    })}
-        </TableBody>
-      </Table>
-    );
-}
-return (
-    <div>
-      { content }
-    </div>
-  );
-}
-}
+          } else if (this.props.activityID === '4'){
+            content = (
+              <div>
+               {this.props.activityData.map((activity, i) => {
+                   return(
+                 <div className="report-card" key={i}>
+               <Typography>{activity.medication_name} given by {activity.owner_name}<br/>
+                on {moment(activity.date).format('MMMM Do YYYY')} at {activity.time}.</Typography> 
+                <Typography>Notes: {activity.notes}</Typography>
+                </div>
+                );
+                 })}
+              </div>
+            );
+          }
+        return (
+          <div>
+            { content }
+          </div>
+        );
+      }
+    }
+    
 export default ReportingTableComponent; 

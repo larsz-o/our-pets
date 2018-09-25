@@ -21,6 +21,9 @@ a{
     padding: 0px; 
     line-height: .5em; 
 }
+.heading-container{
+    margin-bottom: 10px; 
+}
 .instructions {
    background-color: beige; 
     padding: 5px;

@@ -1,0 +1,27 @@
+.report-card {
+    height: 300px;
+    width: 200px; 
+    padding: 10px;
+    margin: 20px;
+    float: left; 
+    border: 1px solid gray;
+    text-align: center;
+    background-color: beige;
+}
+.report-card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+.report-card-small{
+    height: 100px;
+    width: 200px; 
+    padding: 10px;
+    margin: 20px;
+    float: left; 
+    border: 1px solid gray;
+    text-align: center;
+    background-color: beige;
+}
+
+.report-card-small:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}

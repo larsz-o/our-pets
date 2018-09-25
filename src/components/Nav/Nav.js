@@ -43,6 +43,7 @@ class Nav extends Component {
           <a href="/#/inbox"><MenuItem onClick={this.handleClose}>Inbox</MenuItem></a>
           <a href="/#/myaccount"><MenuItem onClick={this.handleClose}>My Account</MenuItem></a>
           <a href="/#/editsettings"><MenuItem onClick={this.handleClose}>Settings</MenuItem></a>
+          <a href="/#/reports"><MenuItem onClick={this.handleClose}>Reports</MenuItem></a>
           <MenuItem onClick={this.logout}>Logout</MenuItem>
       </Menu>   
     </div>
