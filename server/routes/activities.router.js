@@ -32,18 +32,18 @@ router.get('/', (req, res) => {
         res.sendStatus(403);
     }
 }); 
-//gets data for displaying in a chart on reports page
-router.get('/data', (req, res) => {
+//gets feeding data for displaying in a table on reports page
+router.get('/feedingdata', (req, res) => {
     if(req.isAuthenticated){
     const petToGet = req.query.pet;
-    const activity = req.query.activity; 
+    const activity = 1;
     console.log(petToGet, activity); 
-    const query = `SELECT * FROM "activity_details" WHERE "activity_id" = $1 AND "pet_id" = $2;`; 
+    const query = `SELECT "pets"."name" as "pet_name", "time", "date", "person"."first_name" as "owner_name", "activities"."type" FROM "activity_details" JOIN "pets" ON "pets"."id" = "activity_details"."pet_id" JOIN "activities" ON "activities"."id" = "activity_details"."activity_id" JOIN "person" ON "activity_details"."person_id" = "person"."id" WHERE "activity_id" = $1 AND "pet_id" = $2;`; 
     pool.query(query, [activity, petToGet]).then((results) => {
         console.log(results.rows);
         res.send(results.rows);
     }).catch((error) => {
-        console.log('Error getting activity data', error);
+        console.log('Error getting feeding activity data', error);
         res.sendStatus(500);
     });
 } else {

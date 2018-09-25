@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import {Select, MenuItem, Button, Table, TableHead, TableBody, TableRow, TableCell} from '@material-ui/core'; 
+import {Select, MenuItem, Button} from '@material-ui/core'; 
 import {Line} from 'react-chartjs-2';
 import axios from 'axios'; 
 
@@ -16,7 +16,8 @@ class DataReports extends Component {
     super(props);
     this.state = {
     pet_id: '',
-    activity_id: ''
+    activity_id: '', 
+    activityData: [],
   }
 }
   componentDidMount() {
@@ -29,15 +30,20 @@ class DataReports extends Component {
     }
   }
   getActivityData = () => {
-    axios({
-      method: 'GET', 
-      url: `/api/activities/data?pet=${this.state.pet_id}&activity=${this.state.activity_id}`
-    }).then((response) => {
-      console.log(response.data);
-      this.handleDataFromServer(response.data);
-    }).catch((error) => {
-      console.log('Error getting activity data', error); 
-    });
+    if(this.state.activity_id === 1){
+      axios({
+        method: 'GET', 
+        url: `/api/activities/feedingdata?pet=${this.state.pet_id}`
+      }).then((response) => {
+        console.log(response.data);
+        this.handleDataFromServer(response.data);
+      }).catch((error) => {
+        console.log('Error getting activity data', error); 
+      });
+    } else if (this.state.activity_id === 2){
+      
+    }
+    
   }
   handleChangeFor = (property, event) => {
     this.setState({
