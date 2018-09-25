@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Table, TableHead, TableBody, TableRow, TableCell} from '@material-ui/core';
-
+import moment from 'moment'; 
 class ReportingTableComponent extends Component {
     render(){
         if(this.props.activityData.activity_id === 1){
@@ -18,7 +18,11 @@ class ReportingTableComponent extends Component {
                 <TableBody>
                     {this.props.activityData.map((activity, i) => {
                         <TableRow key={i}>
-                        <TableCell>{activity.</TableCell>
+                        <TableCell>{activity.pet_name}</TableCell>
+                        <TableCell>{activity.type}</TableCell>
+                        <TableCell>{moment(activity.date).format('MM-DD-YYYY')}</TableCell>
+                        <TableCell>{activity.time}</TableCell>
+                        <TableCell>{activity.owner_name}</TableCell>
                         </TableRow>
                     })}
                 </TableBody>

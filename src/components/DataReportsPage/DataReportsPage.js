@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import {Select, MenuItem, Button} from '@material-ui/core'; 
-import {Line} from 'react-chartjs-2';
+import ReportingTableComponent from '../ReportingTableComponent';
 import axios from 'axios'; 
 
 const mapStateToProps = state => ({
@@ -63,10 +63,6 @@ class DataReports extends Component {
       [property]: event.target.value
     });
   }
-  // checks to see what type of activity was requested
-  // pulls out relevant information from that array 
-  // sets the new array to state in order to create a chart 
- 
   render() {
     let content = null;
 
@@ -86,8 +82,7 @@ class DataReports extends Component {
             <MenuItem value="4">Medications</MenuItem>
           </Select>
             <Button onClick={this.getActivityData}>Submit</Button>
-      {/* this will be its own component with conditional rendering*/}
-    
+          <ReportingTableComponent activityData={this.state.activityData}/>
         </div> 
       );
     }
