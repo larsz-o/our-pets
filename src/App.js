@@ -19,6 +19,7 @@ import MyAccount from './components/MyAccountPage/MyAccountPage';
 import EditSettings from './components/EditSettingsPage/EditSettingsPage'; 
 import Inbox from './components/Inbox/Inbox'; 
 import JoinHousehold from './components/JoinHousehold/JoinHousehold';
+import DataReportsPage from './components/DataReportsPage/DataReportsPage';
 
 import './styles/main.css';
 
@@ -75,6 +76,10 @@ const App = () => (
          <Route 
           path="/joinhousehold"
           component={JoinHousehold}
+        />
+         <Route 
+          path="/reports"
+          component={DataReportsPage}
         />
         {/* OTHERWISE (no path!) */}
         <Route render={() => <h1>404</h1>} />

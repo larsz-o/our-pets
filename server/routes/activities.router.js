@@ -16,6 +16,7 @@ router.post('/', (req, res) => {
         res.sendStatus(403);
     }
 });
+//gets time and date of last time an activity happened for the dashboard view 
 router.get('/', (req, res) => {
     if(req.isAuthenticated){
         const activity = req.query.activity;
@@ -30,6 +31,24 @@ router.get('/', (req, res) => {
     } else {
         res.sendStatus(403);
     }
+}); 
+//gets data for displaying in a chart on reports page
+router.get('/data', (req, res) => {
+    if(req.isAuthenticated){
+    const petToGet = req.query.pet;
+    const activity = req.query.activity; 
+    console.log(petToGet, activity); 
+    const query = `SELECT * FROM "activity_details" WHERE "activity_id" = $1 AND "pet_id" = $2;`; 
+    pool.query(query, [activity, petToGet]).then((results) => {
+        console.log(results.rows);
+        res.send(results.rows);
+    }).catch((error) => {
+        console.log('Error getting activity data', error);
+        res.sendStatus(500);
+    });
+} else {
+    res.sendStatus(403);
+}
 })
 
 module.exports = router; 

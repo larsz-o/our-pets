@@ -81,6 +81,7 @@ sendMessage = () => {
     });
 }
     render(){
+        if (this.props.user.userName)
         return(
             <div className="right">
             <Button size="small" onClick={this.handleClickOpen} variant="outlined">Compose New Message</Button>
