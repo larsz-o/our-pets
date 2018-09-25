@@ -8,6 +8,7 @@ import './inbox.css';
 import axios from 'axios';
 import swal from 'sweetalert'; 
 import ComposeMessage from '../ComposeMessage/ComposeMessage';
+import ArchivedMessages from '../ArchivedMessages/ArchivedMessages'
 import moment from 'moment'; 
 
 const mapStateToProps = state => ({
@@ -28,7 +29,6 @@ class EditSettings extends Component {
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
     this.getMessages();
-    this.getArchivedMessages();
   }
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
@@ -58,7 +58,7 @@ class EditSettings extends Component {
       url: '/api/inbox',
       data: {id: messageID}
     }).then((response) => {
-      this.getArchivedMessages();
+      console.log('Message archived.')
     }).catch((error) => {
       console.log('Error archving message', error); 
     });
@@ -79,20 +79,6 @@ class EditSettings extends Component {
     } else {
       swal('You can keep thinking about this one.');
     }
-  });
-}
-//gets old messages upon component mounting successfully
-getArchivedMessages = () => {
-  axios({
-    method: 'GET',
-    url: '/api/inbox?archived=true'
-  }).then((response) => {
-    this.setState({
-      archivedMessages: response.data
-    });
-    this.getMessages(); 
-  }).catch((error) => {
-    console.log('Error getting messages', error); 
   });
 }
 //gets current messages when component mounts 
@@ -128,37 +114,15 @@ getArchivedMessages = () => {
                 );
               })}
            </div>
-           <div>
-           <h3>Archived Messages: </h3>
-             {this.state.archivedMessages.map((oldMessage, i) => {
-               return(
-                <div key={i}>
-                    <ExpansionPanel>
-                      <ExpansionPanelSummary expandIcon={<ExpandMore/>}>Message from {oldMessage.sender} - {moment(oldMessage.date).format('MM-DD-YYYY')}</ExpansionPanelSummary>
-                      <ExpansionPanelDetails>{oldMessage.message}</ExpansionPanelDetails>
-                    </ExpansionPanel>
-                  </div>
-               );
-             })}
-           </div>
+           <ArchivedMessages/>
         </div>
-      );
+        );
     } else if (this.props.user.userName && this.state.messages.length === 0){
       content = (
         <div>
           <ComposeMessage/>
           <p>No new messages.</p>
-          <h3>Archived Messages: </h3>
-             {this.state.archivedMessages.map((oldMessage, i) => {
-               return(
-                <div key={i}>
-                    <ExpansionPanel>
-                      <ExpansionPanelSummary expandIcon={<ExpandMore/>}>Message from {oldMessage.sender} - {moment(oldMessage.date).format('MM-DD-YYYY')}</ExpansionPanelSummary>
-                      <ExpansionPanelDetails>{oldMessage.message}</ExpansionPanelDetails>
-                    </ExpansionPanel>
-                </div>
-               );
-             })}
+          <ArchivedMessages/>
            </div>
       );
     }
