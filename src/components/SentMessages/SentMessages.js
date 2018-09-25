@@ -2,19 +2,19 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import '../Inbox/inbox.css';
-import {ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography} from '@material-ui/core';
+import {ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails} from '@material-ui/core';
 import ExpandMore from '@material-ui/icons/ExpandMore'; 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import moment from 'moment'; 
+import moment from 'moment';
 
 const mapStateToProps = state => ({
     user: state.user,
   });
-class ArchivedMessages extends Component {
+class SentMessages extends Component {
     constructor(props){
         super(props);
         this.state = {
-          archivedMessages: []
+          sentMessages: []
         }
       }
 componentDidMount() {
@@ -25,25 +25,25 @@ componentDidMount() {
 getArchivedMessages = () => {
     axios({
       method: 'GET',
-      url: '/api/inbox?archived=true'
+      url: '/api/inbox/sent'
     }).then((response) => {
       this.setState({
-        archivedMessages: response.data
+        sentMessages: response.data
       });
     }).catch((error) => {
-      console.log('Error getting messages', error); 
+      console.log('Error getting sent messages', error); 
     });
   }
     render(){
         return(
-        <div>
+            <div>
             <ExpansionPanel>
-            <ExpansionPanelSummary className="bold" expandIcon={<ExpandMore/>}>Archived Messages</ExpansionPanelSummary>
-                    {this.state.archivedMessages.map((oldMessage, i) => {
+            <ExpansionPanelSummary className="bold" expandIcon={<ExpandMore/>}>Sent Messages</ExpansionPanelSummary>
+                    {this.state.sentMessages.map((sentMessage, i) => {
                     return(
                        <ExpansionPanel key={i}>
-                      <ExpansionPanelSummary expandIcon={<ExpandMore/>}>From: {oldMessage.sender} - {moment(oldMessage.date).format('MM-DD-YYYY')}</ExpansionPanelSummary>
-                      <ExpansionPanelDetails>{oldMessage.message}</ExpansionPanelDetails>
+                      <ExpansionPanelSummary expandIcon={<ExpandMore/>}>From: {sentMessage.sender} - {moment(sentMessage.date).format('MM-DD-YYYY')}</ExpansionPanelSummary>
+                      <ExpansionPanelDetails>{sentMessage.message}</ExpansionPanelDetails>
                       </ExpansionPanel>
                );
              })}
@@ -52,4 +52,4 @@ getArchivedMessages = () => {
         );
     }
 }
-export default connect(mapStateToProps)(ArchivedMessages);
+export default connect(mapStateToProps)(SentMessages);

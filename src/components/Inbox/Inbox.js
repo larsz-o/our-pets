@@ -1,87 +1,36 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Nav from '../Nav/Nav';
-import { USER_ACTIONS } from '../../redux/actions/userActions';
-import {Button, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails} from '@material-ui/core';
-import ExpandMore from '@material-ui/icons/ExpandMore'; 
-import './inbox.css';
-import axios from 'axios';
-import swal from 'sweetalert'; 
+import '../Inbox/inbox.css';
 import ComposeMessage from '../ComposeMessage/ComposeMessage';
 import ArchivedMessages from '../ArchivedMessages/ArchivedMessages'
-import moment from 'moment'; 
+import NewMessages from '../NewMessages/NewMessages'; 
+import SentMessages from '../SentMessages/SentMessages';
+import axios from 'axios';
+import { USER_ACTIONS } from '../../redux/actions/userActions';
 
 const mapStateToProps = state => ({
   user: state.user,
-  pets: state.currentHousehold.currentPets,
-  members: state.currentHousehold.currentHouseholdMembers, 
   nextPage: state.nextPage.nextPage
 });
-
-class EditSettings extends Component {
+class Inbox extends Component {
   constructor(props){
     super(props);
     this.state = {
       messages: [],
-      archivedMessages: []
     }
   }
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
     this.getMessages();
-  }
+}
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
       this.props.dispatch({type: 'NEXT_PAGE', payload: '/inbox'});
       this.props.history.push(this.props.nextPage);
     }
   }
-  // accept will send a PUT request authorizing the member as a household member 
-  // then, the message will be archived the user's inbox
-  acceptInvitation = (messageID) => {
-    axios({
-      method: 'PUT', 
-      url: '/api/household/accept',
-      data: {authorized: true, household_id: this.props.user.household_id}
-    }).then((response) => {
-      console.log(response.data);
-      swal('Done!', 'Message archived!', 'success');
-      this.archiveMessage(messageID);
-    }).catch((error) => {
-      console.log('Error changing authorization', error); 
-    });
-  }
-  //changes the status of a message to archived, then adds it to the archived message array on state
-  archiveMessage = (messageID) => {
-   axios({
-      method: 'PUT', 
-      url: '/api/inbox',
-      data: {id: messageID}
-    }).then((response) => {
-      console.log('Message archived.')
-    }).catch((error) => {
-      console.log('Error archving message', error); 
-    });
-  }
-  //decline will archive the message if confirmed
-  declineInvitation = (messageID) => {
-    swal({
-      title: 'Are you sure?',
-      icon: 'warning', 
-      buttons: true,
-      dangerMode: true
-  }).then((willDelete) => {
-    if (willDelete){
-      swal('Message Deleted!', {
-        icon: 'success',
-      });
-      this.archiveMessage(messageID)
-    } else {
-      swal('You can keep thinking about this one.');
-    }
-  });
-}
-//gets current messages when component mounts 
+  //gets current messages when component mounts 
   getMessages = () => {
     axios({
       method: 'GET',
@@ -100,21 +49,9 @@ class EditSettings extends Component {
       content = (
         <div>
           <ComposeMessage/>
-           <div> 
-           <h3>New Messages: </h3>
-              {this.state.messages.map((message, i) => {
-                return (
-                  <div>
-                  <ExpansionPanel>
-                      <ExpansionPanelSummary expandIcon={<ExpandMore/>}>Message from {message.sender} - {moment(message.date).format('MM-DD-YYYY')}</ExpansionPanelSummary>
-                      <ExpansionPanelDetails>{message.message}</ExpansionPanelDetails>
-                      <Button variant="contained" color="primary" size="small" onClick={()=>this.acceptInvitation(message.id)}>Okay</Button>  <Button size="small" variant="contained" onClick={() => this.declineInvitation(message.id)}>Delete</Button>
-                    </ExpansionPanel>
-                </div>
-                );
-              })}
-           </div>
-           <ArchivedMessages/>
+          <NewMessages messages={this.state.messages}/>
+          <ArchivedMessages/>
+          <SentMessages/>
         </div>
         );
     } else if (this.props.user.userName && this.state.messages.length === 0){
@@ -123,6 +60,7 @@ class EditSettings extends Component {
           <ComposeMessage/>
           <p>No new messages.</p>
           <ArchivedMessages/>
+          <SentMessages/>
            </div>
       );
     }
@@ -136,4 +74,4 @@ class EditSettings extends Component {
 }
 
 // this allows us to use <App /> in index.js
-export default connect(mapStateToProps)(EditSettings); 
+export default connect(mapStateToProps)(Inbox); 
