@@ -30,20 +30,33 @@ class DataReports extends Component {
     }
   }
   getActivityData = () => {
-    if(this.state.activity_id === 1){
+    if(this.state.activity_id === 1 || this.state.activity_id === 3){
       axios({
         method: 'GET', 
-        url: `/api/activities/feedingdata?pet=${this.state.pet_id}`
+        url: `/api/activities/data?pet=${this.state.pet_id}&activity=${this.state.activity_id}`
       }).then((response) => {
         console.log(response.data);
-        this.handleDataFromServer(response.data);
+        this.setState({
+          ...this.state, 
+          activityData: response.data
+        });
       }).catch((error) => {
         console.log('Error getting activity data', error); 
       });
-    } else if (this.state.activity_id === 2){
-      
+    } else if (this.state.activity_id === 2 || this.state.activity_id === 4){
+      axios({
+        method: 'GET', 
+        url: `/api/activities/expandeddata?pet=${this.state.pet_id}&activity=${this.state.activity_id}`
+      }).then((response) => {
+        console.log(response.data);
+        this.setState({
+          ...this.state, 
+          activityData: response.data
+        })
+      }).catch((error) => {
+        console.log('Error getting activity data', error); 
+      });
     }
-    
   }
   handleChangeFor = (property, event) => {
     this.setState({

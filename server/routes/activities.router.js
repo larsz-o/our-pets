@@ -32,11 +32,11 @@ router.get('/', (req, res) => {
         res.sendStatus(403);
     }
 }); 
-//gets feeding data for displaying in a table on reports page
-router.get('/feedingdata', (req, res) => {
+//gets feeding and litterbox data for displaying in a table on reports page
+router.get('/data', (req, res) => {
     if(req.isAuthenticated){
     const petToGet = req.query.pet;
-    const activity = 1;
+    const activity = req.query.activity;
     console.log(petToGet, activity); 
     const query = `SELECT "pets"."name" as "pet_name", "time", "date", "person"."first_name" as "owner_name", "activities"."type" FROM "activity_details" JOIN "pets" ON "pets"."id" = "activity_details"."pet_id" JOIN "activities" ON "activities"."id" = "activity_details"."activity_id" JOIN "person" ON "activity_details"."person_id" = "person"."id" WHERE "activity_id" = $1 AND "pet_id" = $2;`; 
     pool.query(query, [activity, petToGet]).then((results) => {
@@ -49,6 +49,23 @@ router.get('/feedingdata', (req, res) => {
 } else {
     res.sendStatus(403);
 }
-})
-
+});
+//gets walking data for displaying in a table on reports page
+router.get('/expandeddata', (req, res) => {
+    if(req.isAuthenticated){
+    const petToGet = req.query.pet;
+    const activity = req.query.activity;
+    console.log(petToGet, activity); 
+    const query = `SELECT "pets"."name" as "pet_name", "time", "time_start", "time_end", "medication_name", "poop_check", "notes", "date", "person"."first_name" as "owner_name", "activities"."type" FROM "activity_details" JOIN "pets" ON "pets"."id" = "activity_details"."pet_id" JOIN "activities" ON "activities"."id" = "activity_details"."activity_id" JOIN "person" ON "activity_details"."person_id" = "person"."id" WHERE "activity_id" = $1 AND "pet_id" = $2;`; 
+    pool.query(query, [activity, petToGet]).then((results) => {
+        console.log(results.rows);
+        res.send(results.rows);
+    }).catch((error) => {
+        console.log('Error getting feeding activity data', error);
+        res.sendStatus(500);
+    });
+} else {
+    res.sendStatus(403);
+}
+});
 module.exports = router; 
