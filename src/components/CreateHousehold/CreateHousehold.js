@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import swal from 'sweetalert';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import {Button, Input, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails} from '@material-ui/core'; 
+import {Button, Input} from '@material-ui/core'; 
 import axios from 'axios';
 
 const mapStateToProps = state => ({
@@ -86,15 +86,14 @@ class CreateHousehold extends Component {
 
     if (this.props.user.userName) {
       content = (
-        <div>
-          <ExpansionPanel>
-            <ExpansionPanelSummary><h2>Create Household</h2></ExpansionPanelSummary>
-            <ExpansionPanelDetails>
+        <div >
+          <h2>Create Household</h2>
+          <div className="create-container">
               <label>Household Nickname:</label>
-              <Input type="text" value={this.state.nickname} onChange={this.handleInputChangeFor('nickname')} placeholder="e.g. The Yellow House" required/><br/>
-              <Button variant="outlined" color="primary" onClick={this.sendNickNameToRedux}>Submit</Button>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
+              <Input type="text" value={this.state.nickname} onChange={this.handleInputChangeFor('nickname')} required/><br/>
+              <br/>
+              <Button variant="contained" color="primary" size="small" onClick={this.sendNickNameToRedux}>Submit</Button>
+            </div>
         </div>
       );
     }

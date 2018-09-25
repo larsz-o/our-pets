@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {Button, Dialog, DialogTitle, DialogContent, DialogContentText, Input} from '@material-ui/core';
+import {Button, Dialog, DialogTitle, DialogContent, DialogContentText, Input, InputLabel} from '@material-ui/core';
 import axios from 'axios';
 import swal from 'sweetalert';
 import {connect} from 'react-redux'; 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
+import Icon from '@material-ui/core/Icon';
 
 
 const mapStateToProps = state => ({
@@ -84,7 +85,7 @@ sendMessage = () => {
         if (this.props.user.userName)
         return(
             <div className="right">
-            <Button size="small" onClick={this.handleClickOpen} variant="outlined">Compose New Message</Button>
+            <Button size="small" onClick={this.handleClickOpen} variant="contained" color="primary">Compose Message</Button>
             <Dialog 
                 open={this.state.open}
                 onClose={this.handleClose}
@@ -93,21 +94,18 @@ sendMessage = () => {
                     New Message
                 </DialogTitle>
                 <DialogContent>
-                    <DialogContentText>Send a mesage to another registered user.</DialogContentText>
-                </DialogContent>
-                <DialogContent>
-                    <DialogContentText>Find user:</DialogContentText>
-                    <Input type="text" placeholder="Search by username" value={this.state.search_term} onChange={this.handleInputChangeFor('search_term')}/>
+                    <DialogContentText>Search for recipient by username:</DialogContentText>
+                    <Input type="text" value={this.state.search_term} onChange={this.handleInputChangeFor('search_term')}/>
                     <Button onClick={this.searchForUsers}>Search</Button>
                 </DialogContent>
                 <DialogContent>
                     <DialogContentText>To: {this.state.receiver.username}</DialogContentText>
                 </DialogContent>
                 <DialogContent>
-                    Message: <Input value={this.state.message} onChange={this.handleInputChangeFor('message')}/>
+                   <InputLabel>Message: </InputLabel>  <Input value={this.state.message} onChange={this.handleInputChangeFor('message')}/>
                 </DialogContent>
                 <DialogContent>
-                    <Button onClick={this.handleClose}>Cancel</Button><Button onClick={this.sendMessage}>Send</Button>
+                    <Button variant="outlined" color="secondary" onClick={this.handleClose}>Cancel</Button><Button variant="outlined" color="primary" onClick={this.sendMessage}>Send</Button>
                 </DialogContent>
             </Dialog>
             </div>
