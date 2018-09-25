@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import {Select, MenuItem, Button} from '@material-ui/core'; 
-import ReportingTableComponent from '../ReportingTableComponent';
+import ReportingTableComponent from '../ReportingTableComponent/ReportingTableComponent';
 import axios from 'axios'; 
 
 const mapStateToProps = state => ({
@@ -69,7 +69,6 @@ class DataReports extends Component {
     if (this.props.user.userName && this.props.user.household_id !== null) {
       content = (
         <div>
-          {JSON.stringify(this.state.data.datasets)}
           <h3>Pet Activity Data</h3>
           <Select value={this.state.pet_id} onChange={(event)=>this.handleChangeFor('pet_id', event)}> 
             <MenuItem value="12">Dionne</MenuItem>

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import {Table, TableHead, TableBody, TableRow, TableCell} from '@material-ui/core';
 import moment from 'moment'; 
+
 class ReportingTableComponent extends Component {
     render(){
+        let content = null; 
         if(this.props.activityData.activity_id === 1){
-            return(
+        content =(
                 <Table>
                 <TableHead>
                   <TableRow>
@@ -29,7 +31,7 @@ class ReportingTableComponent extends Component {
               </Table>
             );
         } else if (this.props.activity_id === 2){
-            return(
+            content =(
                 <Table>
                 <TableHead>
                   <TableRow>
@@ -41,7 +43,7 @@ class ReportingTableComponent extends Component {
               </Table>
             );
     } else if (this.props.activity_id === 3){
-        return(
+        content =(
             <Table>
             <TableHead>
               <TableRow>
@@ -53,7 +55,7 @@ class ReportingTableComponent extends Component {
           </Table>
         );
     }  else if (this.props.activity_id === 4){
-    return(
+    content =(
         <Table>
         <TableHead>
           <TableRow>
@@ -64,7 +66,12 @@ class ReportingTableComponent extends Component {
         </TableHead>
       </Table>
     );
-    }
+}
+return (
+    <div>
+      { content }
+    </div>
+  );
 }
 }
 export default ReportingTableComponent; 
