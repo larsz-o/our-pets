@@ -60,8 +60,8 @@ class ConfirmHousehold extends Component {
 editUser = () => {
   console.log('in edit users');
   axios({
-    method: 'PUT', 
-    url: 'api/user/household', 
+    method: 'POST', 
+    url: 'api/household/addmembers', 
     data: this.props.household
   }).then((response) => {
     swal(`'Nice!', '${this.props.household.nickname} Household created!', 'success'`);

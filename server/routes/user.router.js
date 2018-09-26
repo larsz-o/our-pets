@@ -53,24 +53,6 @@ router.put('/photo', (req, res) => {
     res.sendStatus(403);
   }
 })
-//the route to add multiple users to a household upon household creation, requires adding information about role and authorization
-router.put('/household', (req, res) => {
-  if(req.isAuthenticated){
-    const userToAdd = req.body; 
-    const query = `UPDATE "person" SET "household_id" = $1, "authorized" = $2, "role" = $3 WHERE "id" = $4;`;
-    for (let i = 0; i < userToAdd.users.length; i++){
-      let newUser = userToAdd.users[i]; 
-      pool.query(query, [userToAdd.household_id, newUser.authorized, newUser.role, newUser.person_id]).then((result) => {
-        res.sendStatus(200);
-      }).catch((error) => {
-        console.log('Error updating user', error); 
-        res.sendStatus(500); 
-      });
-    }
-  } else {
-    res.sendStatus(403);
-  }
-});
 //route to allow a logged in user to select which household they are operating -- users req.user.id instead of supplied person_id in the /household route
 router.put('/selecthousehold', (req, res)=> {
   if(req.isAuthenticated){

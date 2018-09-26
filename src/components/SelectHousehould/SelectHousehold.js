@@ -73,7 +73,7 @@ class SelectHousehold extends Component {
               <Select value={this.state.chosen_household} onChange={(event)=>this.handleChangeFor('chosen_household', event)}>
                   {this.props.totalHouses.map((house, i) => {
                       return(
-                    <MenuItem value={house.id} key={i}>{house.nickname}</MenuItem>
+                    <MenuItem value={house.household_id} key={i}>{house.nickname}</MenuItem>
                       );
                   })}
               </Select>

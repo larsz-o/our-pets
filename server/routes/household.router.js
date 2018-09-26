@@ -66,10 +66,25 @@ router.get('/members', (req, res) => {
         res.sendStatus(403);
     }
 });
+//gets all members from all shared households
+router.get('/members/all', (req, res) => {
+    if(req.isAuthenticated){
+        const id = req.query.id;
+        const query = `SELECT "household_members"."household_id", "username", "first_name" FROM "household_members" JOIN "person" ON "person"."id" = "household_members"."member" WHERE "member" = $1;`;
+        pool.query(query, [id]).then((results) => {
+            res.send(results.rows);
+        }).catch((error) => {
+            console.log('Error getting members', error);
+            res.sendStatus(500);
+        })
+    } else {
+        res.sendStatus(403); 
+    }
+})
 //gets all households that a user is part of
 router.get('/all', (req, res) => {
     if(req.isAuthenticated){
-        const query = `SELECT * FROM "households" WHERE "person_id" = $1;`;
+        const query = `SELECT "household_id", "nickname" FROM "household_members" JOIN "households" ON "household_members"."household_id" = "households"."id" WHERE "member"  = $1;`;
         pool.query(query, [req.user.id]).then((results) => {
             res.send(results.rows);
         }).catch((error) => {
@@ -80,21 +95,24 @@ router.get('/all', (req, res) => {
         res.sendStatus(403);
     }
 })
-//changes an invited user to authorized once invitation is accepted
-router.put('/accept', (req, res) => {
+//the route to add multiple users to a household upon household creation, requires adding information about role and authorization
+router.post('/addmembers', (req, res) => {
     if(req.isAuthenticated){
-        const updates = req.body;
-        const query = `UPDATE "household_members" SET "authorized" = $1 WHERE "member" = $2;`;
-        pool.query(query, [updates.authorized, req.user.id]).then((results) => {
-            res.sendStatus(200); 
+      const userToAdd = req.body; 
+      const query = `INSERT INTO "household_members" ("household_id", "authorized", "member") VALUES ($1, $2, $3);`;
+      for (let i = 0; i < userToAdd.users.length; i++){
+        let newUser = userToAdd.users[i]; 
+        pool.query(query, [userToAdd.household_id, newUser.authorized, newUser.person_id]).then((result) => {
+          res.sendStatus(200);
         }).catch((error) => {
-            console.log('Error authorizing user', error); 
-            res.sendStatus(500); 
+          console.log('Error updating user', error); 
+          res.sendStatus(500); 
         });
-        } else {
-            res.sendStatus(403);
-        }
-    });
+      }
+    } else {
+      res.sendStatus(403);
+    }
+  });
 // posts a new household 
 router.post('/createhousehold', (req, res) => {
     if(req.isAuthenticated){
@@ -107,6 +125,21 @@ router.post('/createhousehold', (req, res) => {
                 console.log('Error posting household', error); 
                 res.sendStatus(500); 
             });
+        } else {
+            res.sendStatus(403);
+        }
+    });
+//changes an invited user to authorized once invitation is accepted
+router.put('/accept', (req, res) => {
+    if(req.isAuthenticated){
+        const updates = req.body;
+        const query = `UPDATE "household_members" SET "authorized" = $1 WHERE "member" = $2;`;
+        pool.query(query, [updates.authorized, req.user.id]).then((results) => {
+            res.sendStatus(200); 
+        }).catch((error) => {
+            console.log('Error authorizing user', error); 
+            res.sendStatus(500); 
+        });
         } else {
             res.sendStatus(403);
         }

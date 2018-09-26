@@ -4,13 +4,11 @@ import axios from 'axios';
 import swal from 'sweetalert';
 import {connect} from 'react-redux'; 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import Icon from '@material-ui/core/Icon';
-
 
 const mapStateToProps = state => ({
     user: state.user,
     household: state.householdBuilder.findHousehold,
-    nextPage: state.nextPage.nextPage
+    nextPage: state.nextPage.nextPage,
   });
 
 class ComposeMessage extends Component {
@@ -18,9 +16,10 @@ class ComposeMessage extends Component {
         super(props);
         this.state = {
             open: false,
-            search_term: '', 
             receiver: '',
-            message: ''
+            message: '',
+            household_members: [],
+            household_id: []
           };
     }
     componentDidMount() {
@@ -32,11 +31,39 @@ class ComposeMessage extends Component {
           this.props.history.push(this.props.nextPage);
         }
       }
+      //gets the householdIDs to then run a query to get all household members by that ID
+      getAllHouseholdIDs = () => {
+        axios({
+            method: 'GET', 
+            url: '/api/households/all'
+        }).then((response) => {
+          this.setState({
+              household_id: response.data
+          });
+          this.getAllHouseholdMembers();
+        }).catch((error) => {
+            console.log('Error getting all household members', error);
+        });
+      }
+      getAllHouseholdMembers = () => {
+          for(let i = 0; i < this.state.household_id.length; i++){
+              let household_id = this.state.household_id[i].household_id; 
+              axios({
+                method: 'GET', 
+                url: `/api/households/members/getall?id=${household_id}`
+            }).then((response) => {
+              this.setState({
+                  household_members: [...this.state.household_members, response.data]
+              });
+            }).catch((error) => {
+                console.log('Error getting all household members', error);
+            });
+          } 
+      }
     handleClickOpen = () => {
         console.log('clicked');
         this.setState({ open: true });
       };
-    
     handleClose = () => {
         this.setState({ open: false });
       };
@@ -94,11 +121,11 @@ sendMessage = () => {
                     New Message
                 </DialogTitle>
                 <DialogContent>
-                    <DialogContentText>Search for recipient by username:</DialogContentText>
-                    <Input type="text" value={this.state.search_term} onChange={this.handleInputChangeFor('search_term')}/>
-                    <Button onClick={this.searchForUsers}>Search</Button>
-                </DialogContent>
-                <DialogContent>
+                    <Select value={this.state.receiver.username} onChange={()=>this.handleInputChangeFor('receiver')}>
+                    {this.state.household_members.map((member, i) => {
+                        <MenuItem key={i} value={member.member}></MenuItem>
+                    })}
+                    </Select>
                     <DialogContentText>To: {this.state.receiver.username}</DialogContentText>
                 </DialogContent>
                 <DialogContent>
