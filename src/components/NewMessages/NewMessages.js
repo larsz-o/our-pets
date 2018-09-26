@@ -18,7 +18,6 @@ class NewMessages extends Component {
   
     componentDidMount() {
         this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
-        this.getMessages();
       }
 // accept will send a PUT request authorizing the member as a household member 
   // then, the message will be archived the user's inbox

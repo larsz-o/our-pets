@@ -48,7 +48,7 @@ class EditSettings extends Component {
     if (willDelete){
       axios({
         method: 'PUT', 
-        url: '/api/user/removefrom',
+        url: '/api/household/removefrom',
         data: {household_id: null, id: member.id}
       }).then((response) => {
         swal('Member removed.', {icon: 'success'});

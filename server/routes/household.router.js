@@ -66,6 +66,18 @@ router.get('/members', (req, res) => {
         res.sendStatus(403);
     }
 });
+//gets all households that a user is part of
+router.get('/all', (req, res) => {
+    if(req.isAuthenticated){
+        const query = `SELECT * FROM "households" WHERE "person_id" = $1;`;
+        pool.query(query, [req.user.id]).then((results) => {
+            res.send(results.rows);
+        }).catch((error) => {
+            console.log('Error getting user households', error);
+            res.sendStatus(500); 
+        });
+    }
+})
 //changes an invited user to authorized once invitation is accepted
 router.put('/accept', (req, res) => {
     if(req.isAuthenticated){
@@ -97,4 +109,18 @@ router.post('/createhousehold', (req, res) => {
             res.sendStatus(403);
         }
     });
+    router.put('/removefrom', (req, res) => {
+        if(req.isAuthenticated && req.user.role === 1){
+          const userToRemove = req.body; 
+          const query = `UPDATE "person" SET "household_id" = $1, authorized = false WHERE "id" = $2;`; 
+          pool.query(query, [userToRemove.household_id, userToRemove.id]).then((results) => {
+            res.sendStatus(200);
+          }).catch((error) => {
+            console.log('Error removing user', error); 
+            res.sendStatus(500); 
+          });
+        } else {
+          res.sendStatus(403); 
+        }
+      })
 module.exports = router;

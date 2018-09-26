@@ -70,20 +70,6 @@ router.put('/household', (req, res) => {
     res.sendStatus(403);
   }
 });
-router.put('/removefrom', (req, res) => {
-  if(req.isAuthenticated && req.user.role === 1){
-    const userToRemove = req.body; 
-    const query = `UPDATE "person" SET "household_id" = $1, authorized = false WHERE "id" = $2;`; 
-    pool.query(query, [userToRemove.household_id, userToRemove.id]).then((results) => {
-      res.sendStatus(200);
-    }).catch((error) => {
-      console.log('Error removing user', error); 
-      res.sendStatus(500); 
-    });
-  } else {
-    res.sendStatus(403); 
-  }
-})
 router.put('/settings', (req, res) => {
   if(req.isAuthenticated){
     const settings = req.body; 

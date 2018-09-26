@@ -9,7 +9,6 @@ import {
 import Header from './components/Header/Header';
 import LoginPage from './components/LoginPage/LoginPage';
 import RegisterPage from './components/RegisterPage/RegisterPage';
-import UserPage from './components/UserPage/UserPage';
 import Dashboard from './components/Dashboard/Dashboard';
 import AddPetsPage from './components/AddPetsPage/AddPetsPage';
 import CreateHousehold from './components/CreateHousehold/CreateHousehold';
@@ -36,10 +35,6 @@ const App = () => (
         <Route
           path="/register"
           component={RegisterPage}
-        />
-        <Route
-          path="/user"
-          component={UserPage}
         />
         <Route
           path="/dashboard"

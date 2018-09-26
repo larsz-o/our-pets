@@ -43,6 +43,7 @@ class Inbox extends Component {
       console.log('Error getting messages', error); 
     });
   }
+  
   render() {
     let content = null;
     if (this.props.user.userName && this.state.messages.length > 0) {
