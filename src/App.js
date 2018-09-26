@@ -19,6 +19,7 @@ import EditSettings from './components/EditSettingsPage/EditSettingsPage';
 import Inbox from './components/Inbox/Inbox'; 
 import JoinHousehold from './components/JoinHousehold/JoinHousehold';
 import DataReportsPage from './components/DataReportsPage/DataReportsPage';
+import SelectHousehold from './components/SelectHousehould/SelectHousehold';
 
 import './styles/main.css';
 
@@ -31,6 +32,10 @@ const App = () => (
         <Route
           path="/home"
           component={LoginPage}
+        />
+         <Route
+          path="/selecthousehold"
+          component={SelectHousehold}
         />
         <Route
           path="/register"

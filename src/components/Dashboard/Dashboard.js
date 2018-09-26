@@ -20,12 +20,10 @@ class Dashboard extends Component {
       message: ''
     }
   }
-
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
     this.madeGetRequest = false;
     this.getMessages();
-    
   }
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
@@ -108,16 +106,6 @@ class Dashboard extends Component {
             })}
             </div>
         </div>
-      );
-    } else if (this.props.user.userName && this.props.user.household_id === null){
-      content = (
-       <div>
-        <h3>You currently are not in a household!</h3>
-        <Typography variant="body1">{this.state.message}</Typography>
-        <Button color="primary"variant="outlined" onClick={this.navigateTo('/createhousehold')}>Create Household</Button>
-        {/* Join household will go to a page where they can search or accept any open invitations */}
-        <Button color="primary" variant="outlined" onClick={()=>this.navigateTo('/joinhousehold')}>Join Household</Button>
-      </div>
       );
     }
     return (

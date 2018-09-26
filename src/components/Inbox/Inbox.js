@@ -11,7 +11,6 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 
 const mapStateToProps = state => ({
   user: state.user,
-  nextPage: state.nextPage.nextPage
 });
 class Inbox extends Component {
   constructor(props){
@@ -26,8 +25,7 @@ class Inbox extends Component {
 }
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
-      this.props.dispatch({type: 'NEXT_PAGE', payload: '/inbox'});
-      this.props.history.push(this.props.nextPage);
+      this.props.history.push('/home');
     }
   }
   //gets current messages when component mounts 

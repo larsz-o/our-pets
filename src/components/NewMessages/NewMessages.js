@@ -71,8 +71,8 @@ class NewMessages extends Component {
             <ExpansionPanelSummary className="bold" expandIcon={<ExpandMore/>}>New Messages</ExpansionPanelSummary>
                {this.props.messages.map((message, i) => {
                  return (
-                   <div>
-                   <ExpansionPanel key={i}>
+                   <div key={i}>
+                   <ExpansionPanel >
                        <ExpansionPanelSummary expandIcon={<ExpandMore/>}>From {message.sender} - {moment(message.date).format('MM-DD-YYYY')}</ExpansionPanelSummary>
                        <ExpansionPanelDetails>{message.message}</ExpansionPanelDetails>
                        <Button variant="contained" color="primary" size="small" onClick={()=>this.acceptInvitation(message.id)}>Okay</Button>  <Button size="small" variant="contained" onClick={() => this.declineInvitation(message.id)}>Delete</Button>

@@ -53,13 +53,14 @@ router.put('/photo', (req, res) => {
     res.sendStatus(403);
   }
 })
+//the route to add multiple users to a household upon household creation, requires adding information about role and authorization
 router.put('/household', (req, res) => {
   if(req.isAuthenticated){
     const userToAdd = req.body; 
-    const query = `UPDATE "person" SET "household_id" = $1, "authorized" = true, "role" = $3 WHERE "id" = $4;`;
+    const query = `UPDATE "person" SET "household_id" = $1, "authorized" = $2, "role" = $3 WHERE "id" = $4;`;
     for (let i = 0; i < userToAdd.users.length; i++){
       let newUser = userToAdd.users[i]; 
-      pool.query(query, [userToAdd.household_id, newUser.role, newUser.person_id]).then((result) => {
+      pool.query(query, [userToAdd.household_id, newUser.authorized, newUser.role, newUser.person_id]).then((result) => {
         res.sendStatus(200);
       }).catch((error) => {
         console.log('Error updating user', error); 
@@ -70,6 +71,21 @@ router.put('/household', (req, res) => {
     res.sendStatus(403);
   }
 });
+//route to allow a logged in user to select which household they are operating -- users req.user.id instead of supplied person_id in the /household route
+router.put('/selecthousehold', (req, res)=> {
+  if(req.isAuthenticated){
+    const dataToUpdate = req.body.household_id;
+    const query = `UPDATE "person" SET "household_id" = $1 WHERE "id" = $2;`;
+    pool.query(query, [dataToUpdate, req.user.id]).then((results) => {
+      res.sendStatus(200);
+    }).catch((error) => {
+      console.log('Error updating household', error);
+      res.sendStatus(500);
+    })
+  } else {
+    res.sendStatus(403);
+  }
+})
 router.put('/settings', (req, res) => {
   if(req.isAuthenticated){
     const settings = req.body; 

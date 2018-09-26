@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import {Paper} from '@material-ui/core'; 
+import {Paper, Button} from '@material-ui/core'; 
 import ReactFilestack from 'filestack-react';
 import axios from 'axios';
 
@@ -11,6 +11,7 @@ const mapStateToProps = state => ({
   pets: state.currentHousehold.currentPets,
   members: state.currentHousehold.currentHouseholdMembers,
   household: state.currentHousehold.householdNickname,
+  totalHouses: state.allHouseholds.totalUserHouseholds,
   nextPage: state.nextPage.nextPage
 });
 const options = {
@@ -40,6 +41,12 @@ class MyAccount extends Component {
       this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
     })
   }
+  setPrimary = () => {
+    axios({
+      method: 'PUT', 
+      url: '/api/household/'
+    })
+  }
   render() {
     let content = null;
 
@@ -56,11 +63,17 @@ class MyAccount extends Component {
                   buttonText="Upload picture"
                   options={options}
                   onSuccess={this.getPictureURL}/>
-              <p>Household Name: {this.props.household.map((name, i) => {
+              <p>Current Household Name: {this.props.household.map((name, i) => {
                 return(
                   <span key={i}>{name.nickname}</span>
                 );
               })}</p>
+              <p>All Households:</p>
+              <ul>{this.props.totalHouses.map((house, i)=> {
+                return(
+                  <li key={i}>{house.nickname} <Button onClick={()=>this.setPrimary(house)}>Set as Primary</Button></li>
+                );
+              })}</ul> 
               <p>Pets:  
              {this.props.pets.map((pet, i) => {
                return(

@@ -54,7 +54,7 @@ router.get('/members', (req, res) => {
     if(req.isAuthenticated){
         const queryParam = req.query.id; 
         console.log('in get household members', queryParam);
-        const query = `SELECT "person"."id", "username", "first_name", "authorized", "phone_number", "role", "text_alert_walk", "text_alert_fed", "text_alert_litterbox", "text_alert_medications" FROM "person" JOIN "households" ON "households"."id" = "person"."household_id" WHERE "household_id" = $1;`;
+        const query = `SELECT "person"."id", "username", "first_name", "household_members"."authorized", "phone_number", "role", "text_alert_walk", "text_alert_fed", "text_alert_litterbox", "text_alert_medications" FROM "person" JOIN "household_members" ON "household_members"."member" = "person"."id" WHERE "household_members"."household_id" = $1;`;
         pool.query(query, [queryParam]).then((results) => {
             console.log(results.rows);
             res.send(results.rows);
@@ -76,13 +76,15 @@ router.get('/all', (req, res) => {
             console.log('Error getting user households', error);
             res.sendStatus(500); 
         });
+    } else {
+        res.sendStatus(403);
     }
 })
 //changes an invited user to authorized once invitation is accepted
 router.put('/accept', (req, res) => {
     if(req.isAuthenticated){
         const updates = req.body;
-        const query = `UPDATE "person" SET "authorized" = $1 WHERE "id" = $2;`;
+        const query = `UPDATE "household_members" SET "authorized" = $1 WHERE "member" = $2;`;
         pool.query(query, [updates.authorized, req.user.id]).then((results) => {
             res.sendStatus(200); 
         }).catch((error) => {
@@ -93,7 +95,7 @@ router.put('/accept', (req, res) => {
             res.sendStatus(403);
         }
     });
-// posts a new household -- need to also do a put request to edit the req.user to authorized
+// posts a new household 
 router.post('/createhousehold', (req, res) => {
     if(req.isAuthenticated){
         const householdToAdd = req.body;
@@ -109,11 +111,24 @@ router.post('/createhousehold', (req, res) => {
             res.sendStatus(403);
         }
     });
-    router.put('/removefrom', (req, res) => {
-        if(req.isAuthenticated && req.user.role === 1){
+router.put('primary', (req, res) => {
+    if(req.isAuthenticated){
+        const query = `UPDATE "household_members" SET "primary" = true WHERE "person_id" = $1;`;
+        pool.query(query, [req.user.id]).then((results) => {
+            res.sendStatus(200);
+        }).catch((error) => {
+            console.log('Error setting primary household', error);
+            res.sendStatus(500);
+        })
+    } else {
+        res.sendStatus(403);
+    }
+})
+router.put('/removefrom', (req, res) => {
+    if(req.isAuthenticated && req.user.role === 1){
           const userToRemove = req.body; 
-          const query = `UPDATE "person" SET "household_id" = $1, authorized = false WHERE "id" = $2;`; 
-          pool.query(query, [userToRemove.household_id, userToRemove.id]).then((results) => {
+          const query = `DELETE FROM "household_members" WHERE "member" = $2;`; 
+          pool.query(query, [userToRemove.id]).then((results) => {
             res.sendStatus(200);
           }).catch((error) => {
             console.log('Error removing user', error); 
