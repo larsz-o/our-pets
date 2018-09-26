@@ -80,8 +80,9 @@ sendMessage = () => {
     });
 }
     render(){
-        if (this.props.user.userName)
-        return(
+    let content = null;
+        if (this.props.user.userName && this.props.allMembers.length > 0){
+        content = (
             <div className="right">
             <Button size="small" onClick={this.handleClickOpen} variant="contained" color="primary">Compose Message</Button>
             <Dialog 
@@ -92,13 +93,20 @@ sendMessage = () => {
                     New Message
                 </DialogTitle>
                 <DialogContent>
-                    {/* <Select value={this.state.receiver.username} onChange={()=>this.handleInputChangeFor('receiver')}>
-                    {this.props.allHouseholdMembers.map((member, i) => {
-                        <MenuItem key={i} value={member.member}>{member.first_name}({member.username})</MenuItem>
-                    })} */}
+                    {/* <Select value={this.state.receiver.username} onChange={()=>this.handleInputChangeFor('receiver')}> */}
+                    {this.props.allMembers.map((member, i) => {
+                        return(
+                           <div key={i}>{member.map((member, i) => {
+                               return (
+                            <MenuItem key={i} value={member.member}>{member.first_name}({member.username})</MenuItem>
+                               );
+                           })}
+                        );
+                        })}
                     {/* </Select> */}
-                    <DialogContentText>To: {this.state.receiver.username}</DialogContentText>
                 </DialogContent>
+                    </div>
+                <DialogContent><DialogContentText>To: {this.state.receiver.username}</DialogContentText></DialogContent>
                 <DialogContent>
                    <InputLabel>Message: </InputLabel>  <Input value={this.state.message} onChange={this.handleInputChangeFor('message')}/>
                 </DialogContent>
@@ -108,6 +116,12 @@ sendMessage = () => {
             </Dialog>
             </div>
         );
+        }
+        return (
+            <div>
+              { content }
+            </div>
+          );
     }
 }
 export default connect(mapStateToProps)(ComposeMessage); 
