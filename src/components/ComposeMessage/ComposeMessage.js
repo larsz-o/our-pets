@@ -93,20 +93,16 @@ sendMessage = () => {
                     New Message
                 </DialogTitle>
                 <DialogContent>
-                    {/* <Select value={this.state.receiver.username} onChange={()=>this.handleInputChangeFor('receiver')}> */}
+                    <Select value={this.state.receiver.username} onChange={()=>this.handleInputChangeFor('receiver')}>
+                    {/* //this is a nested array that needs to be fixed */}
                     {this.props.allMembers.map((member, i) => {
                         return(
-                           <div key={i}>{member.map((member, i) => {
-                               return (
-                            <MenuItem key={i} value={member.member}>{member.first_name}({member.username})</MenuItem>
-                               );
-                           })}
+                    <MenuItem key={i} value={member.member}>{member.first_name}({member.username})</MenuItem>
                         );
-                        })}
-                    {/* </Select> */}
+                            })}
+                    </Select>
+                    <DialogContentText>To: {this.state.receiver.username}</DialogContentText>
                 </DialogContent>
-                    </div>
-                <DialogContent><DialogContentText>To: {this.state.receiver.username}</DialogContentText></DialogContent>
                 <DialogContent>
                    <InputLabel>Message: </InputLabel>  <Input value={this.state.message} onChange={this.handleInputChangeFor('message')}/>
                 </DialogContent>
