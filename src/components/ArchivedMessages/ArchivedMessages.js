@@ -19,7 +19,7 @@ class ArchivedMessages extends Component {
       }
 componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
-    this.getArchivedMessages();
+    // this.getArchivedMessages();
 }
 //gets old messages upon component mounting successfully
 getArchivedMessages = () => {

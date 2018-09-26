@@ -70,7 +70,7 @@ router.get('/members', (req, res) => {
 router.get('/members/all', (req, res) => {
     if(req.isAuthenticated){
         const id = req.query.id;
-        const query = `SELECT "household_members"."household_id", "username", "first_name" FROM "household_members" JOIN "person" ON "person"."id" = "household_members"."member" WHERE "member" = $1;`;
+        const query = `SELECT "household_members"."household_id", "username", "first_name" FROM "household_members" JOIN "person" ON "person"."id" = "household_members"."member" WHERE "household_members"."household_id" = $1;`;
         pool.query(query, [id]).then((results) => {
             res.send(results.rows);
         }).catch((error) => {
@@ -86,6 +86,7 @@ router.get('/all', (req, res) => {
     if(req.isAuthenticated){
         const query = `SELECT "household_id", "nickname" FROM "household_members" JOIN "households" ON "household_members"."household_id" = "households"."id" WHERE "member"  = $1;`;
         pool.query(query, [req.user.id]).then((results) => {
+            console.log(results.rows);
             res.send(results.rows);
         }).catch((error) => {
             console.log('Error getting user households', error);

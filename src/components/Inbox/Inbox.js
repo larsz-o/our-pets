@@ -17,6 +17,8 @@ class Inbox extends Component {
     super(props);
     this.state = {
       messages: [],
+      household_members: [],
+      household_id: []
     }
   }
   componentDidMount() {
@@ -28,6 +30,35 @@ class Inbox extends Component {
       this.props.history.push('/home');
     }
   }
+  //gets the householdIDs to then run a query to get all household members by that ID
+  getAllHouseholdIDs = () => {
+    console.log('get all householdIDs')
+    axios({
+        method: 'GET', 
+        url: '/api/household/all'
+    }).then((response) => {
+      console.log(response.data);
+      this.getAllHouseholdMembers(response.data);
+    }).catch((error) => {
+        console.log('Error getting all household members', error);
+    });
+  }
+  getAllHouseholdMembers = (responseArray) => {
+      for(let i = 0; i < responseArray.length; i++){
+          let household_id = responseArray[i].household_id; 
+          console.log('in get all household members', household_id);
+          axios({
+            method: 'GET', 
+            url: `/api/household/members/all?id=${household_id}`
+        }).then((response) => {
+          console.log(response.data);
+          const action = {type: 'SET_ALL_HOUSEHOLD_MEMBERS', payload: response.data};
+          this.props.dispatch(action);
+        }).catch((error) => {
+            console.log('Error getting all household members', error);
+        });
+      } 
+  }
   //gets current messages when component mounts 
   getMessages = () => {
     axios({
@@ -37,6 +68,7 @@ class Inbox extends Component {
       this.setState({
         messages: response.data
       });
+      this.getAllHouseholdIDs();
     }).catch((error) => {
       console.log('Error getting messages', error); 
     });
@@ -47,7 +79,8 @@ class Inbox extends Component {
     if (this.props.user.userName && this.state.messages.length > 0) {
       content = (
         <div>
-          <ComposeMessage/>
+          {JSON.stringify(this.state)}
+          <ComposeMessage householdMembers={this.state.household_members}/>
           <NewMessages messages={this.state.messages}/>
           <ArchivedMessages/>
           <SentMessages/>
