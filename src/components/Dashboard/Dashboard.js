@@ -62,11 +62,15 @@ class Dashboard extends Component {
   getMessages = () => {
     axios({
       method: 'GET',
-      url: '/api/inbox?archived=false'
+      url: '/api/inbox?archived=false&invitation=false'
     }).then((response) => {
-      if(response.data.length > 0){
+      if(response.data.length = 1){
         this.setState({
-          message: 'You have new inbox messages!'
+          message: `You have ${response.data.length} new inbox message!`
+        });
+      } else if (response.data.length > 1){
+        this.setState({
+          message: `You have ${response.data.length} new inbox messages!`
         });
       }
     }).catch((error) => {

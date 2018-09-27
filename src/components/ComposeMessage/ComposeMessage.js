@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {Button, Dialog, DialogTitle, DialogContent, DialogContentText, Input, InputLabel, Select, MenuItem} from '@material-ui/core';
+import {Button, Dialog, DialogTitle, DialogContent, Input, InputLabel, Select, MenuItem} from '@material-ui/core';
 import axios from 'axios';
 import swal from 'sweetalert';
 import {connect} from 'react-redux'; 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
+import ReactFilestack from 'filestack-react';
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -11,6 +12,13 @@ const mapStateToProps = state => ({
     nextPage: state.nextPage.nextPage,
     allMembers: state.allHouseholds.allHouseholdMembers,
   });
+  const options = {
+    accept: 'image/*',
+    maxFiles: 1,
+    storeTo: {
+      location: 's3',
+    },
+  };
 
 class ComposeMessage extends Component {
     constructor(props){
@@ -20,6 +28,7 @@ class ComposeMessage extends Component {
             receiver: 0,
             message: '',
             subject: '',
+            image_path: '',
           };
     }
     componentDidMount() {
@@ -31,6 +40,13 @@ class ComposeMessage extends Component {
           this.props.history.push(this.props.nextPage);
         }
       }
+       //callback function from fileStack upload 
+  getPictureURL = (result) => {
+    let url = result.filesUploaded[0].url; 
+    this.setState({
+      image_path: url
+    });
+  }
     handleClickOpen = () => {
         console.log('clicked');
         this.setState({ open: true });
@@ -52,7 +68,7 @@ sendMessage = () => {
     axios({
         method: 'POST', 
         url: 'api/inbox', 
-        data: {receiver: this.state.receiver, subject: this.state.subject, message: this.state.message, date: date, invitation: false}
+        data: {receiver: this.state.receiver, subject: this.state.subject, message: this.state.message, date: date, invitation: false, image_path: this.state.image_path}
     }).then((response) => {
         swal('Success!', 'Message sent!', 'success');
         this.setState({
@@ -69,9 +85,7 @@ sendMessage = () => {
     let content = null;
         if (this.props.user.userName){
         content = (
-            
             <div className="right">
-            {JSON.stringify(this.state)}
             <Button size="small" onClick={this.handleClickOpen} variant="contained" color="primary">Compose Message</Button>
             <Dialog 
                 open={this.state.open}
@@ -93,8 +107,15 @@ sendMessage = () => {
                     </Select>
                 </DialogContent>
                 <DialogContent>
-                    <InputLabel>Subject: </InputLabel> <Input value={this.state.subject} onChange={(event)=>this.handleInputChangeFor('subject', event)}/>
-                   <InputLabel>Message: </InputLabel>  <Input value={this.state.message} onChange={(event)=>this.handleInputChangeFor('message', event)}/>
+                    <InputLabel>Subject: </InputLabel> <Input value={this.state.subject} onChange={(event)=>this.handleInputChangeFor('subject', event)}/><br/>
+                   <InputLabel>Message: </InputLabel>  <Input value={this.state.message} onChange={(event)=>this.handleInputChangeFor('message', event)}/><br/>
+                    <InputLabel>Upload a Photo:</InputLabel>
+                    <ReactFilestack
+                        apikey='ACGkY2eEqTDG52A5eOG3Az'
+                        buttonText="Upload picture"
+                        buttonClass="filestackButton"
+                        options={options}
+                        onSuccess={this.getPictureURL}/>
                 </DialogContent>
                 <DialogContent>
                     <Button variant="outlined" color="secondary" onClick={this.handleClose}>Cancel</Button><Button variant="outlined" color="primary" onClick={this.sendMessage}>Send</Button>

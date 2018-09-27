@@ -109,10 +109,9 @@ getArchivedMessages = () => {
   }
   render() {
     let content = null;
-    if (this.props.user.userName && this.state.messages.length > 0 || this.state.invitations > 0) {
+    if (this.props.user.userName && this.state.messages.length > 0) {
       content = (
         <div>
-          {JSON.stringify(this.state.household_members)}
           <ComposeMessage householdMembers={this.state.household_members}/>
           <NewMessages messages={this.state.messages}/>
           <Invitations invitations={this.state.invitations}/>
@@ -120,12 +119,12 @@ getArchivedMessages = () => {
           <SentMessages sentMessages={this.state.sentMessages}/>
         </div>
         );
-    } else if (this.props.user.userName && this.state.messages.length === 0 || this.state.invitations === 0){
+    } else if (this.props.user.userName && this.state.messages.length === 0){
       content = (
         <div>
-             {JSON.stringify(this.state.household_members)}
           <ComposeMessage householdMembers={this.state.household_members}/>
           <p>No new messages.</p>
+          <Invitations invitations={this.state.invitations}/>
           <ArchivedMessages archivedMessages={this.state.archivedMessages}/>
           <SentMessages sentMessages={this.state.sentMessages}/>
            </div>

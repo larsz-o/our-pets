@@ -41,6 +41,9 @@ a{
     color: gray; 
     height: 100px;  
 }
+.filestackButton{
+    padding: 10px; 
+}
 .float-right{
     float: right; 
 }
