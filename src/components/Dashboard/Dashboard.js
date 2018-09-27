@@ -85,9 +85,7 @@ class Dashboard extends Component {
       console.log('Error getting pets', error);
     })
   }
-  navigateTo = (link) => {
-    this.props.history.push(link); 
-  }
+
   render() {
     let content = null;
 

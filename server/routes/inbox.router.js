@@ -6,8 +6,8 @@ router.post('/', (req, res) => {
     if(req.isAuthenticated){
         const newMessage = req.body; 
         console.log(newMessage);
-        const query = `INSERT INTO "inbox" ("sender", "receiver", "message", "date") VALUES ($1, $2, $3, $4);`;
-        pool.query(query, [ req.user.id, newMessage.receiver, newMessage.message, newMessage.date]).then((results) => {
+        const query = `INSERT INTO "inbox" ("sender", "receiver", "subject", "message", "date") VALUES ($1, $2, $3, $4, $5);`;
+        pool.query(query, [ req.user.id, newMessage.receiver, newMessage.subject, newMessage.message, newMessage.date]).then((results) => {
             res.sendStatus(200);
         }).catch((error) => {
             console.log('Error getting messages', error); 
@@ -20,7 +20,7 @@ router.post('/', (req, res) => {
 //gets messages 
 router.get('/', (req, res) => {
     if(req.isAuthenticated){
-        const query = `SELECT "receiver", "message", "inbox"."id", "date", "first_name" as "sender", "archived" FROM "inbox" JOIN "person" ON "person"."id" = "inbox"."sender" WHERE "receiver" = $1 AND "archived" = $2;`;
+        const query = `SELECT "receiver", "message", "subject", "inbox"."id", "date", "first_name" as "sender", "archived" FROM "inbox" JOIN "person" ON "person"."id" = "inbox"."sender" WHERE "receiver" = $1 AND "archived" = $2;`;
         pool.query(query, [req.user.id, req.query.archived]).then((results) => {
             res.send(results.rows);
         }).catch((error) => {
@@ -34,7 +34,7 @@ router.get('/', (req, res) => {
 //gets all "sent" mesages by a user
 router.get('/sent', (req, res) => {
     if(req.isAuthenticated){
-        const query = `SELECT "receiver", "message", "inbox"."id", "date", "first_name" as "sender", "archived" FROM "inbox" JOIN "person" ON "person"."id" = "inbox"."sender" WHERE "sender" = $1;`;
+        const query = `SELECT "receiver", "message", "subject", "inbox"."id", "date", "first_name" as "sender", "archived" FROM "inbox" JOIN "person" ON "person"."id" = "inbox"."sender" WHERE "sender" = $1;`;
         pool.query(query, [req.user.id]).then((results) => {
             res.send(results.rows);
         }).catch((error) => {

@@ -19,6 +19,7 @@ class ComposeMessage extends Component {
             open: false,
             receiver: 0,
             message: '',
+            subject: ''
           };
     }
     componentDidMount() {
@@ -72,11 +73,17 @@ sendMessage = () => {
     axios({
         method: 'POST', 
         url: 'api/inbox', 
-        data: {receiver: this.state.receiver.member, message: this.state.message, date: date}
+        data: {receiver: this.state.receiver.member, subject: this.state.subject, message: this.state.message, date: date}
     }).then((response) => {
         swal('Success!', 'Message sent!', 'success');
+        this.setState({
+            message: '',
+            receiver: 0, 
+            subject: ''
+        });
     }).catch((error) => {
         swal('Oh no!', 'Error sending message', 'warning'); 
+        console.log('Error sending message', error); 
     });
 }
     render(){
@@ -84,7 +91,6 @@ sendMessage = () => {
         if (this.props.user.userName){
         content = (
             <div className="right">
-            {JSON.stringify(this.state)}
             <Button size="small" onClick={this.handleClickOpen} variant="contained" color="primary">Compose Message</Button>
             <Dialog 
                 open={this.state.open}
@@ -95,15 +101,21 @@ sendMessage = () => {
                 </DialogTitle>
                 <DialogContent>
                     <Select value={this.state.receiver} onChange={(event)=>this.handleInputChangeFor('receiver', event)}>
-                    {this.props.householdMembers.map((person, i) => {
+                    {this.props.householdMembers.map((householdArray, i) => {
                         return(    
-                       <MenuItem key={i} value={person}>{person.first_name}</MenuItem>
+                            <span key={i}>{householdArray.map((person, i) => {
+                                return(
+                                    <MenuItem key={i} value={person}>{person.first_name}</MenuItem>
+                                );
+                            })}</span>
                         );
                     })}
                     </Select>
+
                     <DialogContentText>To: {this.state.receiver.first_name}</DialogContentText>
                 </DialogContent>
                 <DialogContent>
+                    <InputLabel>Subject: </InputLabel> <Input value={this.state.subject} onChange={(event)=>this.handleInputChangeFor('subject', event)}/>
                    <InputLabel>Message: </InputLabel>  <Input value={this.state.message} onChange={(event)=>this.handleInputChangeFor('message', event)}/>
                 </DialogContent>
                 <DialogContent>

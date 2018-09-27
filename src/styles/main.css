@@ -5,6 +5,9 @@ body, html {
 a{
     text-decoration: none; 
 }
+.bold{
+    font-weight: bold;
+}
 .card {
     height: 600px;
     width: 250px; 
@@ -15,6 +18,9 @@ a{
 }
 .card:hover {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+.center{
+    text-align: center;
 }
 .container {
     text-align: center;

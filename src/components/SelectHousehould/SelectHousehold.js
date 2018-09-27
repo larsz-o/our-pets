@@ -48,6 +48,9 @@ class SelectHousehold extends Component {
       [property]: event.target.value
     });
   }
+  navigateTo = (link) => {
+    this.props.history.push(link); 
+  }
   selectHousehold = () => {
       axios({
           method: 'PUT', 
@@ -85,7 +88,7 @@ class SelectHousehold extends Component {
         content = (
          <div>
           <h3>You currently are not in a household!</h3>
-          <Button color="primary"variant="outlined" onClick={this.navigateTo('/createhousehold')}>Create Household</Button>
+          <Button color="primary"variant="outlined" onClick={()=>this.navigateTo('/createhousehold')}>Create Household</Button>
           <Button color="primary" variant="outlined" onClick={()=>this.navigateTo('/joinhousehold')}>Join Household</Button>
         </div>
         );

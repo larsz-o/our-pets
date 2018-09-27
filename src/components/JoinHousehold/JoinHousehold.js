@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'; 
-import {Input, Button, Typography} from '@material-ui/core';
+import {Input, Button, Typography, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
 import axios from 'axios';
 import swal from 'sweetalert'; 
 import Nav from '../Nav/Nav';
@@ -16,7 +16,9 @@ class JoinHousehold extends Component {
         super(props);
         this.state = {
             search_term: '',
-            results: []
+            results: [], 
+            open: false, 
+            members: []
         }
     }
     componentDidMount() {
@@ -29,16 +31,28 @@ class JoinHousehold extends Component {
         }
       }
     getHouseholdMembers = (householdID) => {
+        this.handleOpen();
         axios({
           method: 'GET', 
           url: `/api/household/members?id=${householdID}`
         }).then((response) => {
           let members = response.data;
-          console.log(members); 
-          this.requestJoin(members);
+          this.setState({
+              members: members
+          });
         }).catch((error) => {
           console.log('Error getting household members', error); 
         })
+      }
+      handleOpen = () => {
+          this.setState({
+              open: true
+          });
+      }
+      handleClose = () => {
+          this.setState({
+              open: false
+          });
       }
     handleSearchTermChange = (event) => {
         let searchTerm = '%' + event.target.value + '%'
@@ -48,6 +62,7 @@ class JoinHousehold extends Component {
     }
     // sends an alert to the admin for the household asking to join the house
     requestJoin = (arrayOfMembers) => {
+        this.handleClose();
         if(arrayOfMembers.length === 0){
             swal('Oh no!', 'There is no one in this household! Try searching for another household or creating your own household.', 'warning');
         } else{
@@ -57,12 +72,14 @@ class JoinHousehold extends Component {
                     axios({
                         method: 'POST', 
                         url: '/api/inbox', 
-                        data: {sender: this.props.user.id, receiver: arrayOfMembers[i].id, message: `Hi ${arrayOfMembers[i].first_name}! I'd like to join your household so that we can coordinate pet care! Do you accept?`}
+                        data: {sender: this.props.user.id, receiver: arrayOfMembers[i].id, subject: 'invitation', message: `Hi ${arrayOfMembers[i].first_name}! I'd like to join your household so that we can coordinate pet care! Do you accept?`}
                     }).then((response) => {
                         swal('Sent!', `Request sent to ${arrayOfMembers[i].first_name}.`, 'success');
                     }).catch((error) => {
                         console.log('Error sending request', error); 
                     });
+                } else {
+                    swal('Oh no!', 'There is no administrator for this household. Try searching for another household or creating your own.', 'warning');
                 }
             }
         }
@@ -93,10 +110,41 @@ class JoinHousehold extends Component {
                     <ul>
                     {this.props.household.map((results, i) => {
                         return(
-                            <li key={i}>{results.nickname}  <Button variant="contained" size="small" onClick={() => this.getHouseholdMembers(results.id)}>Join</Button></li>
+                    <span key={i}>
+                            <li>{results.nickname}  <Button variant="contained" size="small" onClick={()=>this.getHouseholdMembers(results.id)}>More Details</Button></li>
+                        <Dialog
+                            open={this.state.open}
+                            onClose={this.handleClose}
+                            aria-labelledby="compose-message-title">
+                        <DialogTitle className="center" id="compose-message-title">
+                            Household Details
+                        </DialogTitle>
+                        <DialogContent>
+                            {results.nickname}<br/>
+                            <span className="bold">Members:</span> <br/>
+                            <ul>
+                            {this.state.members.map((member, i) => {
+                                return(
+                                   <li key={i}>{member.first_name}</li> 
+                                );
+                            })}
+                            </ul>
+                            <span className="bold">Pets:</span>
+                            <ul>
+                            {this.state.members.map((pet, i) => {
+                                return(
+                                    <li key={i}>{pet.pet_name}</li>
+                                );
+                            })}
+                            </ul>
+                            <Button onClick={()=>this.requestJoin(this.state.members)}>Join Household</Button><Button onClick={this.handleClose}>Cancel</Button>
+                        </DialogContent>
+                            </Dialog>
+                     </span>
                         );
                     })}
                     </ul>
+                 
                 </div>
             </div>
         );

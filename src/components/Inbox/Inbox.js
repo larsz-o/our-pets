@@ -18,12 +18,15 @@ class Inbox extends Component {
     this.state = {
       messages: [],
       household_members: [],
-      household_id: []
+      household_id: [], 
+      sentMessages: [],
+      archivedMessages: []
     }
   }
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
     this.getMessages();
+    this.getArchivedMessages(); 
 }
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
@@ -37,7 +40,7 @@ class Inbox extends Component {
         method: 'GET', 
         url: '/api/household/all'
     }).then((response) => {
-      console.log(response.data);
+      console.log('all householdIDs', response.data);
       this.getAllHouseholdMembers(response.data);
     }).catch((error) => {
         console.log('Error getting all household members', error);
@@ -53,13 +56,40 @@ class Inbox extends Component {
         }).then((response) => {
           console.log(response.data);
           this.setState({
-            household_members: response.data
+            household_members: [...this.state.household_members, response.data]
           });
         }).catch((error) => {
             console.log('Error getting all household members', error);
         });
       } 
   }
+  //gets sent messages
+getSentMessages = () => {
+  axios({
+    method: 'GET',
+    url: '/api/inbox/sent'
+  }).then((response) => {
+    this.setState({
+      sentMessages: response.data
+    });
+  }).catch((error) => {
+    console.log('Error getting sent messages', error); 
+  });
+}
+//get archived messages
+getMessages = () => {
+  axios({
+    method: 'GET',
+    url: '/api/inbox?archived=true'
+  }).then((response) => {
+    this.setState({
+      archivedMessages: response.data
+    });
+    this.getAllHouseholdIDs();
+  }).catch((error) => {
+    console.log('Error getting messages', error); 
+  });
+}
   //gets current messages when component mounts 
   getMessages = () => {
     axios({
@@ -82,8 +112,8 @@ class Inbox extends Component {
           {JSON.stringify(this.state)}
           <ComposeMessage householdMembers={this.state.household_members}/>
           <NewMessages messages={this.state.messages}/>
-          <ArchivedMessages/>
-          <SentMessages/>
+          <ArchivedMessages archivedMessages={this.state.archivedMessages}/>
+          <SentMessages sentMessages={this.state.sentMessages}/>
         </div>
         );
     } else if (this.props.user.userName && this.state.messages.length === 0){
@@ -91,8 +121,8 @@ class Inbox extends Component {
         <div>
           <ComposeMessage householdMembers={this.state.household_members}/>
           <p>No new messages.</p>
-          <ArchivedMessages/>
-          <SentMessages/>
+          <ArchivedMessages archivedMessages={this.state.archivedMessages}/>
+          <SentMessages sentMessages={this.state.sentMessages}/>
            </div>
       );
     }
