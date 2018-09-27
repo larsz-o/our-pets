@@ -1,6 +1,6 @@
 import React, {Component} from 'react'; 
 import {connect} from 'react-redux'; 
-import {Button, Typography, Input, CardContent, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText, TextField, InputLabel, Checkbox} from '@material-ui/core'; 
+import {Button, Typography, CardContent, Dialog, DialogActions, DialogContent, DialogTitle, DialogContentText, TextField, InputLabel, Checkbox} from '@material-ui/core'; 
 import './petcard.css';
 import moment from 'moment'; 
 import axios from 'axios';
@@ -18,10 +18,7 @@ class PetCard extends Component {
             config: {
                 poop_check: false, 
                 medication: '',
-                time_start: '00:00:00',
-                time_end: '00:00:00',
                 notes: '',
-                time: '00:00:00'
             },
             open: false,
             lastWalk: [],
@@ -86,8 +83,6 @@ class PetCard extends Component {
         let walkLog = {
         date: currentDate, 
         time: currentTime, 
-        time_start: this.state.config.time_start,
-        time_end: this.state.config.time_end,
         notes: this.state.config.notes,
         poop_check: this.state.config.poop_check,
         activity_id: 2, 
@@ -104,7 +99,7 @@ class PetCard extends Component {
              //gets current data and update DOM
             this.getActivityData(2, this.props.pet.id);
             swal('Awesome!', 'Thanks for walking!', 'success');
-            this.notifyHousehold(2);
+            this.notifyHousehold(2, currentDate, currentTime);
         }).catch((error) => {
             console.log('Error submitting walk report', error); 
     });
@@ -153,7 +148,7 @@ logMedication = (id) => {
         this.handleClose();
         this.getActivityData(4, this.props.pet.id)
         swal('Nice!', 'Medications given!', 'success');
-        this.notifyHousehold(4);
+        this.notifyHousehold(4, date, currentTime);
     }).catch((error) => {
         console.log('Error posting feeding log', error);
     });
@@ -177,7 +172,7 @@ logLitterbox = (id) => {
     }).then((response) => {
         this.getActivityData(3, this.props.pet.id)
         swal('Nice work!', 'Litterbox managed!', 'success');
-        this.notifyHousehold(3);
+        this.notifyHousehold(3, currentDate, currentTime);
     }).catch((error) => {
         console.log('Error posting feeding log', error);
     });
@@ -245,17 +240,11 @@ togglePoopCheck = () => {
                     <DialogTitle id="walk-dialog-title">Walk Report</DialogTitle>
                     <DialogContent>
                         <DialogContentText>How did your walk go?</DialogContentText>
-                    <InputLabel>Time Start:</InputLabel>
-                    <Input type="time" value={this.state.config.time} onChange={(event)=>this.handleChange('time_start', event)} fullWidth/>
-                        <br/>
-                    <InputLabel>Time End:</InputLabel>
-                    <Input type="time" value={this.state.config.time_end} onChange={(event)=>this.handleChange('time_end', event)} fullWidth/>
-                    <InputLabel>Poop Check</InputLabel>
-                    <br/>
+                         <TextField autoFocus margin="dense" id="notes" label="notes" type="text" onChange={(event)=>this.handleChange('notes', event)} fullWidth/>
+                         <InputLabel>Poop Check</InputLabel>
                     <Checkbox
                         onChange={this.togglePoopCheck}
                         color="primary"/>
-                         <TextField autoFocus margin="dense" id="notes" label="notes" type="text" onChange={(event)=>this.handleChange('notes', event)} fullWidth/>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleClose} color="primary">Cancel</Button>

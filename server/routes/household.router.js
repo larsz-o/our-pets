@@ -35,6 +35,20 @@ router.get('/', (req, res) => {
         res.sendStatus(403);
     }
 });
+router.get('/details', (req, res) => {
+    if(req.isAuthenticated){
+        const id = req.query.id;
+        const query = `SELECT "pets"."name" as "pet_name", "person"."first_name" FROM "household_members" JOIN "pets" ON "household_members"."pet" = "pets"."id" JOIN "person" ON "household_members"."member" = "person"."id" WHERE "household_members"."household_id" = $1;`;
+        pool.query(query, [id]).then((results) => {
+            res.send(results.rows);
+        }).catch((error) => {
+            console.log('Error getting household details', error);
+            res.sendStatus(500); 
+        })
+    } else {
+        res.sendStatus(403);
+    }
+})
 //gets the nickname of a household by id
 router.get('/nickname', (req, res) => {
     if(req.isAuthenticated){
@@ -54,7 +68,7 @@ router.get('/members', (req, res) => {
     if(req.isAuthenticated){
         const queryParam = req.query.id; 
         console.log('in get household members', queryParam);
-        const query = `SELECT "person"."id", "username", "first_name", "household_members"."authorized", "phone_number", "role", "text_alert_walk", "text_alert_fed", "text_alert_litterbox", "text_alert_medications", "pets"."name" as "pet_name" FROM "person" JOIN "household_members" ON "household_members"."member" = "person"."id" JOIN "pets" ON "pets"."household_id" = "household_members"."household_id" WHERE "household_members"."household_id" = $1;`;
+        const query = `SELECT "person"."id", "username", "first_name", "household_members"."authorized", "phone_number", "role", "text_alert_walk", "text_alert_fed", "text_alert_litterbox", "text_alert_medications" FROM "person" JOIN "household_members" ON "household_members"."member" = "person"."id" WHERE "household_members"."household_id" = $1;`;
         pool.query(query, [queryParam]).then((results) => {
             console.log(results.rows);
             res.send(results.rows);

@@ -64,7 +64,7 @@ class Dashboard extends Component {
       method: 'GET',
       url: '/api/inbox?archived=false&invitation=false'
     }).then((response) => {
-      if(response.data.length = 1){
+      if(response.data.length === 1){
         this.setState({
           message: `You have ${response.data.length} new inbox message!`
         });

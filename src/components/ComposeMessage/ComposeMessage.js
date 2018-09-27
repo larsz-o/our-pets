@@ -98,7 +98,7 @@ sendMessage = () => {
                     To: 
                     <Select value={this.state.receiver} onChange={(event)=>this.handleInputChangeFor('receiver', event)}>
                     {this.props.householdMembers.map((person, i) => {
-                        if(person.member != this.props.user.id){
+                        if(person.member !== this.props.user.id){
                             return(
                                 <MenuItem key={i} value={person.member}>{person.first_name}</MenuItem>
                             );

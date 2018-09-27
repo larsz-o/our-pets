@@ -5,8 +5,8 @@ const router = express.Router();
 router.post('/', (req, res) => {
     if(req.isAuthenticated){
         const reportData = req.body; 
-        const query = `INSERT INTO "activity_details" ("activity_id", "pet_id", "person_id", "date", "time", "notes", "time_start", "time_end", "poop_check", "medication_name") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);`; 
-        pool.query(query, [reportData.activity_id, reportData.pet_id, reportData.person_id, reportData.date, reportData.time, reportData.notes, reportData.time_start, reportData.time_end, reportData.poop_check, reportData.medications]).then((results)=> {
+        const query = `INSERT INTO "activity_details" ("activity_id", "pet_id", "person_id", "date", "time", "notes", "poop_check", "medication_name") VALUES ($1, $2, $3, $4, $5, $6, $7, $8);`; 
+        pool.query(query, [reportData.activity_id, reportData.pet_id, reportData.person_id, reportData.date, reportData.time, reportData.notes, reportData.poop_check, reportData.medications]).then((results)=> {
             res.sendStatus(200);
         }).catch((error) => {
             console.log('Error posting report', error); 
@@ -58,7 +58,7 @@ router.get('/expandeddata', (req, res) => {
     const activity = req.query.activity;
     const queryLimits = req.query.limit; 
     console.log(petToGet, activity); 
-    const query = `SELECT "pets"."name" as "pet_name", "time", "time_start", "time_end", "medication_name", "poop_check", "notes", "date", "person"."first_name" as "owner_name", "activities"."type" FROM "activity_details" JOIN "pets" ON "pets"."id" = "activity_details"."pet_id" JOIN "activities" ON "activities"."id" = "activity_details"."activity_id" JOIN "person" ON "activity_details"."person_id" = "person"."id" WHERE "activity_id" = $1 AND "pet_id" = $2 ORDER BY "date" DESC LIMIT $3;`; 
+    const query = `SELECT "pets"."name" as "pet_name", "time", "medication_name", "poop_check", "notes", "date", "person"."first_name" as "owner_name", "activities"."type" FROM "activity_details" JOIN "pets" ON "pets"."id" = "activity_details"."pet_id" JOIN "activities" ON "activities"."id" = "activity_details"."activity_id" JOIN "person" ON "activity_details"."person_id" = "person"."id" WHERE "activity_id" = $1 AND "pet_id" = $2 ORDER BY "date" DESC LIMIT $3;`; 
     pool.query(query, [activity, petToGet, queryLimits]).then((results) => {
         console.log(results.rows);
         res.send(results.rows);

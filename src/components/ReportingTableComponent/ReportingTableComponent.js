@@ -39,8 +39,7 @@ class ReportingTableComponent extends Component {
                    return(
                  <div className="report-card" key={i}>
                <Typography>{activity.type} by {activity.owner_name}<br/>
-                on {moment(activity.date).format('MMMM Do YYYY')}<br/>
-                from {activity.time_start} to {activity.time_end}.</Typography> 
+                on {moment(activity.date).format('MMMM Do YYYY')}.</Typography> 
                 <Typography>Pooped?: {activity.poop_check}</Typography>
                 <Typography>Notes: {activity.notes}</Typography>
                 </div>

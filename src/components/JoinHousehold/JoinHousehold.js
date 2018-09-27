@@ -34,7 +34,7 @@ class JoinHousehold extends Component {
         this.handleOpen();
         axios({
           method: 'GET', 
-          url: `/api/household/members?id=${householdID}`
+          url: `/api/household/details?id=${householdID}`
         }).then((response) => {
           let members = response.data;
           this.setState({
