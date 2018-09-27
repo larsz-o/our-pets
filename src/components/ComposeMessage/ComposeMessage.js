@@ -109,7 +109,6 @@ sendMessage = () => {
                 <DialogContent>
                     <InputLabel>Subject: </InputLabel> <Input value={this.state.subject} onChange={(event)=>this.handleInputChangeFor('subject', event)}/><br/>
                    <InputLabel>Message: </InputLabel>  <Input value={this.state.message} onChange={(event)=>this.handleInputChangeFor('message', event)}/><br/>
-                    <InputLabel>Upload a Photo:</InputLabel>
                     <ReactFilestack
                         apikey='ACGkY2eEqTDG52A5eOG3Az'
                         buttonText="Upload picture"

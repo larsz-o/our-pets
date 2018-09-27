@@ -4,7 +4,7 @@ import axios from 'axios';
 import swal from 'sweetalert';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import {Button, Input, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails} from '@material-ui/core'; 
+import {Button, Input} from '@material-ui/core'; 
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -46,7 +46,7 @@ class AddUsersPage extends Component {
   }
   //searchForUsers queries the database for the entered search term and adds the results to the redux state
   searchForUsers = () => {
-      let searchTerm = this.state.search_term; 
+      let searchTerm = '%' + this.state.search_term + '%'; 
       console.log(searchTerm); 
     axios({
         method: 'GET',
@@ -54,7 +54,7 @@ class AddUsersPage extends Component {
     }).then((response) => {
         let userToAdd = response.data;
         if (userToAdd.username !== ''){
-        swal(`${userToAdd[0].username} found!`); 
+        swal('Nice!', 'Some users were found. Check out the results', 'success'); 
         console.log(userToAdd); 
         const action = {type: 'SET_SEARCHED_USER', payload: userToAdd};
         this.props.dispatch(action); 
@@ -71,13 +71,9 @@ class AddUsersPage extends Component {
     if (this.props.user.userName) {
       content = (
         <div>
-          <ExpansionPanel>
-            <ExpansionPanelSummary><h2>Search for Registered Users</h2></ExpansionPanelSummary>
-            <ExpansionPanelDetails> 
+        <h2>Search for Registered Users</h2>
               <Input type="text" placeholder="Search by username" value={this.state.search_term} onChange={this.handleInputChangeFor('search_term')}/> 
               <Button onClick={this.searchForUsers}>Submit</Button>
-              </ExpansionPanelDetails>
-              <ExpansionPanelDetails>
               <div>
             <h3>Found Users:</h3>
             <ul>
@@ -88,8 +84,6 @@ class AddUsersPage extends Component {
             })}
             </ul>
         </div>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
           <Button onClick={this.navigateToNextPage}>Skip This Step</Button>
         </div>
       );

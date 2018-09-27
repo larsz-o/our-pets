@@ -42,7 +42,12 @@ a{
     height: 100px;  
 }
 .filestackButton{
-    padding: 10px; 
+    background-color: tomato; 
+    color: white;
+    font-size: 14px;
+    border-radius: 5px; 
+    padding: 5px; 
+    align-content: center; 
 }
 .float-right{
     float: right; 

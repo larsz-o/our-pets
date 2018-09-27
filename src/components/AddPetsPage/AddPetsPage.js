@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import swal from 'sweetalert';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import {Button, Input, Select, MenuItem, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Checkbox} from '@material-ui/core'; 
+import {Button, Input, Select, MenuItem, InputLabel, Checkbox} from '@material-ui/core'; 
 import ReactFilestack from 'filestack-react';
 
 const mapStateToProps = state => ({
@@ -91,50 +91,30 @@ class AddPetsPage extends Component {
     if (this.props.user.userName) {
       content = (
         <div>
-          <ExpansionPanel>
-            <ExpansionPanelSummary><h2>Add Pets</h2></ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-                <label>
+          <h2>Add Pets</h2>
+                <InputLabel>
                     Pet's Name: 
-                </label>
-                <Input type="text" value={this.state.pet_name} onChange={this.handleInputChangeFor('pet_name')} required/>
-            </ExpansionPanelDetails>
-            <ExpansionPanelDetails>
-                <label>
+                </InputLabel>
+                <Input type="text" value={this.state.pet_name} onChange={this.handleInputChangeFor('pet_name')} required/><br/>
+                <InputLabel>
                 Species: 
-                </label>
+                </InputLabel>
                 <Select value={this.state.species_id} onChange={(event)=>this.handleInputChangeForSpeciesID(event)} required>
                     <MenuItem value={1}>Cat</MenuItem>
                     <MenuItem value={2}>Dog</MenuItem>
-                </Select> 
-              </ExpansionPanelDetails>
-            <ExpansionPanelDetails>
-                <label>
+                </Select> <br/>
+                <InputLabel>
                 Birthday: 
-                </label>
-                <Input type="date" value={this.state.birthday} onChange={this.handleInputChangeFor('birthday')} required/>
-            </ExpansionPanelDetails>
-            <ExpansionPanelDetails>
-                <label>
-                Image: 
-                </label>
-                <ReactFilestack
+                </InputLabel>
+                <Input type="date" value={this.state.birthday} onChange={this.handleInputChangeFor('birthday')} required/><br/>
+               <InputLabel>Any medications to track?</InputLabel> <Checkbox id="medication" value={this.state.medications.toString()} unchecked="false" onChange={this.handleMedicationChange}/><br/>
+               <ReactFilestack
                   apikey='ACGkY2eEqTDG52A5eOG3Az'
-                  buttonText="Upload picture"
+                  buttonText="Upload a photo"
+                  buttonClass="filestackButton"
                   options={options}
-                  onSuccess={this.getPictureURL}/>
-            </ExpansionPanelDetails>
-            <ExpansionPanelDetails>
-               <p>Any medications to track?</p> <Checkbox id="medication" value={this.state.medications.toString()} unchecked="false" onChange={this.handleMedicationChange}/>
-            </ExpansionPanelDetails>
-            <ExpansionPanelDetails>
-                <Button variant="contained" onClick={this.sendPetsInfoToRedux}>Add Pet</Button>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-            
-       
-           
-         
+                  onSuccess={this.getPictureURL}/><br/><br/>
+                <Button onClick={this.sendPetsInfoToRedux}>Add Pet</Button>
          {this.props.pets.map((pet, i) => {
            return(
              <li key={i}>{pet.pet_name}</li>
