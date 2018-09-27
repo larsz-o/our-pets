@@ -9,6 +9,7 @@ import SentMessages from '../SentMessages/SentMessages';
 import Invitations from '../Invitations/Invitations';
 import axios from 'axios';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
+import {Paper} from '@material-ui/core';
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -111,23 +112,23 @@ getArchivedMessages = () => {
     let content = null;
     if (this.props.user.userName && this.state.messages.length > 0) {
       content = (
-        <div>
+        <Paper>
           <ComposeMessage householdMembers={this.state.household_members}/>
           <NewMessages messages={this.state.messages}/>
           <Invitations invitations={this.state.invitations}/>
           <ArchivedMessages archivedMessages={this.state.archivedMessages}/>
           <SentMessages sentMessages={this.state.sentMessages}/>
-        </div>
+        </Paper>
         );
     } else if (this.props.user.userName && this.state.messages.length === 0){
       content = (
-        <div>
+        <Paper>
           <ComposeMessage householdMembers={this.state.household_members}/>
           <p>No new messages.</p>
           <Invitations invitations={this.state.invitations}/>
           <ArchivedMessages archivedMessages={this.state.archivedMessages}/>
           <SentMessages sentMessages={this.state.sentMessages}/>
-           </div>
+           </Paper>
       );
     }
     return (

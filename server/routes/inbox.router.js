@@ -34,7 +34,7 @@ router.get('/', (req, res) => {
 //gets all "sent" mesages by a user
 router.get('/sent', (req, res) => {
     if(req.isAuthenticated){
-        const query = `SELECT "receiver", "message", "subject", "inbox"."id", "date", "first_name" as "sender", "archived", "invitation" FROM "inbox" JOIN "person" ON "person"."id" = "inbox"."sender" WHERE "sender" = $1;`;
+        const query = `SELECT "first_name" as "receiver", "message", "subject", "inbox"."id", "date", "archived", "invitation" FROM "inbox" JOIN "person" ON "person"."id" = "inbox"."receiver" WHERE "sender" = $1;`;
         pool.query(query, [req.user.id]).then((results) => {
             res.send(results.rows);
         }).catch((error) => {

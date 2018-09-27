@@ -5,6 +5,10 @@ body, html {
 a{
     text-decoration: none; 
 }
+/* .badge-padding{
+    padding: 0, 2px;
+    align-content: left;
+} */
 .bold{
     font-weight: bold;
 }
@@ -35,6 +39,9 @@ a{
 .heading-container{
     margin-bottom: 10px; 
 }
+.inbox-div {
+    margin-top: 20px;
+}
 .instructions {
    background-color: beige; 
     padding: 5px;
@@ -51,6 +58,9 @@ a{
 }
 .float-right{
     float: right; 
+}
+.float-left{
+    float: left
 }
 form {
     padding: 25px;

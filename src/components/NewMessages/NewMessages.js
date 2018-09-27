@@ -4,7 +4,7 @@ import axios from 'axios';
 import '../Inbox/inbox.css';
 import moment from 'moment'; 
 import swal from 'sweetalert'; 
-import {Button, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Dialog, DialogTitle, DialogContent, InputLabel, Input} from '@material-ui/core';
+import {Badge, Button, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Dialog, DialogTitle, DialogContent, InputLabel, Input, Paper} from '@material-ui/core';
 import ExpandMore from '@material-ui/icons/ExpandMore'; 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import ReactFilestack from 'filestack-react';
@@ -113,15 +113,20 @@ sendMessage = () => {
 }
     render(){
         return(
-            <div> 
+            <Paper className="inbox-div"> 
             <ExpansionPanel>
-            <ExpansionPanelSummary className="bold" expandIcon={<ExpandMore/>}>New Messages</ExpansionPanelSummary>
+            <ExpansionPanelSummary className="bold" expandIcon={<ExpandMore/>}>
+              <Badge
+                badgeContent={this.props.messages.length}
+                color="secondary">New Messages
+              </Badge>
+            </ExpansionPanelSummary>
                {this.props.messages.map((message, i) => {
                  return (
                    <div key={i}>
                    <div>
                    <ExpansionPanel>
-                       <ExpansionPanelSummary expandIcon={<ExpandMore/>}> From: <span className="bold"> {message.sender} </span> "{message.subject}"  {moment(message.date).format('MM-DD-YYYY')}</ExpansionPanelSummary>
+                       <ExpansionPanelSummary expandIcon={<ExpandMore/>}> From: <span> {message.sender} </span> "{message.subject}"  {moment(message.date).format('MM-DD-YYYY')}</ExpansionPanelSummary>
                        <ExpansionPanelDetails>{message.message}</ExpansionPanelDetails>
                        <ExpansionPanelDetails><img src={message.image_path} alt="message attachment"/></ExpansionPanelDetails>
                        <Button variant="contained" color="primary" size="small" onClick={()=>this.reply(message)}>Reply</Button>
@@ -136,11 +141,11 @@ sendMessage = () => {
                      New Message
                  </DialogTitle>
                  <DialogContent>
-                     To: {this.state.receiver}
+                     To {this.state.receiver}
                  </DialogContent>
                  <DialogContent>
-                     <InputLabel>Subject: </InputLabel> <Input value={this.state.subject} onChange={(event)=>this.handleInputChangeFor('subject', event)}/><br/>
-                    <InputLabel>Message: </InputLabel>  <Input value={this.state.message} onChange={(event)=>this.handleInputChangeFor('message', event)}/><br/>
+                     <InputLabel>Subject: </InputLabel><Input value={this.state.subject} onChange={(event)=>this.handleInputChangeFor('subject', event)}/><br/>
+                    <InputLabel>Message: </InputLabel><Input value={this.state.message} onChange={(event)=>this.handleInputChangeFor('message', event)}/><br/>
                      <ReactFilestack
                          apikey='ACGkY2eEqTDG52A5eOG3Az'
                          buttonText="Upload picture"
@@ -156,7 +161,7 @@ sendMessage = () => {
                  );
                })}
                </ExpansionPanel>
-            </div>
+            </Paper>
         );
     }
 }

@@ -4,7 +4,7 @@ import PetCard from './PetCard/PetCard.js';
 import axios from 'axios'; 
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import {Button, Typography} from '@material-ui/core'; 
+import {Typography} from '@material-ui/core'; 
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -17,7 +17,7 @@ class Dashboard extends Component {
   constructor(props){
     super(props);
     this.state = {
-      message: ''
+      message: '', 
     }
   }
   componentDidMount() {

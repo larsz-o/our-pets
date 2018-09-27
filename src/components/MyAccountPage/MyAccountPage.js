@@ -76,10 +76,10 @@ class MyAccount extends Component {
           <br/>
           <Paper>
             <img src={this.props.user.image_path} alt={this.props.user.username}/>
-            <p>Upload user photo:</p>
             <ReactFilestack
                   apikey='ACGkY2eEqTDG52A5eOG3Az'
-                  buttonText="Upload picture"
+                  buttonText="Upload user photo"
+                  buttonClass="filestackButton"
                   options={options}
                   onSuccess={this.getPictureURL}/>
               <p>Current Household Name: {this.props.household.map((name, i) => {

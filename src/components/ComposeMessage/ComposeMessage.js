@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import {Button, Dialog, DialogTitle, DialogContent, Input, InputLabel, Select, MenuItem} from '@material-ui/core';
+import {Button, IconButton, Dialog, DialogTitle, DialogContent, Input, InputLabel, Select, MenuItem, Typography} from '@material-ui/core';
 import axios from 'axios';
 import swal from 'sweetalert';
 import {connect} from 'react-redux'; 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import ReactFilestack from 'filestack-react';
+import { Edit } from '@material-ui/icons';
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -86,7 +87,7 @@ sendMessage = () => {
         if (this.props.user.userName){
         content = (
             <div className="right">
-            <Button size="small" onClick={this.handleClickOpen} variant="contained" color="primary">Compose Message</Button>
+           <IconButton size="small" onClick={this.handleClickOpen} variant="fab" size="small" color="primary"><Edit/></IconButton>
             <Dialog 
                 open={this.state.open}
                 onClose={this.handleClose}

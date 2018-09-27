@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../Inbox/inbox.css';
-import {ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, Button} from '@material-ui/core';
+import {Badge, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, Button} from '@material-ui/core';
 import ExpandMore from '@material-ui/icons/ExpandMore'; 
 import moment from 'moment'; 
 import axios from 'axios';
@@ -37,7 +37,11 @@ class InvitationsMessages extends Component {
         return(
         <div>
             <ExpansionPanel>
-            <ExpansionPanelSummary className="bold" expandIcon={<ExpandMore/>}>Invitations and Requests</ExpansionPanelSummary>
+            <ExpansionPanelSummary className="bold" expandIcon={<ExpandMore/>}>
+            <Badge
+                badgeContent={this.props.invitations.length}
+                color="secondary"><span className="float-left">Invitations</span></Badge>
+            </ExpansionPanelSummary>
                     {this.props.invitations.map((invite, i) => {
                     return(
                        <ExpansionPanel key={i}>
