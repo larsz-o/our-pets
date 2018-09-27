@@ -6,8 +6,8 @@ router.post('/', (req, res) => {
     if(req.isAuthenticated){
         const newMessage = req.body; 
         console.log(newMessage);
-        const query = `INSERT INTO "inbox" ("sender", "receiver", "subject", "message", "date", "invitation") VALUES ($1, $2, $3, $4, $5, $6);`;
-        pool.query(query, [ req.user.id, newMessage.receiver, newMessage.subject, newMessage.message, newMessage.date, newMessage.invitation]).then((results) => {
+        const query = `INSERT INTO "inbox" ("sender", "receiver", "subject", "message", "date", "invitation", "household_id") VALUES ($1, $2, $3, $4, $5, $6, $7);`;
+        pool.query(query, [ req.user.id, newMessage.receiver, newMessage.subject, newMessage.message, newMessage.date, newMessage.invitation, newMessage.household_id]).then((results) => {
             res.sendStatus(200);
         }).catch((error) => {
             console.log('Error getting messages', error); 

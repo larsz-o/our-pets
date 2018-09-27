@@ -19,21 +19,7 @@ class NewMessages extends Component {
     componentDidMount() {
         this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
       }
-// accept will send a PUT request authorizing the member as a household member 
-  // then, the message will be archived the user's inbox
-  acceptInvitation = (messageID) => {
-    axios({
-      method: 'PUT', 
-      url: '/api/household/accept',
-      data: {authorized: true, household_id: this.props.user.household_id}
-    }).then((response) => {
-      console.log(response.data);
-      swal('Done!', 'Message archived!', 'success');
-      this.archiveMessage(messageID);
-    }).catch((error) => {
-      console.log('Error changing authorization', error); 
-    });
-  }
+
   //changes the status of a message to archived, then adds it to the archived message array on state
   archiveMessage = (messageID) => {
    axios({

@@ -42,7 +42,7 @@ class JoinHousehold extends Component {
           });
         }).catch((error) => {
           console.log('Error getting household members', error); 
-        })
+        });
       }
       handleOpen = () => {
           this.setState({
@@ -72,7 +72,7 @@ class JoinHousehold extends Component {
                     axios({
                         method: 'POST', 
                         url: '/api/inbox', 
-                        data: {sender: this.props.user.id, receiver: arrayOfMembers[i].id, subject: 'invitation', message: `Hi ${arrayOfMembers[i].first_name}! I'd like to join your household so that we can coordinate pet care! Do you accept?`}
+                        data: {sender: this.props.user.id, receiver: arrayOfMembers[i].id, subject: 'Can I join your household?', message: `Hi ${arrayOfMembers[i].first_name}! I'd like to join your household so that we can coordinate pet care! Do you accept?`, household_id: this.props.household[0].id}
                     }).then((response) => {
                         swal('Sent!', `Request sent to ${arrayOfMembers[i].first_name}.`, 'success');
                     }).catch((error) => {

@@ -74,7 +74,7 @@ sendInvitation = (member) => {
   axios({
     method: 'POST', 
     url: '/api/inbox',
-    data: {sender: this.props.user.id, receiver: member.id, message: `Hi ${this.props.member.username}! I'd like you to join my household so that we can coordinate pet care. Do you accept?`}
+    data: {sender: this.props.user.id, receiver: member.id, subject: 'Will you join my household?', message: `Hi ${this.props.member.username}! I'd like you to join my household so that we can coordinate pet care. Do you accept?`, invitation: true, household_id: this.props.household.household_id}
   }).then((response)=> {
     this.props.history.push('/dashboard'); 
   }).catch((error)=> {

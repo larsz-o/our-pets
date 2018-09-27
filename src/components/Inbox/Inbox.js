@@ -6,6 +6,7 @@ import ComposeMessage from '../ComposeMessage/ComposeMessage';
 import ArchivedMessages from '../ArchivedMessages/ArchivedMessages'
 import NewMessages from '../NewMessages/NewMessages'; 
 import SentMessages from '../SentMessages/SentMessages';
+import Invitations from '../Invitations/Invitations';
 import axios from 'axios';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 
@@ -108,17 +109,18 @@ getArchivedMessages = () => {
   }
   render() {
     let content = null;
-    if (this.props.user.userName && this.state.messages.length > 0) {
+    if (this.props.user.userName && this.state.messages.length > 0 || this.state.invitations > 0) {
       content = (
         <div>
           {JSON.stringify(this.state.household_members)}
           <ComposeMessage householdMembers={this.state.household_members}/>
           <NewMessages messages={this.state.messages}/>
+          <Invitations invitations={this.state.invitations}/>
           <ArchivedMessages archivedMessages={this.state.archivedMessages}/>
           <SentMessages sentMessages={this.state.sentMessages}/>
         </div>
         );
-    } else if (this.props.user.userName && this.state.messages.length === 0){
+    } else if (this.props.user.userName && this.state.messages.length === 0 || this.state.invitations === 0){
       content = (
         <div>
              {JSON.stringify(this.state.household_members)}
