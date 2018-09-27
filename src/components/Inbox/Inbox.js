@@ -52,8 +52,9 @@ class Inbox extends Component {
             url: `/api/household/members/all?id=${household_id}`
         }).then((response) => {
           console.log(response.data);
-          const action = {type: 'SET_ALL_HOUSEHOLD_MEMBERS', payload: response.data};
-          this.props.dispatch(action);
+          this.setState({
+            household_members: response.data
+          });
         }).catch((error) => {
             console.log('Error getting all household members', error);
         });
@@ -73,7 +74,6 @@ class Inbox extends Component {
       console.log('Error getting messages', error); 
     });
   }
-  
   render() {
     let content = null;
     if (this.props.user.userName && this.state.messages.length > 0) {
@@ -89,7 +89,7 @@ class Inbox extends Component {
     } else if (this.props.user.userName && this.state.messages.length === 0){
       content = (
         <div>
-          <ComposeMessage/>
+          <ComposeMessage householdMembers={this.state.household_members}/>
           <p>No new messages.</p>
           <ArchivedMessages/>
           <SentMessages/>

@@ -17,7 +17,7 @@ class ComposeMessage extends Component {
         super(props);
         this.state = {
             open: false,
-            receiver: '',
+            receiver: 0,
             message: '',
           };
     }
@@ -38,9 +38,9 @@ class ComposeMessage extends Component {
     handleClose = () => {
         this.setState({ open: false });
       };
-    handleInputChangeFor = propertyName => (event) => { 
+    handleInputChangeFor = (property, event) => { 
         this.setState({
-          [propertyName]: event.target.value,
+          [property]: event.target.value,
         });
       }
 //searchForUsers queries the database for the entered search term and adds the results to an array in local state
@@ -72,7 +72,7 @@ sendMessage = () => {
     axios({
         method: 'POST', 
         url: 'api/inbox', 
-        data: {receiver: this.state.receiver.id, message: this.state.message, date: date}
+        data: {receiver: this.state.receiver.member, message: this.state.message, date: date}
     }).then((response) => {
         swal('Success!', 'Message sent!', 'success');
     }).catch((error) => {
@@ -81,9 +81,10 @@ sendMessage = () => {
 }
     render(){
     let content = null;
-        if (this.props.user.userName && this.props.allMembers.length > 0){
+        if (this.props.user.userName){
         content = (
             <div className="right">
+            {JSON.stringify(this.state)}
             <Button size="small" onClick={this.handleClickOpen} variant="contained" color="primary">Compose Message</Button>
             <Dialog 
                 open={this.state.open}
@@ -93,18 +94,17 @@ sendMessage = () => {
                     New Message
                 </DialogTitle>
                 <DialogContent>
-                    <Select value={this.state.receiver.username} onChange={()=>this.handleInputChangeFor('receiver')}>
-                    {/* //this is a nested array that needs to be fixed */}
-                    {this.props.allMembers.map((member, i) => {
-                        return(
-                    <MenuItem key={i} value={member.member}>{member.first_name}({member.username})</MenuItem>
+                    <Select value={this.state.receiver} onChange={(event)=>this.handleInputChangeFor('receiver', event)}>
+                    {this.props.householdMembers.map((person, i) => {
+                        return(    
+                       <MenuItem key={i} value={person}>{person.first_name}</MenuItem>
                         );
-                            })}
+                    })}
                     </Select>
-                    <DialogContentText>To: {this.state.receiver.username}</DialogContentText>
+                    <DialogContentText>To: {this.state.receiver.first_name}</DialogContentText>
                 </DialogContent>
                 <DialogContent>
-                   <InputLabel>Message: </InputLabel>  <Input value={this.state.message} onChange={this.handleInputChangeFor('message')}/>
+                   <InputLabel>Message: </InputLabel>  <Input value={this.state.message} onChange={(event)=>this.handleInputChangeFor('message', event)}/>
                 </DialogContent>
                 <DialogContent>
                     <Button variant="outlined" color="secondary" onClick={this.handleClose}>Cancel</Button><Button variant="outlined" color="primary" onClick={this.sendMessage}>Send</Button>
