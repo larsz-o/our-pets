@@ -9,7 +9,7 @@ const mapStateToProps = state => ({
     user: state.user,
     household: state.householdBuilder.findHousehold,
     nextPage: state.nextPage.nextPage,
-    allMembers: state.allHouseholds.allHouseholdMembers
+    allMembers: state.allHouseholds.allHouseholdMembers,
   });
 
 class ComposeMessage extends Component {
@@ -19,12 +19,11 @@ class ComposeMessage extends Component {
             open: false,
             receiver: 0,
             message: '',
-            subject: ''
+            subject: '',
           };
     }
     componentDidMount() {
         this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
-        
       }
       componentDidUpdate() {
         if (!this.props.user.isLoading && this.props.user.userName === null) {
@@ -40,31 +39,11 @@ class ComposeMessage extends Component {
         this.setState({ open: false });
       };
     handleInputChangeFor = (property, event) => { 
+        console.log(event.target);
         this.setState({
           [property]: event.target.value,
         });
       }
-//searchForUsers queries the database for the entered search term and adds the results to an array in local state
-  searchForUsers = () => {
-    let searchTerm = this.state.search_term; 
-    console.log(searchTerm); 
-  axios({
-      method: 'GET',
-      url: `/api/household/user?username=${searchTerm}`
-  }).then((response) => {
-      let userToAdd = response.data;
-      console.log(userToAdd);
-      if (userToAdd.username !== ''){
-      this.setState({
-          receiver: userToAdd[0]
-      }); 
-  } else {
-    swal(':(', 'Could not find user.', 'warning'); 
-  }
-  }).catch((error) => { 
-      console.log('Error finding user', error); 
-  })
-} // end searchForUsers
 sendMessage = () => {
     this.setState({
         open: false
@@ -73,7 +52,7 @@ sendMessage = () => {
     axios({
         method: 'POST', 
         url: 'api/inbox', 
-        data: {receiver: this.state.receiver.member, subject: this.state.subject, message: this.state.message, date: date}
+        data: {receiver: this.state.receiver, subject: this.state.subject, message: this.state.message, date: date, invitation: false}
     }).then((response) => {
         swal('Success!', 'Message sent!', 'success');
         this.setState({
@@ -90,7 +69,9 @@ sendMessage = () => {
     let content = null;
         if (this.props.user.userName){
         content = (
+            
             <div className="right">
+            {JSON.stringify(this.state)}
             <Button size="small" onClick={this.handleClickOpen} variant="contained" color="primary">Compose Message</Button>
             <Dialog 
                 open={this.state.open}
@@ -100,19 +81,16 @@ sendMessage = () => {
                     New Message
                 </DialogTitle>
                 <DialogContent>
+                    To: 
                     <Select value={this.state.receiver} onChange={(event)=>this.handleInputChangeFor('receiver', event)}>
-                    {this.props.householdMembers.map((householdArray, i) => {
-                        return(    
-                            <span key={i}>{householdArray.map((person, i) => {
-                                return(
-                                    <MenuItem key={i} value={person}>{person.first_name}</MenuItem>
-                                );
-                            })}</span>
-                        );
+                    {this.props.householdMembers.map((person, i) => {
+                        if(person.member != this.props.user.id){
+                            return(
+                                <MenuItem key={i} value={person.member}>{person.first_name}</MenuItem>
+                            );
+                        }
                     })}
                     </Select>
-
-                    <DialogContentText>To: {this.state.receiver.first_name}</DialogContentText>
                 </DialogContent>
                 <DialogContent>
                     <InputLabel>Subject: </InputLabel> <Input value={this.state.subject} onChange={(event)=>this.handleInputChangeFor('subject', event)}/>

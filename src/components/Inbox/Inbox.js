@@ -11,44 +11,34 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 
 const mapStateToProps = state => ({
   user: state.user,
+  totalHouseholds: state.allHouseholds.totalUserHouseholds
 });
 class Inbox extends Component {
   constructor(props){
     super(props);
     this.state = {
       messages: [],
-      household_members: [],
-      household_id: [], 
+      household_members: [], 
       sentMessages: [],
-      archivedMessages: []
+      archivedMessages: [], 
+      invitations: []
     }
   }
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
     this.getMessages();
     this.getArchivedMessages(); 
+    this.getSentMessages();
+    this.getAllHouseholdMembers();
 }
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
       this.props.history.push('/home');
     }
   }
-  //gets the householdIDs to then run a query to get all household members by that ID
-  getAllHouseholdIDs = () => {
-    console.log('get all householdIDs')
-    axios({
-        method: 'GET', 
-        url: '/api/household/all'
-    }).then((response) => {
-      console.log('all householdIDs', response.data);
-      this.getAllHouseholdMembers(response.data);
-    }).catch((error) => {
-        console.log('Error getting all household members', error);
-    });
-  }
-  getAllHouseholdMembers = (responseArray) => {
-      for(let i = 0; i < responseArray.length; i++){
-          let household_id = responseArray[i].household_id; 
+  getAllHouseholdMembers = () => {
+      for(let i = 0; i < this.props.totalHouseholds.length; i++){
+          let household_id = this.props.totalHouseholds[i].household_id; 
           console.log('in get all household members', household_id);
           axios({
             method: 'GET', 
@@ -56,7 +46,7 @@ class Inbox extends Component {
         }).then((response) => {
           console.log(response.data);
           this.setState({
-            household_members: [...this.state.household_members, response.data]
+            household_members: [...this.state.household_members, ...response.data]
           });
         }).catch((error) => {
             console.log('Error getting all household members', error);
@@ -77,7 +67,7 @@ getSentMessages = () => {
   });
 }
 //get archived messages
-getMessages = () => {
+getArchivedMessages = () => {
   axios({
     method: 'GET',
     url: '/api/inbox?archived=true'
@@ -85,7 +75,6 @@ getMessages = () => {
     this.setState({
       archivedMessages: response.data
     });
-    this.getAllHouseholdIDs();
   }).catch((error) => {
     console.log('Error getting messages', error); 
   });
@@ -94,12 +83,25 @@ getMessages = () => {
   getMessages = () => {
     axios({
       method: 'GET',
-      url: '/api/inbox?archived=false'
+      url: '/api/inbox?archived=false&invitation=false'
     }).then((response) => {
       this.setState({
         messages: response.data
       });
-      this.getAllHouseholdIDs();
+      this.getInvitations();
+    }).catch((error) => {
+      console.log('Error getting messages', error); 
+    });
+  }
+  //gets current messages when component mounts 
+  getInvitations = () => {
+    axios({
+      method: 'GET',
+      url: '/api/inbox?archived=false&invitation=true'
+    }).then((response) => {
+      this.setState({
+        invitations: response.data
+      });
     }).catch((error) => {
       console.log('Error getting messages', error); 
     });
@@ -109,7 +111,7 @@ getMessages = () => {
     if (this.props.user.userName && this.state.messages.length > 0) {
       content = (
         <div>
-          {JSON.stringify(this.state)}
+          {JSON.stringify(this.state.household_members)}
           <ComposeMessage householdMembers={this.state.household_members}/>
           <NewMessages messages={this.state.messages}/>
           <ArchivedMessages archivedMessages={this.state.archivedMessages}/>
@@ -119,6 +121,7 @@ getMessages = () => {
     } else if (this.props.user.userName && this.state.messages.length === 0){
       content = (
         <div>
+             {JSON.stringify(this.state.household_members)}
           <ComposeMessage householdMembers={this.state.household_members}/>
           <p>No new messages.</p>
           <ArchivedMessages archivedMessages={this.state.archivedMessages}/>

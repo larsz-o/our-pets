@@ -70,8 +70,8 @@ router.get('/members', (req, res) => {
 router.get('/members/all', (req, res) => {
     if(req.isAuthenticated){
         const id = req.query.id;
-        const query = `SELECT "household_members"."household_id", "member", "username", "first_name" FROM "household_members" JOIN "person" ON "person"."id" = "household_members"."member" WHERE "household_members"."household_id" = $1 AND "member" != $2;`;
-        pool.query(query, [id, req.user.id]).then((results) => {
+        const query = `SELECT "household_members"."household_id", "member", "username", "first_name" FROM "household_members" JOIN "person" ON "person"."id" = "household_members"."member" WHERE "household_members"."household_id" = $1;`;
+        pool.query(query, [id]).then((results) => {
             res.send(results.rows);
         }).catch((error) => {
             console.log('Error getting members', error);

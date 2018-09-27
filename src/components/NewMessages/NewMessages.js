@@ -73,9 +73,9 @@ class NewMessages extends Component {
                  return (
                    <div key={i}>
                    <ExpansionPanel >
-                       <ExpansionPanelSummary expandIcon={<ExpandMore/>}>From {message.sender} - {moment(message.date).format('MM-DD-YYYY')}</ExpansionPanelSummary>
+                       <ExpansionPanelSummary expandIcon={<ExpandMore/>}><span className="bold">{message.sender}:</span> {message.subject} - {moment(message.date).format('MM-DD-YYYY')}</ExpansionPanelSummary>
                        <ExpansionPanelDetails>{message.message}</ExpansionPanelDetails>
-                       <Button variant="contained" color="primary" size="small" onClick={()=>this.acceptInvitation(message.id)}>Okay</Button>  <Button size="small" variant="contained" onClick={() => this.declineInvitation(message.id)}>Delete</Button>
+                       <Button variant="contained" color="primary" size="small" onClick={()=>this.archiveMessage(message.id)}>Archive</Button>
                      </ExpansionPanel>
                  </div>
                  );
