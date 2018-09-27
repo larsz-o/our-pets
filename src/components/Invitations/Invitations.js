@@ -7,8 +7,6 @@ import axios from 'axios';
 import swal from 'sweetalert';
 
 class InvitationsMessages extends Component {
-
-
 // accept will send a PUT request authorizing the member as a household member 
   // then, the message will be archived the user's inbox
   acceptInvitation = (invite) => {
@@ -24,6 +22,17 @@ class InvitationsMessages extends Component {
       console.log('Error changing authorization', error); 
     });
   }
+  archiveMessage = (messageID) => {
+    axios({
+       method: 'PUT', 
+       url: '/api/inbox',
+       data: {id: messageID}
+     }).then((response) => {
+       console.log('Message archived.');
+     }).catch((error) => {
+       console.log('Error archving message', error); 
+     });
+   }
     render(){
         return(
         <div>

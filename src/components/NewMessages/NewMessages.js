@@ -19,7 +19,6 @@ class NewMessages extends Component {
     componentDidMount() {
         this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
       }
-
   //changes the status of a message to archived, then adds it to the archived message array on state
   archiveMessage = (messageID) => {
    axios({
