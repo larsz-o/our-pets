@@ -23,7 +23,7 @@ router.get('/', (req, res) => {
     if(req.isAuthenticated){
         const searchTerm = req.query.nickname;
         console.log(searchTerm); 
-        const query = `SELECT "id", "nickname" from "households" WHERE "nickname" ILIKE $1;`;
+        const query = `SELECT "id", "nickname", "description" from "households" WHERE "nickname" ILIKE $1;`;
         pool.query(query, [searchTerm]).then((results) => {
             res.send(results.rows);
             console.log(results.rows); 
@@ -38,7 +38,7 @@ router.get('/', (req, res) => {
 router.get('/details', (req, res) => {
     if(req.isAuthenticated){
         const id = req.query.id;
-        const query = `SELECT "pets"."name" as "pet_name", "person"."first_name" FROM "household_members" JOIN "pets" ON "household_members"."pet" = "pets"."id" JOIN "person" ON "household_members"."member" = "person"."id" WHERE "household_members"."household_id" = $1;`;
+        const query = `SELECT "first_name" FROM "households" JOIN "person" ON "person"."household_id" = "households"."id" WHERE "households"."id" = $1;`;
         pool.query(query, [id]).then((results) => {
             res.send(results.rows);
         }).catch((error) => {
@@ -132,8 +132,8 @@ router.post('/addmembers', (req, res) => {
 router.post('/createhousehold', (req, res) => {
     if(req.isAuthenticated){
         const householdToAdd = req.body;
-        const query = `INSERT INTO "households" ("nickname", "person_id") VALUES ($1, $2);`;
-            pool.query(query, [householdToAdd.nickname, householdToAdd.person_id]).then((results) => {
+        const query = `INSERT INTO "households" ("nickname", "person_id", "description") VALUES ($1, $2, $3);`;
+            pool.query(query, [householdToAdd.nickname, householdToAdd.person_id, householdToAdd.description]).then((results) => {
                 console.log(results); 
                 res.sendStatus(200); 
             }).catch((error) => {
@@ -159,23 +159,11 @@ router.put('/accept', (req, res) => {
             res.sendStatus(403);
         }
     });
-router.put('primary', (req, res) => {
-    if(req.isAuthenticated){
-        const query = `UPDATE "household_members" SET "primary" = true WHERE "person_id" = $1;`;
-        pool.query(query, [req.user.id]).then((results) => {
-            res.sendStatus(200);
-        }).catch((error) => {
-            console.log('Error setting primary household', error);
-            res.sendStatus(500);
-        })
-    } else {
-        res.sendStatus(403);
-    }
-})
-router.put('/removefrom', (req, res) => {
+//admin deleting member from household
+router.delete('/removefrom', (req, res) => {
     if(req.isAuthenticated && req.user.role === 1){
           const userToRemove = req.body; 
-          const query = `DELETE FROM "household_members" WHERE "member" = $2;`; 
+          const query = `DELETE FROM "household_members" WHERE "member" = $1;`; 
           pool.query(query, [userToRemove.id]).then((results) => {
             res.sendStatus(200);
           }).catch((error) => {
@@ -185,5 +173,19 @@ router.put('/removefrom', (req, res) => {
         } else {
           res.sendStatus(403); 
         }
-      })
+      });
+//user deleting themselves from household
+router.delete('/removeself', (req, res) => {
+    if(req.isAuthenticated && req.user.role === 1){
+        const query = `DELETE FROM "household_members" WHERE "member" = $1 and "household_id" = $2;`; 
+        pool.query(query, [req.user.id, req.body.household_id]).then((results) => {
+            res.sendStatus(200);
+        }).catch((error) => {
+            console.log('Error removing user', error); 
+            res.sendStatus(500); 
+        });
+    } else {
+        res.sendStatus(403); 
+    }
+});
 module.exports = router;

@@ -19,6 +19,7 @@ router.post('/', (req, res) => {
         res.sendStatus(403);
     }
 }); 
+
 //gets pets by household ID
 router.get('/', (req, res) => {
     if(req.isAuthenticated){

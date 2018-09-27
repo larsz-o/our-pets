@@ -121,19 +121,13 @@ class JoinHousehold extends Component {
                         </DialogTitle>
                         <DialogContent>
                             {results.nickname}<br/>
+                            <span className="bold">Description:</span> 
+                            {results.description}<br/>
                             <span className="bold">Members:</span> <br/>
                             <ul>
                             {this.state.members.map((member, i) => {
                                 return(
                                    <li key={i}>{member.first_name}</li> 
-                                );
-                            })}
-                            </ul>
-                            <span className="bold">Pets:</span>
-                            <ul>
-                            {this.state.members.map((pet, i) => {
-                                return(
-                                    <li key={i}>{pet.pet_name}</li>
                                 );
                             })}
                             </ul>

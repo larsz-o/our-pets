@@ -67,7 +67,7 @@ class SelectHousehold extends Component {
   render() {
     let content = null;
 
-    if (this.props.user.userName && this.props.user.household_id !== null) {
+    if (this.props.user.userName && this.props.totalHouses.length > 1) {
       content = (
         <div>
            <div id="welcome">
@@ -84,7 +84,7 @@ class SelectHousehold extends Component {
             </div>
         </div>
       );
-    } else if (this.props.user.userName && this.props.user.household_id === null){
+    } else if (this.props.user.userName && this.props.totalHouses.length < 1){
         content = (
          <div>
           <h3>You currently are not in a household!</h3>

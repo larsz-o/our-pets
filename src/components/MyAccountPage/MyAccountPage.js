@@ -5,6 +5,7 @@ import { USER_ACTIONS } from '../../redux/actions/userActions';
 import {Paper, Button} from '@material-ui/core'; 
 import ReactFilestack from 'filestack-react';
 import axios from 'axios';
+import swal from 'sweetalert'; 
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -41,12 +42,30 @@ class MyAccount extends Component {
       this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
     })
   }
-  setPrimary = () => {
-    axios({
-      method: 'PUT', 
-      url: '/api/household/'
-    })
-  }
+//removes member from household
+    removeFromHousehold = (house) => {
+      swal({
+        title: `Are you sure you want to leave this household?`,
+        icon: 'warning', 
+        buttons: true,
+        dangerMode: true
+    }).then((willDelete) => {
+      if (willDelete){
+        axios({
+          method: 'DELETE', 
+          url: '/api/household/removefrom',
+          data: {household_id: house.household_id}
+        }).then((response) => {
+          swal('You have been removed.', {icon: 'success'});
+          this.getHouseholdMembers(); 
+        }).catch((error) => {
+          console.log('Error removing member', error); 
+        });
+      } else {
+        swal(`Could not remove you from this household. Please try again.`);
+      }
+    });
+    }
   render() {
     let content = null;
 
@@ -71,7 +90,7 @@ class MyAccount extends Component {
               <p>All Households:</p>
               <ul>{this.props.totalHouses.map((house, i)=> {
                 return(
-                  <li key={i}>{house.nickname} <Button onClick={()=>this.setPrimary(house)}>Set as Primary</Button></li>
+                  <li key={i}>{house.nickname} <Button onClick={()=>this.removeFromHousehold(house)}>Leave Household</Button></li>
                 );
               })}</ul> 
               <p>Pets:  

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import swal from 'sweetalert';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import {Button, Input} from '@material-ui/core'; 
+import {Button, Input, InputLabel, TextField, Typography} from '@material-ui/core'; 
 import axios from 'axios';
 
 const mapStateToProps = state => ({
@@ -18,6 +18,7 @@ class CreateHousehold extends Component {
     this.state = {
         nickname: '',
         person_id: '',
+        description: '',
         authorized: true
     };
   }
@@ -89,9 +90,11 @@ class CreateHousehold extends Component {
         <div >
           <h2>Create Household</h2>
           <div className="create-container">
-              <label>Household Nickname:</label>
+              <InputLabel>Household Nickname:</InputLabel>
               <Input type="text" value={this.state.nickname} onChange={this.handleInputChangeFor('nickname')} required/><br/>
               <br/>
+              <InputLabel>Brief Description:</InputLabel>
+              <TextField type="text" value={this.state.description} onChange={this.handleInputChangeFor('description')} required/><br/><br/>
               <Button variant="contained" color="primary" size="small" onClick={this.sendNickNameToRedux}>Submit</Button>
             </div>
         </div>
