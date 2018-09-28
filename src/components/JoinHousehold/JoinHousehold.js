@@ -32,6 +32,7 @@ class JoinHousehold extends Component {
       }
     getHouseholdMembers = (householdID) => {
         this.handleOpen();
+        console.log('getting householdMembers');
         axios({
           method: 'GET', 
           url: `/api/household/details?id=${householdID}`
@@ -66,13 +67,15 @@ class JoinHousehold extends Component {
         if(arrayOfMembers.length === 0){
             swal('Oh no!', 'There is no one in this household! Try searching for another household or creating your own household.', 'warning');
         } else{
+            let currentDate = new Date();
             for(let i = 0; i < arrayOfMembers.length; i++){
                 console.log('in request join');
-                if(arrayOfMembers[i].role === 1){
+                if(arrayOfMembers[i].role === 1 && arrayOfMembers[i].id !== this.props.user.id){
+                    console.log(arrayOfMembers[i], currentDate);
                     axios({
                         method: 'POST', 
                         url: '/api/inbox', 
-                        data: {sender: this.props.user.id, receiver: arrayOfMembers[i].id, subject: 'Can I join your household?', message: `Hi ${arrayOfMembers[i].first_name}! I'd like to join your household so that we can coordinate pet care! Do you accept?`, household_id: this.props.household[0].id}
+                        data: {date: currentDate, sender: this.props.user.id, receiver: arrayOfMembers[i].id, subject: 'Can I join your household?', message: `Hi ${arrayOfMembers[i].first_name}! I'd like to join your household so that we can coordinate pet care! Do you accept?`, household_id: this.props.household[0].id, invitation: true}
                     }).then((response) => {
                         swal('Sent!', `Request sent to ${arrayOfMembers[i].first_name}.`, 'success');
                     }).catch((error) => {
@@ -103,6 +106,8 @@ class JoinHousehold extends Component {
         return(
             <div>
                 <Nav/>
+                {JSON.stringify(this.props.household)}
+                {JSON.stringify(this.state.members)}
                 <Typography variant="headline" gutterBottom>Search for an existing household to join</Typography>
                 <br/>
                 <Input onChange={this.handleSearchTermChange} placeholder="Enter nickname"/>  <Button size="small" variant="contained" onClick={this.submitSearch}>Search</Button>

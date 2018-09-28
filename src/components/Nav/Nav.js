@@ -20,6 +20,7 @@ class Nav extends Component {
   logout = () => {
     this.props.dispatch(triggerLogout());
   }
+
   render(){
     const { anchorEl } = this.state;
     
@@ -43,7 +44,7 @@ class Nav extends Component {
           <a href="/#/inbox"><MenuItem onClick={this.handleClose}>Inbox</MenuItem></a>
           <a href="/#/myaccount"><MenuItem onClick={this.handleClose}>My Account</MenuItem></a>
           <a href="/#/editsettings"><MenuItem onClick={this.handleClose}>Settings</MenuItem></a>
-          <a href="/#/reports"><MenuItem onClick={this.handleClose}>Reports</MenuItem></a>
+          
           <a href="/#/selecthousehold"><MenuItem onClick={this.handleClose}>Switch Household</MenuItem></a>
           <MenuItem onClick={this.logout}>Logout</MenuItem>
       </Menu>   
@@ -53,7 +54,4 @@ class Nav extends Component {
   }
 }
   
-const mapStateToProps = state => ({
-  user: state.user,
-});
-export default connect(mapStateToProps)(Nav);
+export default connect()(Nav);

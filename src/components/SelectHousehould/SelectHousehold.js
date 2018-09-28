@@ -67,7 +67,7 @@ class SelectHousehold extends Component {
   render() {
     let content = null;
 
-    if (this.props.user.userName && this.props.totalHouses.length > 1) {
+    if (this.props.user.userName && this.props.totalHouses.length >= 1) {
       content = (
         <div>
            <div id="welcome">

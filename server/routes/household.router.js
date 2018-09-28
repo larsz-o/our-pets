@@ -38,7 +38,7 @@ router.get('/', (req, res) => {
 router.get('/details', (req, res) => {
     if(req.isAuthenticated){
         const id = req.query.id;
-        const query = `SELECT "first_name" FROM "households" JOIN "person" ON "person"."household_id" = "households"."id" WHERE "households"."id" = $1;`;
+        const query = `SELECT "first_name", "role", "person"."id" FROM "households" JOIN "person" ON "person"."household_id" = "households"."id" WHERE "households"."id" = $1;`;
         pool.query(query, [id]).then((results) => {
             res.send(results.rows);
         }).catch((error) => {

@@ -3,6 +3,7 @@ import {Typography, InputLabel, MenuItem, Button, Select} from '@material-ui/cor
 import {connect} from 'react-redux';
 import axios from 'axios'; 
 import moment from 'moment';
+import Nav from '../Nav/Nav';
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -79,12 +80,13 @@ class PetProfile extends Component {
 render(){
     return(
     <div>
+        <Nav/>
        {this.state.pet.map((pet, i) => {
            return(
                <div key={i}>
                <Typography variant="display1">{pet.name}</Typography>
                <img src={pet.image_path} alt={pet.name}/>
-               <Typography>{moment(pet.birthday).format('MMMM do, YYYY')}</Typography>
+               <Typography>Birthday: {moment(pet.birthday).format('MMMM do, YYYY')}</Typography>
                </div>
            );
        })}

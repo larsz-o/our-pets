@@ -48,24 +48,6 @@ class NewMessages extends Component {
       console.log('Error archving message', error); 
     });
   }
-  //decline will archive the message if confirmed
-  declineInvitation = (messageID) => {
-    swal({
-      title: 'Are you sure?',
-      icon: 'warning', 
-      buttons: true,
-      dangerMode: true
-  }).then((willDelete) => {
-    if (willDelete){
-      swal('Message Deleted!', {
-        icon: 'success',
-      });
-      this.archiveMessage(messageID)
-    } else {
-      swal('You can keep thinking about this one.');
-    }
-  });
-}
 // if successful, saves the URL for the uploaded picture
 getPictureURL = (result) => {
   let url = result.filesUploaded[0].url; 

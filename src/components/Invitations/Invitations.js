@@ -33,6 +33,24 @@ class InvitationsMessages extends Component {
        console.log('Error archving message', error); 
      });
    }
+//decline will archive the message if confirmed
+  declineInvitation = (messageID) => {
+    swal({
+      title: 'Are you sure?',
+      icon: 'warning', 
+      buttons: true,
+      dangerMode: true
+  }).then((willDelete) => {
+    if (willDelete){
+      swal('Invitation declined!', {
+        icon: 'success',
+      });
+      this.archiveMessage(messageID)
+    } else {
+      swal('You can keep thinking about this one.');
+    }
+  });
+}
     render(){
         return(
         <div>
@@ -47,7 +65,8 @@ class InvitationsMessages extends Component {
                        <ExpansionPanel key={i}>
                       <ExpansionPanelSummary expandIcon={<ExpandMore/>}><span className="bold">{invite.sender}:</span> {invite.subject} - {moment(invite.date).format('MM-DD-YYYY')}</ExpansionPanelSummary>
                       <ExpansionPanelDetails>{invite.message}</ExpansionPanelDetails>
-                      <Button variant="contained" color="primary" size="small" onClick={()=>this.acceptInvitation(invite)}>Archive</Button>
+                      <Button variant="contained" color="primary" size="small" onClick={()=>this.acceptInvitation(invite)}>Accept</Button>
+                      <Button variant="contained" size="small" onClick={()=>this.acceptInvitation(invite)}>Decline</Button>
                       </ExpansionPanel>
                );
              })}

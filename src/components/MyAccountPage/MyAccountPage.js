@@ -42,6 +42,10 @@ class MyAccount extends Component {
       this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
     })
   }
+  navToProfile = (id) => {
+    console.log(id);
+    this.props.history.push(`/#/account/${id}`);
+  }
 //removes member from household
     removeFromHousehold = (house) => {
       swal({
@@ -76,6 +80,7 @@ class MyAccount extends Component {
           <br/>
           <Paper>
             <img src={this.props.user.image_path} alt={this.props.user.username}/>
+            <br/>
             <ReactFilestack
                   apikey='ACGkY2eEqTDG52A5eOG3Az'
                   buttonText="Upload user photo"
@@ -93,16 +98,17 @@ class MyAccount extends Component {
                   <li key={i}>{house.nickname} <Button onClick={()=>this.removeFromHousehold(house)}>Leave Household</Button></li>
                 );
               })}</ul> 
-              <p>Pets:  
+              <p>Pets:  <br/>
              {this.props.pets.map((pet, i) => {
                return(
-                <span key={i}> {pet.name}  </span>);
+                <span key={i}>{pet.name} <a href={ `/#/account/${pet.id}` }><Button variant="outlined" size="small" color="primary">View Profile</Button></a><br/> </span>
+                  );
               })}
               </p>
-              <p>Household Members: 
+              <p>Household Members: <br/>
                 {this.props.members.map((member, i) => {
                   return(
-                    <span key={i}>  {member.first_name}  </span>
+                    <span key={i}> {member.first_name} <br/></span>
                   );
                 })}
               </p>
