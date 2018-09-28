@@ -34,14 +34,27 @@ class SelectHousehold extends Component {
   }
   getUserHouseholds = () => {
     axios({
-        method: 'GET', 
-        url: '/api/household/all'
+        method: 'GET',
+        url: `/api/household/all`
     }).then((response) => {
       const action = {type: 'SET_ALL_USER_HOUSEHOLDS', payload: response.data};
       this.props.dispatch(action);
+      this.getAllHouseholdMembers();
     }).catch((error) => {
         console.log('Error getting user households', error);
     });
+}
+getAllHouseholdMembers = () => {
+  axios({
+    method: 'GET', 
+    url: '/api/household/members/all'
+}).then((response) => {
+  console.log(response.data);
+  const action = {type: 'SET_ALL_HOUSEHOLD_MEMBERS', payload: response.data};
+  this.props.dispatch(action);
+}).catch((error) => {
+    console.log('Error getting all household members', error);
+});
 }
   handleChangeFor = (property, event) => {
     this.setState({

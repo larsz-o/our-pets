@@ -213,7 +213,7 @@ togglePoopCheck = () => {
          content = (
     <div>
         <div className="card">
-                <img src={this.props.pet.image_path} alt="pet"/>
+        <a href={ `/#/account/${this.props.pet.id}` }><img src={this.props.pet.image_path} alt="pet"/></a>
                 <CardContent>
                 <Typography gutterBottom variant="headline" component="h2">{this.props.pet.name}</Typography>           
                     <Typography gutterBottom variant="body1">{this.state.lastWalk.map((lastWalk, i) => {
@@ -257,7 +257,7 @@ togglePoopCheck = () => {
         content = (
         <div>
             <div className="card">
-               <img src={this.props.pet.image_path} alt="pet"/>
+            <a href={ `/#/account/${this.props.pet.id}` }><img src={this.props.pet.image_path} alt="pet"/></a>
                <CardContent>
                <Typography gutterBottom variant="headline" component="h2">{this.props.pet.name}</Typography>
                    <Typography gutterBottom variant="body1">{this.state.lastLitterbox.map((lastLitter, i) => {

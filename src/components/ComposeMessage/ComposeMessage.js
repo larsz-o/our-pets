@@ -86,6 +86,7 @@ sendMessage = () => {
         if (this.props.user.userName){
         content = (
             <div className="right">
+            {JSON.stringify(this.props.allMembers)}
            <Button size="small" onClick={this.handleClickOpen} variant="outlined" size="small" color="primary">Compose</Button>
             <Dialog 
                 open={this.state.open}
@@ -97,7 +98,7 @@ sendMessage = () => {
                 <DialogContent>
                     To: 
                     <Select value={this.state.receiver} onChange={(event)=>this.handleInputChangeFor('receiver', event)}>
-                    {this.props.householdMembers.map((person, i) => {
+                    {this.props.allMembers.map((person, i) => {
                         if(person.member !== this.props.user.id){
                             return(
                                 <MenuItem key={i} value={person.member}>{person.first_name}</MenuItem>
