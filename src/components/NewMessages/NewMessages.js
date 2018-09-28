@@ -84,8 +84,10 @@ handleInputChangeFor = (property, event) => {
 }
 //reply to sender 
 reply = (message) => {
+  console.log(message);
   this.setState({
-    receiver: message.sender, 
+    receiver: message.sender_id,
+    receiver_name: message.sender, 
     open: true
   });
 }
@@ -141,7 +143,7 @@ sendMessage = () => {
                      New Message
                  </DialogTitle>
                  <DialogContent>
-                     To {this.state.receiver}
+                     To: {this.state.receiver_name}
                  </DialogContent>
                  <DialogContent>
                      <InputLabel>Subject: </InputLabel><Input value={this.state.subject} onChange={(event)=>this.handleInputChangeFor('subject', event)}/><br/>

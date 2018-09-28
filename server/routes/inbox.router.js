@@ -20,7 +20,7 @@ router.post('/', (req, res) => {
 //gets messages 
 router.get('/', (req, res) => {
     if(req.isAuthenticated){
-        const query = `SELECT "receiver", "message", "subject", "inbox"."id", "date", "first_name" as "sender", "archived", "invitation", "inbox"."household_id", "inbox"."image_path" FROM "inbox" JOIN "person" ON "person"."id" = "inbox"."sender" WHERE "receiver" = $1 AND "archived" = $2 AND "invitation" = $3;`;
+        const query = `SELECT "receiver", "message", "subject", "inbox"."id", "date", "first_name" as "sender", "sender" as "sender_id", "archived", "invitation", "inbox"."household_id", "inbox"."image_path" FROM "inbox" JOIN "person" ON "person"."id" = "inbox"."sender" WHERE "receiver" = $1 AND "archived" = $2 AND "invitation" = $3;`;
         pool.query(query, [req.user.id, req.query.archived, req.query.invitation]).then((results) => {
             res.send(results.rows);
         }).catch((error) => {

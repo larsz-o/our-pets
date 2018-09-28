@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../Inbox/inbox.css';
-import {Badge, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Paper} from '@material-ui/core';
+import {ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Paper} from '@material-ui/core';
 import ExpandMore from '@material-ui/icons/ExpandMore'; 
 import moment from 'moment'; 
 
