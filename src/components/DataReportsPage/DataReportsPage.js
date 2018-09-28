@@ -59,11 +59,7 @@ class DataReports extends Component {
       });
     }
   }
-  handleChangeFor = (property, event) => {
-    this.setState({
-      [property]: event.target.value
-    });
-  }
+
   render() {
     let content = null;
 
@@ -82,22 +78,7 @@ class DataReports extends Component {
             );
           })}
           </Select>
-          <InputLabel>Activity </InputLabel> 
-          <Select value={this.state.activity_id} onChange={(event)=>this.handleChangeFor('activity_id', event)}>
-            <MenuItem value="1">Feedings</MenuItem>
-            <MenuItem value="2">Walks</MenuItem>
-            <MenuItem value="3">Litterbox Changes</MenuItem>
-            <MenuItem value="4">Medications</MenuItem>
-          </Select>
-          <br/>
-          <InputLabel>Limit Results To: </InputLabel>
-          <Select value={this.state.query_limit} onChange={(event)=>this.handleChangeFor('query_limit', event)}>
-            <MenuItem value={5}>5</MenuItem>
-            <MenuItem value={10}>10</MenuItem>
-            <MenuItem value={20}>20</MenuItem>
-            <MenuItem value={30}>30</MenuItem>
-          </Select>
-            <Button onClick={this.getActivityData}>Submit</Button>
+        
           <ReportingComponent pet={this.state.pet_id} activityID={this.state.activity_id} activityData={this.state.activityData}/>
         </div> 
       );

@@ -26,6 +26,8 @@
     "pg": "^7.4.1",
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
+    "react-countdown-date": "^1.0.0",
+    "react-countdown-now": "^1.3.0",
     "react-dom": "^16.2.0",
     "react-phone-number-input": "^2.2.7",
     "react-redux": "^5.0.7",
