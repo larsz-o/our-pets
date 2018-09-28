@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Typography, InputLabel, MenuItem, Button, Select} from '@material-ui/core'; 
+import {Typography, InputLabel, MenuItem, Button, Select, Paper} from '@material-ui/core'; 
 import {connect} from 'react-redux';
 import axios from 'axios'; 
 import moment from 'moment';
@@ -91,6 +91,7 @@ render(){
                </div>
            );
        })}
+       <Paper>
        <InputLabel>Activity </InputLabel> 
           <Select value={this.state.activity_id} onChange={(event)=>this.handleChangeFor('activity_id', event)}>
             <MenuItem value="1">Feedings</MenuItem>
@@ -108,6 +109,7 @@ render(){
           </Select>
             <Button onClick={this.getActivityData}>Submit</Button>
             <ReportingData activityID={this.state.activity_id} activityData={this.state.activityData}/>
+        </Paper>
     </div>
         );
     }

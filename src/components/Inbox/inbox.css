@@ -33,3 +33,6 @@
     background-color: tomato;
     height: 50px;
 }
+.message-margin {
+    margin-left: 5px; 
+}

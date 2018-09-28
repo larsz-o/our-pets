@@ -19,7 +19,8 @@ class ArchivedMessages extends Component {
                     {this.props.archivedMessages.map((oldMessage, i) => {
                     return(
                        <ExpansionPanel key={i}>
-                      <ExpansionPanelSummary expandIcon={<ExpandMore/>}><span>{oldMessage.sender}:</span> {oldMessage.subject} - {moment(oldMessage.date).format('MM-DD-YYYY')}</ExpansionPanelSummary>
+                      <ExpansionPanelSummary expandIcon={<ExpandMore/>}>From:  <span className="message-margin"> {oldMessage.sender} </span> Subject: {oldMessage.subject} </ExpansionPanelSummary>
+                      <ExpansionPanelDetails>{moment(oldMessage.date).format('MM-DD-YYYY')}</ExpansionPanelDetails>
                       <ExpansionPanelDetails>{oldMessage.message}</ExpansionPanelDetails>
                       </ExpansionPanel>
                );

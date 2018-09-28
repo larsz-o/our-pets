@@ -6,7 +6,6 @@ import ReactFilestack from 'filestack-react';
 
 const mapStateToProps = state => ({
     user: state.user,
-    household: state.householdBuilder.findHousehold,
     nextPage: state.nextPage.nextPage,
     allMembers: state.allHouseholds.allHouseholdMembers,
   });

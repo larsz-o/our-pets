@@ -20,7 +20,8 @@ class SentMessages extends Component {
                     {this.props.sentMessages.map((sentMessage, i) => {
                     return(
                        <ExpansionPanel key={i}>
-                      <ExpansionPanelSummary expandIcon={<ExpandMore/>}><span>To: {sentMessage.receiver}:</span>{sentMessage.subject} - {moment(sentMessage.date).format('MM-DD-YYYY')}</ExpansionPanelSummary>
+                      <ExpansionPanelSummary expandIcon={<ExpandMore/>}>To:  <span className="message-margin"> {sentMessage.receiver} </span> Subject: {sentMessage.subject} </ExpansionPanelSummary>
+                      <ExpansionPanelDetails>{moment(sentMessage.date).format('MM-DD-YYYY')}</ExpansionPanelDetails>
                       <ExpansionPanelDetails>{sentMessage.message}</ExpansionPanelDetails>
                       </ExpansionPanel>
                );

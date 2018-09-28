@@ -3,7 +3,6 @@ import '../Inbox/inbox.css';
 import {Badge, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, Button} from '@material-ui/core';
 import ExpandMore from '@material-ui/icons/ExpandMore'; 
 import moment from 'moment'; 
-import axios from 'axios';
 import swal from 'sweetalert';
 import {connect} from 'react-redux';
 
@@ -14,31 +13,11 @@ const mapStateToProps = state => ({
 class InvitationsMessages extends Component {
 // accept will send a PUT request authorizing the member as a household member 
   // then, the message will be archived the user's inbox
-  
   acceptInvitation = (invite) => {
-    this.props.dispatch({type: '', payload: {authorized: true, household_id: invite.household_id}})
-    axios({
-      method: 'PUT', 
-      url: '/api/household/accept',
-      
-    }).then((response) => {
-      console.log(response.data);
-      swal('Done!', 'Message archived!', 'success');
-      this.archiveMessage(invite.id);
-    }).catch((error) => {
-      console.log('Error changing authorization', error); 
-    });
+    this.props.dispatch({type: 'ACCEPT_INVITATION', payload: {authorized: true, household_id: invite.household_id}})
   }
   archiveMessage = (messageID) => {
-    axios({
-       method: 'PUT', 
-       url: '/api/inbox',
-       data: {id: messageID}
-     }).then((response) => {
-       console.log('Message archived.');
-     }).catch((error) => {
-       console.log('Error archving message', error); 
-     });
+    this.props.dispatch({type: 'ARCHIVE_MESSAGE', payload: {id: messageID}});
    }
 //decline will archive the message if confirmed
   declineInvitation = (messageID) => {

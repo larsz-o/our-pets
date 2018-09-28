@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import '../Inbox/inbox.css';
 import moment from 'moment'; 
-import swal from 'sweetalert'; 
 import {Badge, Button, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Dialog, DialogTitle, DialogContent, InputLabel, Input, Paper} from '@material-ui/core';
 import ExpandMore from '@material-ui/icons/ExpandMore'; 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
@@ -11,8 +9,6 @@ import ReactFilestack from 'filestack-react';
 
 const mapStateToProps = state => ({
     user: state.user,
-    pets: state.currentHousehold.currentPets,
-    members: state.currentHousehold.currentHouseholdMembers, 
     nextPage: state.nextPage.nextPage,
     messages: state.inbox.newMessages
   });
@@ -40,16 +36,6 @@ class NewMessages extends Component {
   //changes the status of a message to archived, then adds it to the archived message array on state
   archiveMessage = (messageID) => {
     this.props.dispatch({type: 'ARCHIVE_MESSAGE', payload: {id: messageID}});
-  //  axios({
-  //     method: 'PUT', 
-  //     url: '/api/inbox',
-  //     data: {id: messageID}
-  //   }).then((response) => {
-  //     console.log('Message archived.');
-  //     // this.getMessages();
-  //   }).catch((error) => {
-  //     console.log('Error archving message', error); 
-  //   });
   }
 // if successful, saves the URL for the uploaded picture
 getPictureURL = (result) => {
@@ -81,22 +67,7 @@ sendMessage = () => {
       open: false
   });
   let date = new Date(); 
-  axios({
-      method: 'POST', 
-      url: 'api/inbox', 
-      data: {receiver: this.state.receiver, subject: this.state.subject, message: this.state.message, date: date, invitation: false, image_path: this.state.image_path}
-  }).then((response) => {
-      swal('Success!', 'Message sent!', 'success');
-      this.setState({
-          message: '',
-          receiver: '', 
-          subject: '', 
-          image_path: ''
-      });
-  }).catch((error) => {
-      swal('Oh no!', 'Error sending message', 'warning'); 
-      console.log('Error sending message', error); 
-  });
+  this.props.dispatch({type: 'POST_MESSAGE', payload: {receiver: this.state.receiver, subject: this.state.subject, message: this.state.message, date: date, invitation: false, image_path: this.state.image_path}});
 }
     render(){
         return(
@@ -109,12 +80,13 @@ sendMessage = () => {
               </Badge>
             </ExpansionPanelSummary>
                {this.props.messages.map((message, i) => {
-                 if(message.image_path !== null){
+                 if(message.image_path !== ''){
                  return (
                    <div key={i}>
                    <div>
                    <ExpansionPanel>
-                       <ExpansionPanelSummary expandIcon={<ExpandMore/>}> From: <span> {message.sender} </span> "{message.subject}"  {moment(message.date).format('MM-DD-YYYY')}</ExpansionPanelSummary>
+                    <ExpansionPanelSummary expandIcon={<ExpandMore/>}>From: <span className="message-margin">  {message.sender} </span> Subject: {message.subject} </ExpansionPanelSummary>
+                       <ExpansionPanelDetails>{moment(message.date).format('MM-DD-YYYY')}</ExpansionPanelDetails>
                        <ExpansionPanelDetails>{message.message}</ExpansionPanelDetails>
                        <ExpansionPanelDetails><img src={message.image_path} alt="message attachment"/></ExpansionPanelDetails>
                        <Button variant="contained" color="primary" size="small" onClick={()=>this.reply(message)}>Reply</Button>
@@ -152,7 +124,8 @@ sendMessage = () => {
                     <div key={i}>
                    <div>
                    <ExpansionPanel>
-                       <ExpansionPanelSummary expandIcon={<ExpandMore/>}> From: <span> {message.sender} </span> "{message.subject}"  {moment(message.date).format('MM-DD-YYYY')}</ExpansionPanelSummary>
+                       <ExpansionPanelSummary expandIcon={<ExpandMore/>}>From:  <span className="message-margin"> {message.sender} </span> Subject: {message.subject} </ExpansionPanelSummary>
+                       <ExpansionPanelDetails>{moment(message.date).format('MM-DD-YYYY')}</ExpansionPanelDetails>
                        <ExpansionPanelDetails>{message.message}</ExpansionPanelDetails>
                        <Button variant="contained" color="primary" size="small" onClick={()=>this.reply(message)}>Reply</Button>
                        <Button variant="contained" size="small" onClick={()=>this.archiveMessage(message.id)}>Archive</Button>
