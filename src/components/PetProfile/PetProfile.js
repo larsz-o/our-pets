@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import axios from 'axios'; 
 import moment from 'moment';
 import Nav from '../Nav/Nav';
+import ReportingData from '../ReportingTableComponent/ReportingTableComponent';
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -106,6 +107,7 @@ render(){
             <MenuItem value={30}>30</MenuItem>
           </Select>
             <Button onClick={this.getActivityData}>Submit</Button>
+            <ReportingData activityID={this.state.activity_id} activityData={this.state.activityData}/>
     </div>
         );
     }

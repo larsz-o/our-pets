@@ -95,13 +95,13 @@ class MyAccount extends Component {
               <p>All Households:</p>
               <ul>{this.props.totalHouses.map((house, i)=> {
                 return(
-                  <li key={i}>{house.nickname} <Button onClick={()=>this.removeFromHousehold(house)}>Leave Household</Button></li>
+                  <li key={i}>{house.nickname} <Button size="small" color="primary" onClick={()=>this.removeFromHousehold(house)}>Leave Household</Button></li>
                 );
               })}</ul> 
               <p>Pets:  <br/>
              {this.props.pets.map((pet, i) => {
                return(
-                <span key={i}>{pet.name} <a href={ `/#/account/${pet.id}` }><Button variant="outlined" size="small" color="primary">View Profile</Button></a><br/> </span>
+                <span key={i}>{pet.name} <a href={ `/#/account/${pet.id}` }><Button size="small" color="primary">View Profile</Button></a><br/> </span>
                   );
               })}
               </p>

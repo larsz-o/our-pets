@@ -106,8 +106,6 @@ class JoinHousehold extends Component {
         return(
             <div>
                 <Nav/>
-                {JSON.stringify(this.props.household)}
-                {JSON.stringify(this.state.members)}
                 <Typography variant="headline" gutterBottom>Search for an existing household to join</Typography>
                 <br/>
                 <Input onChange={this.handleSearchTermChange} placeholder="Enter nickname"/>  <Button size="small" variant="contained" onClick={this.submitSearch}>Search</Button>
