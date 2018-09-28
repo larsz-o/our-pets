@@ -19,7 +19,6 @@ router.post('/', (req, res) => {
         res.sendStatus(403);
     }
 }); 
-
 //gets pets by household ID
 router.get('/', (req, res) => {
     if(req.isAuthenticated){
@@ -35,6 +34,20 @@ router.get('/', (req, res) => {
         res.sendStatus(403);
     }
 });
+router.get('/profile', (req, res) => {
+    if(req.isAuthenticated){
+    const pet = req.query.id;
+    const query = `SELECT * FROM "pets" WHERE "id" = $1;`;
+    pool.query(query, [pet]).then((results) => {
+        res.send(results.rows);
+    }).catch((error) => {
+        console.log('Error getting pet profile', error);
+        res.sendStatus(500);
+    });
+} else {
+    res.sendStatus(403);
+    }
+})
 //delete pet 
 router.delete('/:id', (req, res) => {
     if(req.isAuthenticated){

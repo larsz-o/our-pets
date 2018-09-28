@@ -11,7 +11,7 @@ class ReportingTableComponent extends Component {
             <div>
              {this.props.activityData.map((activity, i) => {
                  return(
-                 <div className="report-card" key={i}>
+                 <div className="report-card-small" key={i}>
                <Typography>{activity.type} by {activity.owner_name}<br/>
                 on {moment(activity.date).format('MMMM Do YYYY')} at {activity.time}.</Typography> 
                 </div>
@@ -24,7 +24,7 @@ class ReportingTableComponent extends Component {
               <div>
              {this.props.activityData.map((activity, i) => {
                  return(
-                 <div key={i}>
+                 <div className="report-card-small" key={i}>
                <Typography>{activity.type} changed by {activity.owner_name}<br/>
                 on {moment(activity.date).format('MMMM Do YYYY')} at {activity.time}.</Typography> 
                 </div>
@@ -37,7 +37,7 @@ class ReportingTableComponent extends Component {
               <div>
                {this.props.activityData.map((activity, i) => {
                    return(
-                 <div key={i}>
+                 <div className="report-card" key={i}>
                <Typography>{activity.type} by {activity.owner_name}<br/>
                 on {moment(activity.date).format('MMMM Do YYYY')}.</Typography> 
                 <Typography>Pooped?: {activity.poop_check}</Typography>
@@ -52,7 +52,7 @@ class ReportingTableComponent extends Component {
               <div>
                {this.props.activityData.map((activity, i) => {
                    return(
-                 <div key={i}>
+                 <div className="report-card"  key={i}>
                <Typography>{activity.medication_name} given by {activity.owner_name}<br/>
                 on {moment(activity.date).format('MMMM Do YYYY')} at {activity.time}.</Typography> 
                 <Typography>Notes: {activity.notes}</Typography>
