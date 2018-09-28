@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Typography} from '@material-ui/core'; 
 import {connect} from 'react-redux';
 import axios from 'axios'; 
+import moment from 'moment';
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -20,7 +21,7 @@ class PetProfile extends Component {
     }
     componentDidMount =() => {
         const { match: { params } } = this.props;
-        axios.get(`/api/pets/profile?id=${params.petID}`)
+        axios.get(`/api/pets/profile?id=${params.petId}`)
           .then((response)=> {
             console.log('pet', response.data);
             this.setState({ 
@@ -33,9 +34,15 @@ class PetProfile extends Component {
 render(){
     return(
     <div>
-        <Typography variant="display1">Reed</Typography>
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCE8G24Fu4UsrfZl8M9pL9OX4zWwyUwGe2tlYgrORGKsllVPuw"/>
-        <Typography>December 1, 2011</Typography>
+       {this.state.pet.map((pet, i) => {
+           return(
+               <div key={i}>
+               <Typography variant="display1">{pet.name}</Typography>
+               <img src={pet.image_path} alt={pet.name}/>
+               <Typography variant="headline">Born: {moment(pet.birthday).format('MMMM Do YYYY')}</Typography>
+               </div>
+           );
+       })}
     </div>
         );
     }
