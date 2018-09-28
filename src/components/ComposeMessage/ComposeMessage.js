@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import {Button, Dialog, DialogTitle, DialogContent, Input, InputLabel, Select, MenuItem, Typography} from '@material-ui/core';
-import axios from 'axios';
-import swal from 'sweetalert';
 import {connect} from 'react-redux'; 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import ReactFilestack from 'filestack-react';
@@ -66,21 +64,6 @@ sendMessage = () => {
     });
     let date = new Date(); 
     this.props.dispatch({type: 'POST_MESSAGE', payload: {receiver: this.state.receiver, subject: this.state.subject, message: this.state.message, date: date, invitation: false, image_path: this.state.image_path}})
-    // axios({
-    //     method: 'POST', 
-    //     url: 'api/inbox', 
-    //     data: 
-    // }).then((response) => {
-    //     swal('Success!', 'Message sent!', 'success');
-    //     this.setState({
-    //         message: '',
-    //         receiver: 0, 
-    //         subject: ''
-    //     });
-    // }).catch((error) => {
-    //     swal('Oh no!', 'Error sending message', 'warning'); 
-    //     console.log('Error sending message', error); 
-    // });
 }
     render(){
     let content = null;

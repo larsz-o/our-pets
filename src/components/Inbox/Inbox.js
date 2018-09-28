@@ -29,6 +29,7 @@ class Inbox extends Component {
     this.getArchivedMessages(); 
     this.getSentMessages();
     this.getAllHouseholdMembers();
+    this.getInvitations();
 }
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
@@ -50,55 +51,18 @@ class Inbox extends Component {
   //gets sent messages
 getSentMessages = () => {
   this.props.dispatch({type: 'FETCH_SENT_MESSAGES'});
-  // axios({
-  //   method: 'GET',
-  //   url: '/api/inbox/sent'
-  // }).then((response) => {
-  // const action = {type: 'SET_SENT_MESSAGES', payload: response.data};
-  // this.props.dispatch(action); 
-  // }).catch((error) => {
-  //   console.log('Error getting sent messages', error); 
-  // });
 }
 //get archived messages
 getArchivedMessages = () => {
   this.props.dispatch({type: 'FETCH_ARCHIVED_MESSAGES'});
-  // axios({
-  //   method: 'GET',
-  //   url: '/api/inbox?archived=true'
-  // }).then((response) => {
-  //   const action = {type: 'SET_ARCHIVED_MESSAGES', payload: response.data};
-  //   this.props.dispatch(action);
-  // }).catch((error) => {
-  //   console.log('Error getting messages', error); 
-  // });
 }
   //gets current messages when component mounts 
-  getMessages = () => {
+getMessages = () => {
     this.props.dispatch({type: 'FETCH_NEW_MESSAGES'});
-    // axios({
-    //   method: 'GET',
-    //   url: '/api/inbox?archived=false&invitation=false'
-    // }).then((response) => {
-    //   const action = {type: 'SET_NEW_MESSAGES', payload: response.data};
-    //   this.props.dispatch(action);
-    //   this.getInvitations();
-    // }).catch((error) => {
-    //   console.log('Error getting messages', error); 
-    // });
   }
-  //gets current messages when component mounts 
-  getInvitations = () => {
+  //gets invitations when component mounts 
+getInvitations = () => {
     this.props.dispatch({type: 'FETCH_INVITATIONS'});
-    // axios({
-    //   method: 'GET',
-    //   url: '/api/inbox?archived=false&invitation=true'
-    // }).then((response) => {
-    //   const action = {type: 'SET_INVITATIONS', payload: response.data};
-    //   this.props.dispatch(action);
-    // }).catch((error) => {
-    //   console.log('Error getting messages', error); 
-    // });
   }
   render() {
     let content = null;

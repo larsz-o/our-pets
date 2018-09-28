@@ -14,11 +14,13 @@ const mapStateToProps = state => ({
 class InvitationsMessages extends Component {
 // accept will send a PUT request authorizing the member as a household member 
   // then, the message will be archived the user's inbox
+  
   acceptInvitation = (invite) => {
+    this.props.dispatch({type: '', payload: {authorized: true, household_id: invite.household_id}})
     axios({
       method: 'PUT', 
       url: '/api/household/accept',
-      data: {authorized: true, household_id: invite.household_id}
+      
     }).then((response) => {
       console.log(response.data);
       swal('Done!', 'Message archived!', 'success');

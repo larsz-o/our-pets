@@ -39,16 +39,17 @@ class NewMessages extends Component {
       }
   //changes the status of a message to archived, then adds it to the archived message array on state
   archiveMessage = (messageID) => {
-   axios({
-      method: 'PUT', 
-      url: '/api/inbox',
-      data: {id: messageID}
-    }).then((response) => {
-      console.log('Message archived.');
-      // this.getMessages();
-    }).catch((error) => {
-      console.log('Error archving message', error); 
-    });
+    this.props.dispatch({type: 'ARCHIVE_MESSAGE', payload: {id: messageID}});
+  //  axios({
+  //     method: 'PUT', 
+  //     url: '/api/inbox',
+  //     data: {id: messageID}
+  //   }).then((response) => {
+  //     console.log('Message archived.');
+  //     // this.getMessages();
+  //   }).catch((error) => {
+  //     console.log('Error archving message', error); 
+  //   });
   }
 // if successful, saves the URL for the uploaded picture
 getPictureURL = (result) => {

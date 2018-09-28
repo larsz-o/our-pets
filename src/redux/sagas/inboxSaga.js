@@ -1,19 +1,31 @@
 import { put, call, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
+import swal from 'sweetalert';
 
 
 function* sendMessages(action) {
     try{
-        yield call(axios.post, 'api/inbox', action.payload);
+        yield call(axios.post, '/api/inbox', action.payload);
+        yield put (swal('Success!', 'Message sent!', 'success')); 
         yield put({type: 'FETCH_SENT_MESSAGES'});
     } catch (error) {
         console.log('Error sending message', error);
+        swal('Oh no!', 'Error sending message', 'warning'); 
     }
+  }
+  function* acceptInvitation(action){
+      try{
+        yield call(axios.put, '/api/household/accept', action.payload);
+        yield put({type:'FETCH_ARCHIVED_MESSAGES'});
+      } catch (error){
+          console.log('Error accepting invitation', error); 
+      }
   }
   function* archiveMessages(action) {
     try{
-        yield call(axios.put, 'api/inbox', action.payload);
+        yield call(axios.put, '/api/inbox', action.payload);
         yield put({type:'FETCH_ARCHIVED_MESSAGES'});
+        yield put({type:'FETCH_NEW_MESSAGES'}); 
     } catch (error) {
         console.log('Error archiving message', error);
     }
@@ -29,7 +41,7 @@ function* sendMessages(action) {
   }
   function* fetchArchivedMessages() {
     try{
-        const archivedMessageFetch = yield call(axios.get, '/api/inbox?archived=true');
+        const archivedMessageFetch = yield call(axios.get, '/api/inbox?archived=true&invitation=false');
         const responseAction = { type: 'SET_ARCHIVED_MESSAGES', payload: archivedMessageFetch.data };
         yield put(responseAction);
     } catch (error) {
@@ -48,7 +60,7 @@ function* sendMessages(action) {
   function* fetchSentMessages() {
     try{
         const sentMessageFetch = yield call(axios.get, '/api/inbox/sent');
-        const responseAction = { type: 'SET_SET_MESSAGES', payload: sentMessageFetch.data };
+        const responseAction = { type: 'SET_SENT_MESSAGES', payload: sentMessageFetch.data };
         yield put(responseAction);
     } catch (error) {
         console.log('Error getting archived messages', error);
@@ -61,5 +73,6 @@ function* sendMessages(action) {
       yield takeLatest('FETCH_SENT_MESSAGES', fetchSentMessages);
       yield takeLatest('ARCHIVE_MESSAGE', archiveMessages); 
       yield takeLatest('FETCH_INVITATIONS', fetchInvitations);
+      yield takeLatest('ACCEPT_INVITATION', acceptInvitation);
   }
 export default inboxSaga;

@@ -48,6 +48,7 @@ router.get('/sent', (req, res) => {
 //archives read messages
 router.put('/', (req, res) => {
     if(req.isAuthenticated){
+        console.log(req.body.id); 
         const query = `UPDATE "inbox" SET "archived" = true WHERE "id" = $1;`; 
         pool.query(query, [req.body.id]).then((results) => {
             res.sendStatus(200);
