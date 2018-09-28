@@ -5,7 +5,12 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import moment from 'moment'; 
 import axios from 'axios';
 import swal from 'sweetalert';
+import {connect} from 'react-redux';
 
+const mapStateToProps = state => ({
+  user: state.user,
+  invitations: state.inbox.invitations
+});
 class InvitationsMessages extends Component {
 // accept will send a PUT request authorizing the member as a household member 
   // then, the message will be archived the user's inbox
@@ -75,4 +80,4 @@ class InvitationsMessages extends Component {
         );
     }
 }
-export default InvitationsMessages;
+export default connect(mapStateToProps)(InvitationsMessages);

@@ -13,17 +13,14 @@ import {Paper} from '@material-ui/core';
 
 const mapStateToProps = state => ({
   user: state.user,
-  totalHouseholds: state.allHouseholds.totalUserHouseholds
+  totalHouseholds: state.allHouseholds.totalUserHouseholds,
+  messages: state.inbox.newMessages
 });
 class Inbox extends Component {
   constructor(props){
     super(props);
     this.state = {
-      messages: [],
       household_members: [], 
-      sentMessages: [],
-      archivedMessages: [], 
-      invitations: []
     }
   }
   componentDidMount() {
@@ -39,95 +36,90 @@ class Inbox extends Component {
     }
   }
   getAllHouseholdMembers = () => {
-      for(let i = 0; i < this.props.totalHouseholds.length; i++){
-          let household_id = this.props.totalHouseholds[i].household_id; 
-          console.log('in get all household members', household_id);
-          axios({
-            method: 'GET', 
-            url: `/api/household/members/all?id=${household_id}`
-        }).then((response) => {
-          console.log(response.data);
-          this.setState({
-            household_members: [...this.state.household_members, ...response.data]
-          });
-        }).catch((error) => {
-            console.log('Error getting all household members', error);
-        });
-      } 
+    axios({
+      method: 'GET', 
+      url: '/api/household/members/all'
+  }).then((response) => {
+    console.log(response.data);
+    const action = {type: 'SET_ALL_HOUSEHOLD_MEMBERS', payload: response.data};
+    this.props.dispatch(action);
+  }).catch((error) => {
+      console.log('Error getting all household members', error);
+  });
   }
   //gets sent messages
 getSentMessages = () => {
-  axios({
-    method: 'GET',
-    url: '/api/inbox/sent'
-  }).then((response) => {
-    this.setState({
-      sentMessages: response.data
-    });
-  }).catch((error) => {
-    console.log('Error getting sent messages', error); 
-  });
+  this.props.dispatch({type: 'FETCH_SENT_MESSAGES'});
+  // axios({
+  //   method: 'GET',
+  //   url: '/api/inbox/sent'
+  // }).then((response) => {
+  // const action = {type: 'SET_SENT_MESSAGES', payload: response.data};
+  // this.props.dispatch(action); 
+  // }).catch((error) => {
+  //   console.log('Error getting sent messages', error); 
+  // });
 }
 //get archived messages
 getArchivedMessages = () => {
-  axios({
-    method: 'GET',
-    url: '/api/inbox?archived=true'
-  }).then((response) => {
-    this.setState({
-      archivedMessages: response.data
-    });
-  }).catch((error) => {
-    console.log('Error getting messages', error); 
-  });
+  this.props.dispatch({type: 'FETCH_ARCHIVED_MESSAGES'});
+  // axios({
+  //   method: 'GET',
+  //   url: '/api/inbox?archived=true'
+  // }).then((response) => {
+  //   const action = {type: 'SET_ARCHIVED_MESSAGES', payload: response.data};
+  //   this.props.dispatch(action);
+  // }).catch((error) => {
+  //   console.log('Error getting messages', error); 
+  // });
 }
   //gets current messages when component mounts 
   getMessages = () => {
-    axios({
-      method: 'GET',
-      url: '/api/inbox?archived=false&invitation=false'
-    }).then((response) => {
-      this.setState({
-        messages: response.data
-      });
-      this.getInvitations();
-    }).catch((error) => {
-      console.log('Error getting messages', error); 
-    });
+    this.props.dispatch({type: 'FETCH_NEW_MESSAGES'});
+    // axios({
+    //   method: 'GET',
+    //   url: '/api/inbox?archived=false&invitation=false'
+    // }).then((response) => {
+    //   const action = {type: 'SET_NEW_MESSAGES', payload: response.data};
+    //   this.props.dispatch(action);
+    //   this.getInvitations();
+    // }).catch((error) => {
+    //   console.log('Error getting messages', error); 
+    // });
   }
   //gets current messages when component mounts 
   getInvitations = () => {
-    axios({
-      method: 'GET',
-      url: '/api/inbox?archived=false&invitation=true'
-    }).then((response) => {
-      this.setState({
-        invitations: response.data
-      });
-    }).catch((error) => {
-      console.log('Error getting messages', error); 
-    });
+    this.props.dispatch({type: 'FETCH_INVITATIONS'});
+    // axios({
+    //   method: 'GET',
+    //   url: '/api/inbox?archived=false&invitation=true'
+    // }).then((response) => {
+    //   const action = {type: 'SET_INVITATIONS', payload: response.data};
+    //   this.props.dispatch(action);
+    // }).catch((error) => {
+    //   console.log('Error getting messages', error); 
+    // });
   }
   render() {
     let content = null;
-    if (this.props.user.userName && this.state.messages.length > 0) {
+    if (this.props.user.userName && this.props.messages.length > 0) {
       content = (
         <Paper>
           <ComposeMessage householdMembers={this.state.household_members}/>
-          <NewMessages messages={this.state.messages}/>
-          <Invitations invitations={this.state.invitations}/>
-          <ArchivedMessages archivedMessages={this.state.archivedMessages}/>
-          <SentMessages sentMessages={this.state.sentMessages}/>
+          <NewMessages />
+          <Invitations />
+          <ArchivedMessages />
+          <SentMessages />
         </Paper>
         );
-    } else if (this.props.user.userName && this.state.messages.length === 0){
+    } else if (this.props.user.userName && this.props.messages.length === 0){
       content = (
         <Paper>
           <ComposeMessage householdMembers={this.state.household_members}/>
           <p>No new messages.</p>
-          <Invitations invitations={this.state.invitations}/>
-          <ArchivedMessages archivedMessages={this.state.archivedMessages}/>
-          <SentMessages sentMessages={this.state.sentMessages}/>
+          <Invitations />
+          <ArchivedMessages />
+          <SentMessages />
            </Paper>
       );
     }

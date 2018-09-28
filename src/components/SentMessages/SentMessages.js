@@ -3,7 +3,12 @@ import '../Inbox/inbox.css';
 import {ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Paper} from '@material-ui/core';
 import ExpandMore from '@material-ui/icons/ExpandMore'; 
 import moment from 'moment';
+import {connect} from 'react-redux';
 
+const mapStateToProps = state => ({
+    user: state.user,
+    sentMessages: state.inbox.sentMessages
+  });
 class SentMessages extends Component {
 
     render(){
@@ -25,4 +30,4 @@ class SentMessages extends Component {
         );
     }
 }
-export default SentMessages;
+export default connect(mapStateToProps)(SentMessages);

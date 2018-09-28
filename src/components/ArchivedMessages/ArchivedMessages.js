@@ -3,7 +3,12 @@ import '../Inbox/inbox.css';
 import {ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Paper} from '@material-ui/core';
 import ExpandMore from '@material-ui/icons/ExpandMore'; 
 import moment from 'moment'; 
+import {connect} from 'react-redux'; 
 
+const mapStateToProps = state => ({
+    user: state.user,
+    archivedMessages: state.inbox.archivedMessages
+  });
 class ArchivedMessages extends Component {
     render(){
         return(
@@ -24,4 +29,4 @@ class ArchivedMessages extends Component {
         );
     }
 }
-export default ArchivedMessages;
+export default connect(mapStateToProps)(ArchivedMessages);

@@ -65,28 +65,28 @@ sendMessage = () => {
         open: false
     });
     let date = new Date(); 
-    axios({
-        method: 'POST', 
-        url: 'api/inbox', 
-        data: {receiver: this.state.receiver, subject: this.state.subject, message: this.state.message, date: date, invitation: false, image_path: this.state.image_path}
-    }).then((response) => {
-        swal('Success!', 'Message sent!', 'success');
-        this.setState({
-            message: '',
-            receiver: 0, 
-            subject: ''
-        });
-    }).catch((error) => {
-        swal('Oh no!', 'Error sending message', 'warning'); 
-        console.log('Error sending message', error); 
-    });
+    this.props.dispatch({type: 'POST_MESSAGE', payload: {receiver: this.state.receiver, subject: this.state.subject, message: this.state.message, date: date, invitation: false, image_path: this.state.image_path}})
+    // axios({
+    //     method: 'POST', 
+    //     url: 'api/inbox', 
+    //     data: 
+    // }).then((response) => {
+    //     swal('Success!', 'Message sent!', 'success');
+    //     this.setState({
+    //         message: '',
+    //         receiver: 0, 
+    //         subject: ''
+    //     });
+    // }).catch((error) => {
+    //     swal('Oh no!', 'Error sending message', 'warning'); 
+    //     console.log('Error sending message', error); 
+    // });
 }
     render(){
     let content = null;
         if (this.props.user.userName){
         content = (
             <div className="right">
-            {JSON.stringify(this.props.allMembers)}
            <Button size="small" onClick={this.handleClickOpen} variant="outlined" size="small" color="primary">Compose</Button>
             <Dialog 
                 open={this.state.open}

@@ -13,7 +13,8 @@ const mapStateToProps = state => ({
     user: state.user,
     pets: state.currentHousehold.currentPets,
     members: state.currentHousehold.currentHouseholdMembers, 
-    nextPage: state.nextPage.nextPage
+    nextPage: state.nextPage.nextPage,
+    messages: state.inbox.newMessages
   });
   const options = {
     accept: 'image/*',
@@ -30,7 +31,7 @@ class NewMessages extends Component {
       message: '', 
       receiver: '',
       image_path: '', 
-      open: false
+      open: false,
     }
   }
     componentDidMount() {
@@ -44,6 +45,7 @@ class NewMessages extends Component {
       data: {id: messageID}
     }).then((response) => {
       console.log('Message archived.');
+      // this.getMessages();
     }).catch((error) => {
       console.log('Error archving message', error); 
     });
@@ -106,6 +108,7 @@ sendMessage = () => {
               </Badge>
             </ExpansionPanelSummary>
                {this.props.messages.map((message, i) => {
+                 if(message.image_path !== null){
                  return (
                    <div key={i}>
                    <div>
@@ -143,6 +146,44 @@ sendMessage = () => {
              </Dialog>
              </div>
                  );
+                } else {
+                  return (
+                    <div key={i}>
+                   <div>
+                   <ExpansionPanel>
+                       <ExpansionPanelSummary expandIcon={<ExpandMore/>}> From: <span> {message.sender} </span> "{message.subject}"  {moment(message.date).format('MM-DD-YYYY')}</ExpansionPanelSummary>
+                       <ExpansionPanelDetails>{message.message}</ExpansionPanelDetails>
+                       <Button variant="contained" color="primary" size="small" onClick={()=>this.reply(message)}>Reply</Button>
+                       <Button variant="contained" size="small" onClick={()=>this.archiveMessage(message.id)}>Archive</Button>
+                     </ExpansionPanel>
+                 </div>
+                 <Dialog 
+                 open={this.state.open}
+                 onClose={this.handleClose}
+                 aria-labelledby="compose-message-title">
+                 <DialogTitle id="compose-message-title">
+                     New Message
+                 </DialogTitle>
+                 <DialogContent>
+                     To: {this.state.receiver_name}
+                 </DialogContent>
+                 <DialogContent>
+                     <InputLabel>Subject: </InputLabel><Input value={this.state.subject} onChange={(event)=>this.handleInputChangeFor('subject', event)}/><br/>
+                    <InputLabel>Message: </InputLabel><Input value={this.state.message} onChange={(event)=>this.handleInputChangeFor('message', event)}/><br/>
+                     <ReactFilestack
+                         apikey='ACGkY2eEqTDG52A5eOG3Az'
+                         buttonText="Upload picture"
+                         buttonClass="filestackButton"
+                         options={options}
+                         onSuccess={this.getPictureURL}/>
+                 </DialogContent>
+                 <DialogContent>
+                     <Button variant="outlined" color="secondary" onClick={this.handleClose}>Cancel</Button><Button variant="outlined" color="primary" onClick={this.sendMessage}>Send</Button>
+                 </DialogContent>
+             </Dialog>
+             </div>
+                  );
+                }
                })}
                </ExpansionPanel>
             </Paper>

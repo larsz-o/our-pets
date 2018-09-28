@@ -5,6 +5,7 @@ import householdBuilder from './householdBuilder';
 import currentHousehold from './currentHousehold'; 
 import nextPage from './navigation'; 
 import allHouseholds from './allUserHouseholds';
+import inbox from './inboxReducer';
 
 const store = combineReducers({
   user,
@@ -12,7 +13,8 @@ const store = combineReducers({
   householdBuilder, 
   currentHousehold,
   nextPage,
-  allHouseholds
+  allHouseholds,
+  inbox
 });
 
 export default store;
