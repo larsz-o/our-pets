@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import {Paper, Button, IconButton, Typography, Avatar} from '@material-ui/core'; 
+import {Paper, Button, IconButton, Typography, Avatar, Dialog, DialogTitle, List, ListItem, ListItemAvatar} from '@material-ui/core'; 
 import ReactFilestack from 'filestack-react';
 import axios from 'axios';
 import swal from 'sweetalert'; 
-import {Home, GroupAdd} from '@material-ui/icons';
+import {Home, AddCircle, People, Repeat} from '@material-ui/icons';
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -27,7 +27,7 @@ class MyAccount extends Component {
   constructor(props){
     super(props);
     this.state = {
-      open: false; 
+      open: false, 
     }
   }
   componentDidMount() {
@@ -66,9 +66,16 @@ class MyAccount extends Component {
       open: true
     });
   }
+  handleClose = () => {
+    this.setState({
+      open: false
+    });
+  }
   navToProfile = (id) => {
-    console.log(id);
     this.props.history.push(`/#/account/${id}`);
+  }
+  navTo = (url) => {
+    this.props.history.push(url); 
   }
 //removes member from household
     removeFromHousehold = (house) => {
@@ -102,6 +109,35 @@ class MyAccount extends Component {
         <div>
           <div className="float-right">
           <IconButton size="small" color="secondary" onClick={this.handleIconClick}><Home/></IconButton>
+          <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="dialog-title">
+            <DialogTitle id="dialog-title" className="dialog-title">Manage Households</DialogTitle>
+            <List>
+              <ListItem className="dialog-list" button onClick={() => this.navTo('/createhousehold')}>
+              <ListItemAvatar>
+                  <Avatar className="avatar-list">
+                    <AddCircle />
+                  </Avatar>
+                  </ListItemAvatar>
+                    Create New Household
+              </ListItem>
+              <ListItem className="dialog-list" button onClick={() => this.navTo('/joinhousehold')}>
+              <ListItemAvatar>
+                  <Avatar className="avatar-list">
+                    <People />
+                  </Avatar>
+                  </ListItemAvatar>
+                    Join Another Household
+              </ListItem>
+              <ListItem className="dialog-list" button onClick={() => this.navTo('/selecthousehold')}>
+              <ListItemAvatar>
+                  <Avatar className="avatar-list">
+                    <Repeat />
+                  </Avatar>
+                  </ListItemAvatar>
+                    Switch Households
+              </ListItem>
+            </List>
+          </Dialog>
           </div>
           <Typography variant="headline">Welcome, {this.props.user.first_name}!</Typography>
           <br/>

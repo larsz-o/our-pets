@@ -1,11 +1,18 @@
 body, html {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Roboto', Tahoma, Geneva, Verdana, sans-serif;
     height: 100%;;
 }
 a{
     text-decoration: none; 
 }
 .avatar{
+    margin: 10;
+    width: 60;
+    height: 60;
+}
+.avatar-list{
+    background-color: cadetblue;
+    color: navy;
     margin: 10;
     width: 60;
     height: 60;
@@ -143,8 +150,12 @@ li a:hover {
     margin-left: 30px; 
     font-size: 3em; 
 }
-#join-title{
+.dialog-title{
     background-color: rgb(193, 167, 201); 
+    text-align: center;
+}
+.dialog-list{
+    padding: 5px;  
 }
 #subheading {
     text-align: center;

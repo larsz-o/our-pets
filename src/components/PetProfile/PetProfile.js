@@ -5,6 +5,7 @@ import axios from 'axios';
 import moment from 'moment';
 import Nav from '../Nav/Nav';
 import ReportingData from '../ReportingTableComponent/ReportingTableComponent';
+import ReactFilestack from 'filestack-react';
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -12,7 +13,13 @@ const mapStateToProps = state => ({
     members: state.currentHousehold.currentHouseholdMembers, 
     nextPage: state.nextPage.nextPage
 });
-
+const options = {
+  accept: 'image/*',
+  maxFiles: 1,
+  storeTo: {
+    location: 's3',
+  },
+};
 class PetProfile extends Component {
     constructor(props){
         super(props);
@@ -72,6 +79,29 @@ class PetProfile extends Component {
           });
         }
       }
+      getPet = () => {
+        axios.get(`/api/pets/profile?id=${this.state.pet.id}`)
+          .then((response)=> {
+            console.log('pet', response.data);
+            this.setState({ 
+                pet: response.data 
+            });
+          }).catch((error)=> {
+              console.log('Error getting pet', error); 
+          });
+      }
+      getPictureURL = (result) => {
+        let url = result.filesUploaded[0].url; 
+        axios({
+          method: 'PUT', 
+          url: '/api/pets/', 
+          data: {url: url, id: this.state.pet.id}
+        }).then((response) => {
+          this.getPet();
+        }).catch((error) => {
+          console.log('Error updating photo', error);
+        })
+      }
       handleChangeFor = (property, event) => {
           console.log(event.target.value);
         this.setState({
@@ -87,6 +117,12 @@ render(){
                <div key={i}>
                <Typography variant="display1">{pet.name}</Typography>
                <img src={pet.image_path} alt={pet.name}/>
+               <ReactFilestack
+                  apikey='ACGkY2eEqTDG52A5eOG3Az'
+                  buttonText="Update pet photo"
+                  buttonClass="filestackButton"
+                  options={options}
+                  onSuccess={this.getPictureURL}/>
                <Typography>Birthday: {moment(pet.birthday).format('MMMM do, YYYY')}</Typography>
                </div>
            );

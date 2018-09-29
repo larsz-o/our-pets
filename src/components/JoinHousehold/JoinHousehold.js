@@ -120,7 +120,7 @@ class JoinHousehold extends Component {
                             open={this.state.open}
                             onClose={this.handleClose}
                             aria-labelledby="join-title">
-                        <DialogTitle className="center" id="join-title">
+                        <DialogTitle className="dialog-title" id="join-title">
                             Household Details
                         </DialogTitle><br/>
                         <DialogContent>
