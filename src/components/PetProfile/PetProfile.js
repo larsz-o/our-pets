@@ -91,7 +91,7 @@ render(){
                </div>
            );
        })}
-       <Paper>
+       <div>
        <InputLabel>Activity </InputLabel> 
           <Select value={this.state.activity_id} onChange={(event)=>this.handleChangeFor('activity_id', event)}>
             <MenuItem value="1">Feedings</MenuItem>
@@ -108,8 +108,10 @@ render(){
             <MenuItem value={30}>30</MenuItem>
           </Select>
             <Button onClick={this.getActivityData}>Submit</Button>
+            <div className="reports-div">
             <ReportingData activityID={this.state.activity_id} activityData={this.state.activityData}/>
-        </Paper>
+          </div>
+        </div>
     </div>
         );
     }
