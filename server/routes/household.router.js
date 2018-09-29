@@ -68,7 +68,7 @@ router.get('/members', (req, res) => {
     if(req.isAuthenticated){
         const queryParam = req.query.id; 
         console.log('in get household members', queryParam);
-        const query = `SELECT "person"."id", "username", "first_name", "household_members"."authorized", "phone_number", "role", "text_alert_walk", "text_alert_fed", "text_alert_litterbox", "text_alert_medications" FROM "person" JOIN "household_members" ON "household_members"."member" = "person"."id" WHERE "household_members"."household_id" = $1;`;
+        const query = `SELECT "person"."id", "username", "first_name", "household_members"."authorized", "phone_number", "household_members"."role", "text_alert_walk", "text_alert_fed", "text_alert_litterbox", "text_alert_medications" FROM "person" JOIN "household_members" ON "household_members"."member" = "person"."id" WHERE "household_members"."household_id" = $1;`;
         pool.query(query, [queryParam]).then((results) => {
             console.log(results.rows);
             res.send(results.rows);
@@ -175,7 +175,7 @@ router.delete('/removefrom', (req, res) => {
       });
 //user deleting themselves from household
 router.delete('/removeself', (req, res) => {
-    if(req.isAuthenticated && req.user.role === 1){
+    if(req.isAuthenticated){
         const query = `DELETE FROM "household_members" WHERE "member" = $1 and "household_id" = $2;`; 
         pool.query(query, [req.user.id, req.body.household_id]).then((results) => {
             res.sendStatus(200);

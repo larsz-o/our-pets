@@ -5,6 +5,11 @@ body, html {
 a{
     text-decoration: none; 
 }
+.avatar{
+    margin: 10;
+    width: 60;
+    height: 60;
+}
 .bold{
     font-weight: bold;
 }
@@ -42,19 +47,11 @@ a{
 .inbox-div {
     margin-top: 20px;
 }
-.instructions {
-    padding: 5px;
-    background-color: beige;
-    color: gray; 
-    height: 100px;  
-}
-.filestackButton{
-    background-color: tomato; 
-    color: white;
+.filestackButton{ 
     font-size: 14px;
     border-radius: 5px; 
     padding: 5px; 
-    align-content: center; 
+    text-align: center; 
 }
 .float-right{
     float: right; 
@@ -75,6 +72,9 @@ input {
 input[type="submit"] {
     margin: 10px;
 }
+.login-container{
+ background-image: url('../components/Header/Mini-longhair-dachshund-puppy-24511277778995262f.jpg');
+}
 .member-list{
     padding: 5px;
     margin-top: 5px; 
@@ -94,7 +94,18 @@ input[type="submit"] {
 .message:nth-child(even) {
     background-color: #f8f8f8;
 }
-
+.mini-card {
+    height: 120px;
+    width: 120px; 
+    padding: 5px;
+    margin: 10px;
+    float: left; 
+    border: 1px solid gray;
+    text-align: center;
+}
+.mini-card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
 .navbar {
   background-color: beige;
   width: 100%;

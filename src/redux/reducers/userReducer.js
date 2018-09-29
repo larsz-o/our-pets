@@ -71,16 +71,6 @@ const phone_number = (state = null, action) => {
       return state;  
     }
 };
-const role = (state = null, action) => {
-  switch (action.type) {
-    case USER_ACTIONS.SET_USER:
-      return action.user.role;
-    case USER_ACTIONS.UNSET_USER:
-      return null;
-    default:
-      return state;
-  }
-};
 const text_alert_fed = (state = null, action) => {
   switch (action.type) {
     case USER_ACTIONS.SET_USER:
@@ -140,7 +130,6 @@ export default combineReducers({
   phone_number,
   image_path, 
   authorized,
-  role,
   text_alert_fed, 
   text_alert_walk,
   text_alert_medications,

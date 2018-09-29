@@ -57,10 +57,11 @@ addMembersToHousehold = () => {
   });
 }}
 navTo = () => {
-  this.props.history.push('/dashboard');
+  this.props.history.push('/selecthousehold');
 }
 sendInvitation = () => {
   console.log('in send invitation');
+  let date = new Date();
   for (let i = 0; i < this.props.household.users.length; i++){
     if(this.props.household.users[i].id !== this.props.user.id){
       let member = this.props.household.users[i];
@@ -68,7 +69,7 @@ sendInvitation = () => {
   axios({
     method: 'POST', 
     url: '/api/inbox',
-    data: {sender: this.props.user.id, receiver: member.id, subject: 'Will you join my household?', message: `Hi ${member.username}! I'd like you to join my household so that we can coordinate pet care. Do you accept?`, invitation: true, household_id: this.props.household.household_id}
+    data: {sender: this.props.user.id, date: date, receiver: member.person_id, subject: 'Will you join my household?', message: `Hi ${member.username}! I'd like you to join my household so that we can coordinate pet care. Do you accept?`, invitation: true, household_id: this.props.household.household_id}
   }).then((response)=> {
     swal(`Invitation sent to ${member.username}!`);
     this.navTo();

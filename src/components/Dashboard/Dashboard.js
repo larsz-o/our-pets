@@ -10,7 +10,8 @@ const mapStateToProps = state => ({
   user: state.user,
   household: state.householdBuilder.household,
   pets: state.currentHousehold.currentPets,
-  nextPage: state.nextPage.nextPage
+  nextPage: state.nextPage.nextPage,
+  nickname: state.currentHousehold.householdNickname
 });
 
 class Dashboard extends Component {
@@ -97,7 +98,7 @@ class Dashboard extends Component {
       content = (
         <div>
            <div id="welcome">
-              <h1>Welcome, { this.props.user.userName }!</h1>
+             <Typography variant="display1">{this.props.nickname[0].nickname}</Typography> 
               <Typography variant="body1">{this.state.message}</Typography>
             </div>
             <div className="container">

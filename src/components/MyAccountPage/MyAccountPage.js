@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import {Paper, Button} from '@material-ui/core'; 
+import {Paper, Button, IconButton, Typography, Avatar} from '@material-ui/core'; 
 import ReactFilestack from 'filestack-react';
 import axios from 'axios';
 import swal from 'sweetalert'; 
+import {Home, GroupAdd} from '@material-ui/icons';
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -23,6 +24,12 @@ const options = {
   },
 };
 class MyAccount extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      open: false; 
+    }
+  }
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
   }
@@ -42,6 +49,23 @@ class MyAccount extends Component {
       this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
     })
   }
+  getHouseholdMembers = () => {
+    axios({
+      method: 'GET', 
+      url: `/api/household/members?id=${this.props.user.household_id}`
+    }).then((response) => {
+      const action = {type: 'SET_HOUSEHOLD_MEMBERS', payload: response.data};
+      this.props.dispatch(action); 
+      this.getHouseholdName(); 
+    }).catch((error) => {
+      console.log('Error getting household members', error); 
+    })
+  }
+  handleIconClick = () => {
+    this.setState({
+      open: true
+    });
+  }
   navToProfile = (id) => {
     console.log(id);
     this.props.history.push(`/#/account/${id}`);
@@ -57,7 +81,7 @@ class MyAccount extends Component {
       if (willDelete){
         axios({
           method: 'DELETE', 
-          url: '/api/household/removefrom',
+          url: '/api/household/removeself',
           data: {household_id: house.household_id}
         }).then((response) => {
           swal('You have been removed.', {icon: 'success'});
@@ -76,42 +100,34 @@ class MyAccount extends Component {
     if (this.props.user.userName) {
       content = (
         <div>
-          <h1>Welcome, {this.props.user.first_name}</h1>
+          <div className="float-right">
+          <IconButton size="small" color="secondary" onClick={this.handleIconClick}><Home/></IconButton>
+          </div>
+          <Typography variant="headline">Welcome, {this.props.user.first_name}!</Typography>
           <br/>
           <Paper>
-            <img src={this.props.user.image_path} alt={this.props.user.username}/>
+            <img src={this.props.user.image_path} alt={this.props.user.username} className="center"/>
             <br/>
             <ReactFilestack
                   apikey='ACGkY2eEqTDG52A5eOG3Az'
-                  buttonText="Upload user photo"
+                  buttonText="Upload new user photo"
                   buttonClass="filestackButton"
                   options={options}
                   onSuccess={this.getPictureURL}/>
-              <p>Current Household Name: {this.props.household.map((name, i) => {
-                return(
-                  <span key={i}>{name.nickname}</span>
-                );
-              })}</p>
-              <p>All Households:</p>
-              <ul>{this.props.totalHouses.map((house, i)=> {
-                return(
-                  <li key={i}>{house.nickname} <Button size="small" color="primary" onClick={()=>this.removeFromHousehold(house)}>Leave Household</Button></li>
-                );
-              })}</ul> 
-              <p>Pets:  <br/>
+              <Typography><span className="bold">Current Pets:</span></Typography><br/>
              {this.props.pets.map((pet, i) => {
                return(
-                <span key={i}>{pet.name} <a href={ `/#/account/${pet.id}` }><Button size="small" color="primary">View Profile</Button></a><br/> </span>
+                <div className="mini-card" key={i}>
+                <Avatar
+                alt={pet.name}
+                src={pet.image_path}
+                className="avatar"
+              /><br/>
+                    {pet.name}<br/> 
+                    <a href={ `/#/account/${pet.id}` }><Button size="small" color="primary">View Profile</Button></a><br/> 
+                </div>
                   );
               })}
-              </p>
-              <p>Household Members: <br/>
-                {this.props.members.map((member, i) => {
-                  return(
-                    <span key={i}> {member.first_name} <br/></span>
-                  );
-                })}
-              </p>
           </Paper> 
         </div>
       );
