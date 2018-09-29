@@ -10,41 +10,27 @@ import swal from 'sweetalert';
 const mapStateToProps = state => ({
   user: state.user,
   household: state.householdBuilder.household,
-  member: state.householdBuilder.household.users,
   nextPage: state.nextPage.nextPage
 });
 
 class ConfirmHousehold extends Component {
 //if addPets() is successful, it will call editUsers() to edit the person table, adding the household_id key 
   addPets = () => {
-    console.log('in addPets')
-    axios({
+    console.log('in adding pets');
+    for (let i = 0; i < this.props.household.pets.length; i++) {
+      let newPet = {name: this.props.household.pets[i].pet_name, species_id: this.props.household.pets[i].species_id, birthday: this.props.household.pets[i].birthday, image_path: this.props.household.pets[i].image_path, household_id: this.props.household.household_id}
+      console.log(newPet); 
+      axios({
       method: 'POST', 
       url: '/api/pets',
-      data: this.props.household
+      data: newPet
     }).then((response) => {
       console.log('Success!', response); 
-      this.editUser();
+      this.addMembersToHousehold();
     }).catch((error) => {
       console.log('Error adding pets', error); 
     });
-  }
-  // will send a text message to each added household member, asking them to confirm their invitation
-  alertUser = () =>{
-    for (let i = 0; i < this.props.member.length; i++){
-      if(!this.props.member[i].authorized){
-        axios({
-          method: 'POST', 
-          url: '/api/text/confirm',
-          data: {number: this.props.member[i].phone_number, message: `Hi ${this.props.member[i].username}! ${this.props.user.username} has invited you to join their household on Did You Feed Them? so that you can coordinate pet care. Check out the invitation in your inbox: [url]`}
-        }).then((response) => {
-          this.sendInvitation(this.props.member[i]); 
-        }).catch((error) => {
-          console.log('Error sending invitation', error); 
-        });
-      }
-    }
-  }
+  }}
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
   }
@@ -54,39 +40,50 @@ class ConfirmHousehold extends Component {
           this.props.history.push(this.props.nextPage);
     }
   }
-  //editUser makes a put request to existing users, adding the household_id to their database entry. 
-  //this concludes the createHousehold functionality, so an alert is generated upon success
-  //then, users are pushed to their dashboard
-editUser = () => {
-  console.log('in edit users');
-  axios({
+addMembersToHousehold = () => {
+  console.log('adding members to household');
+  for (let i = 0; i < this.props.household.users.length; i++){
+    let newUser = {household_id: this.props.household.household_id, authorized: this.props.household.users[i].authorized, person_id: this.props.household.users[i].person_id, role: this.props.household.users[i].role}; 
+    console.log(newUser);
+    axios({
     method: 'POST', 
     url: 'api/household/addmembers', 
-    data: this.props.household
+    data: newUser
   }).then((response) => {
-    swal(`'Nice!', '${this.props.household.nickname} Household created!', 'success'`);
-    this.alertUser();
+    swal(`${this.props.household.nickname} Household created!`);
+    this.sendInvitation();
   }).catch((error) => {
     console.log('Error updating user information', error); 
-  })
+  });
+}}
+navTo = () => {
+  this.props.history.push('/dashboard');
 }
-sendInvitation = (member) => {
+sendInvitation = () => {
+  console.log('in send invitation');
+  for (let i = 0; i < this.props.household.users.length; i++){
+    if(this.props.household.users[i].id !== this.props.user.id){
+      let member = this.props.household.users[i];
+      console.log(member);
   axios({
     method: 'POST', 
     url: '/api/inbox',
-    data: {sender: this.props.user.id, receiver: member.id, subject: 'Will you join my household?', message: `Hi ${this.props.member.username}! I'd like you to join my household so that we can coordinate pet care. Do you accept?`, invitation: true, household_id: this.props.household.household_id}
+    data: {sender: this.props.user.id, receiver: member.id, subject: 'Will you join my household?', message: `Hi ${member.username}! I'd like you to join my household so that we can coordinate pet care. Do you accept?`, invitation: true, household_id: this.props.household.household_id}
   }).then((response)=> {
-    this.props.history.push('/dashboard'); 
+    swal(`Invitation sent to ${member.username}!`);
+    this.navTo();
   }).catch((error)=> {
     console.log('Error sending invitation to inbox', error); 
   });
-  
-}
-  render() {
+  }
+}}
+render() {
     let content = null;
     if (this.props.user.userName) {
       content = (
         <div className="confirmDiv">
+        {JSON.stringify(this.props.household.pets)}
+        {JSON.stringify(this.props.household.users)}
           <Paper>
             <h2>Does this look right?</h2>
             <p>Household Nickname:</p>

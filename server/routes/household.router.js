@@ -114,16 +114,14 @@ router.get('/all', (req, res) => {
 router.post('/addmembers', (req, res) => {
     if(req.isAuthenticated){
       const userToAdd = req.body; 
-      const query = `INSERT INTO "household_members" ("household_id", "authorized", "member") VALUES ($1, $2, $3);`;
-      for (let i = 0; i < userToAdd.users.length; i++){
-        let newUser = userToAdd.users[i]; 
-        pool.query(query, [userToAdd.household_id, newUser.authorized, newUser.person_id]).then((result) => {
+      console.log('user to add, addmembers', userToAdd);
+      const query = `INSERT INTO "household_members" ("household_id", "authorized", "member", "role") VALUES ($1, $2, $3, $4);`;
+        pool.query(query, [userToAdd.household_id, userToAdd.authorized, userToAdd.person_id, userToAdd.role]).then((result) => {
           res.sendStatus(200);
         }).catch((error) => {
           console.log('Error updating user', error); 
           res.sendStatus(500); 
         });
-      }
     } else {
       res.sendStatus(403);
     }
@@ -132,8 +130,9 @@ router.post('/addmembers', (req, res) => {
 router.post('/createhousehold', (req, res) => {
     if(req.isAuthenticated){
         const householdToAdd = req.body;
-        const query = `INSERT INTO "households" ("nickname", "person_id", "description") VALUES ($1, $2, $3);`;
-            pool.query(query, [householdToAdd.nickname, householdToAdd.person_id, householdToAdd.description]).then((results) => {
+        console.log(householdToAdd);
+        const query = `INSERT INTO "households" ("nickname", "description") VALUES ($1, $2);`;
+            pool.query(query, [householdToAdd.nickname, householdToAdd.description]).then((results) => {
                 console.log(results); 
                 res.sendStatus(200); 
             }).catch((error) => {

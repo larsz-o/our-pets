@@ -4,17 +4,15 @@ const router = express.Router();
 //adding pets 
 router.post('/', (req, res) => {
     if(req.isAuthenticated){
-        const petToAdd = req.body; 
+        const newPet = req.body; 
+        console.log('pet to add', newPet);
         const query = `INSERT INTO "pets" ("name", "species_id", "birthday", "image_path", "household_id") VALUES ($1, $2, $3, $4, $5);`; 
-        for (let i = 0; i < petToAdd.pets.length; i ++) {
-            let newPet = petToAdd.pets[i]; 
-            pool.query(query, [newPet.pet_name, newPet.species_id, newPet.birthday, newPet.image_path, petToAdd.household_id]).then((results) => {
+            pool.query(query, [newPet.name, newPet.species_id, newPet.birthday, newPet.image_path, newPet.household_id]).then((results) => {
                 res.sendStatus(200);
             }).catch((error) => {
                 console.log('Error posting new pets', error); 
                 res.sendStatus(500); 
             });
-        }
     } else {
         res.sendStatus(403);
     }

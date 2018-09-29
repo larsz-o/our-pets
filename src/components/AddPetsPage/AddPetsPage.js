@@ -28,8 +28,8 @@ class AddPetsPage extends Component {
        image_path: '',
        medications: false,
        feeding: true, 
-       walking: '', 
-       litterbox: ''
+       walking: false, 
+       litterbox: true
     };
   }
   componentDidMount() {

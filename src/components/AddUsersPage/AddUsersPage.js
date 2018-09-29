@@ -21,7 +21,7 @@ class AddUsersPage extends Component {
   }
   addUserToHousehold = (member) => {
     console.log(member); 
-    const action = {type: 'SET_NEW_USERS', payload: { person_id: member.id, phone_number: member.phone_number, username: member.username, role: 2} };
+    const action = {type: 'SET_NEW_USERS', payload: { person_id: member.id, username: member.username, role: 2, authorized: false} };
     this.props.dispatch(action); 
     this.props.history.push('/confirmhousehold'); 
   }
@@ -54,7 +54,6 @@ class AddUsersPage extends Component {
     }).then((response) => {
         let userToAdd = response.data;
         if (userToAdd.username !== ''){
-        swal('Nice!', 'Some users were found. Check out the results', 'success'); 
         console.log(userToAdd); 
         const action = {type: 'SET_SEARCHED_USER', payload: userToAdd};
         this.props.dispatch(action); 

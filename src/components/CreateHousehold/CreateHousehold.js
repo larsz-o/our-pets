@@ -8,7 +8,7 @@ import axios from 'axios';
 
 const mapStateToProps = state => ({
   user: state.user,
-  household: state.householdBuilder.household.authorized,
+  household: state.householdBuilder.household,
   nextPage: state.nextPage.nextPage
 });
 
@@ -48,7 +48,7 @@ class CreateHousehold extends Component {
   }
   //getHouseholdID gets the household_id that was just created and calls sendUsersToRedux, adding the currently signed in user's information to the createhousehold reducer
   getHouseholdID = () => {
-    console.log('in getHouseholdId');
+    console.log('in getHouseholdId', this.props.household.nickname);
     axios({
       method: 'GET', 
       url: `api/household?nickname=${this.props.household.nickname}`
@@ -88,7 +88,7 @@ class CreateHousehold extends Component {
     if (this.props.user.userName) {
       content = (
         <div >
-          <h2>Create Household</h2>
+          <Typography variant="headline">Create Household</Typography>
           <div className="create-container">
               <InputLabel>Household Nickname:</InputLabel>
               <Input type="text" value={this.state.nickname} onChange={this.handleInputChangeFor('nickname')} required/><br/>
