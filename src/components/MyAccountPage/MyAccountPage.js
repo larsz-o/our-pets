@@ -59,17 +59,6 @@ class MyAccount extends Component {
       console.log('Error getting household members', error); 
     })
   }
-  getPets = () => {
-    axios({
-      method: 'GET', 
-      url: `/api/pets?id=${this.props.user.household_id}`
-    }).then((response) => {
-      const action = {type: 'SET_EXISTING_PETS', payload: response.data};
-      this.props.dispatch(action);    
-    }).catch((error) => {
-      console.log('Error getting pets', error); 
-    });
-  }
   handleIconClick = () => {
     this.setState({
       open: true
@@ -108,27 +97,7 @@ class MyAccount extends Component {
       }
     });
     }
-  //removes pet 
-  removePet = (pet) => {
-    swal({
-      title: `Are you sure you want to remove this pet?`,
-      icon: 'warning', 
-      buttons: true,
-      dangerMode: true
-  }).then((willDelete) => {
-    if (willDelete){
-      axios({
-        method: 'DELETE', 
-        url: `/api/pets?id=${pet.id}`,
-      }).then((response) => {
-        swal(`${pet.name} has been removed`, {icon: 'success'});
-        this.getPets(); 
-      }).catch((error) => {
-        console.log('Error removing pet', error); 
-      });
-    } 
-  });
-  }
+
   render() {
     let content = null;
 
@@ -178,6 +147,7 @@ class MyAccount extends Component {
                   buttonClass="filestackButton"
                   options={options}
                   onSuccess={this.getPictureURL}/>
+          </Paper> 
               <Typography><span className="bold">Current Pets:</span></Typography><br/>
              {this.props.pets.map((pet, i) => {
                return(
@@ -189,11 +159,10 @@ class MyAccount extends Component {
               /><br/>
                     {pet.name}<br/> 
                     <a href={ `/#/account/${pet.id}` }><Button size="small" color="primary">View Profile</Button></a><br/> 
-                    <Button size="small" color="primary" onClick={()=>this.removePet(pet)}>Remove Pet</Button>
                 </div>
                   );
               })}
-          </Paper> 
+         
         </div>
       );
     }

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import {Typography, InputLabel, MenuItem, Button, Select, Paper} from '@material-ui/core'; 
+import {Typography, InputLabel, MenuItem, Button, Select} from '@material-ui/core'; 
 import {connect} from 'react-redux';
 import axios from 'axios'; 
 import moment from 'moment';
 import Nav from '../Nav/Nav';
 import ReportingData from '../ReportingTableComponent/ReportingTableComponent';
 import ReactFilestack from 'filestack-react';
+import swal from 'sweetalert';
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -80,22 +81,23 @@ class PetProfile extends Component {
         }
       }
       getPet = () => {
-        axios.get(`/api/pets/profile?id=${this.state.pet.id}`)
+        axios.get(`/api/pets/profile?id=${this.state.pet[0].id}`)
           .then((response)=> {
             console.log('pet', response.data);
             this.setState({ 
                 pet: response.data 
             });
           }).catch((error)=> {
-              console.log('Error getting pet', error); 
+              console.log('Error updating pet photo', error); 
           });
       }
       getPictureURL = (result) => {
         let url = result.filesUploaded[0].url; 
+        console.log(url); 
         axios({
           method: 'PUT', 
           url: '/api/pets/', 
-          data: {url: url, id: this.state.pet.id}
+          data: {url: url, id: this.state.pet[0].id}
         }).then((response) => {
           this.getPet();
         }).catch((error) => {
@@ -108,6 +110,39 @@ class PetProfile extends Component {
           [property]: event.target.value
         });
       }
+      getPets = () => {
+        axios({
+          method: 'GET', 
+          url: `/api/pets?id=${this.props.user.household_id}`
+        }).then((response) => {
+          const action = {type: 'SET_EXISTING_PETS', payload: response.data};
+          this.props.dispatch(action);  
+          this.props.history.push('/dashboard');  
+        }).catch((error) => {
+          console.log('Error getting pets', error); 
+        });
+      }
+ //removes pet 
+  removePet = (pet) => {
+    swal({
+      title: `Are you sure you want to remove this pet?`,
+      icon: 'warning', 
+      buttons: true,
+      dangerMode: true
+  }).then((willDelete) => {
+    if (willDelete){
+      axios({
+        method: 'DELETE', 
+        url: `/api/pets?id=${pet.id}`,
+      }).then((response) => {
+        swal(`${pet.name} has been removed`, {icon: 'success'});
+        this.getPets(); 
+      }).catch((error) => {
+        console.log('Error removing pet', error); 
+      });
+    } 
+  });
+  }
 render(){
     return(
     <div>
@@ -116,6 +151,7 @@ render(){
            return(
                <div key={i}>
                <Typography variant="display1">{pet.name}</Typography>
+               <Button size="small" color="primary" onClick={()=>this.removePet(pet)}>Remove Pet</Button>
                <img src={pet.image_path} alt={pet.name}/>
                <ReactFilestack
                   apikey='ACGkY2eEqTDG52A5eOG3Az'

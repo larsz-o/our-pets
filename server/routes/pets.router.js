@@ -64,8 +64,9 @@ router.delete('/', (req, res) => {
 router.put('/', (req, res) => {
     if(req.isAuthenticated){
         const petToUpdate = req.body;
+        console.log('editing picture:', req.body)
         const query = `UPDATE "pets" SET "image_path" = $1 WHERE "id" = $2;`;
-        pool.query(query, [petToUpdate.image_path, petToUpdate.id]).then((results) => {
+        pool.query(query, [petToUpdate.url, petToUpdate.id]).then((results) => {
             res.sendStatus(200);
         }).catch((error) => {
             console.log('Error updating pet photo', error); 

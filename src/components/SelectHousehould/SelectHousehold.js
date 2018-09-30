@@ -84,7 +84,7 @@ getAllHouseholdMembers = () => {
       content = (
         <div>
            <div id="welcome">
-              <Typography variant="display1">Welcome, { this.props.user.userName }!</Typography>
+              <Typography variant="display1">Welcome, { this.props.user.userName }!</Typography><br/>
               <Typography>Which household would you like to use?</Typography>
               <Select value={this.state.chosen_household} onChange={(event)=>this.handleChangeFor('chosen_household', event)}>
                   {this.props.totalHouses.map((house, i) => {

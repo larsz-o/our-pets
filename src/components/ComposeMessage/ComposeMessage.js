@@ -69,7 +69,7 @@ sendMessage = () => {
         if (this.props.user.userName){
         content = (
             <div className="right">
-           <Button size="small" onClick={this.handleClickOpen} variant="outlined" size="small" color="primary">Compose</Button>
+           <Button size="small" onClick={this.handleClickOpen} variant="outlined" color="primary">Compose</Button>
             <Dialog 
                 open={this.state.open}
                 onClose={this.handleClose}
