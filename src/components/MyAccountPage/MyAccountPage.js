@@ -143,7 +143,7 @@ class MyAccount extends Component {
             <br/>
             <ReactFilestack
                   apikey='ACGkY2eEqTDG52A5eOG3Az'
-                  buttonText="Upload new user photo"
+                  buttonText="UPDATE PHOTO"
                   buttonClass="filestackButton"
                   options={options}
                   onSuccess={this.getPictureURL}/>

@@ -93,8 +93,8 @@ sendMessage = () => {
                        <ExpansionPanelDetails>{moment(message.date).format('MM-DD-YYYY')}</ExpansionPanelDetails>
                        <ExpansionPanelDetails>{message.message}</ExpansionPanelDetails>
                        <ExpansionPanelDetails><img src={message.image_path} alt="message attachment"/></ExpansionPanelDetails>
-                       <Button variant="contained" color="primary" size="small" onClick={()=>this.reply(message)}>Reply</Button>
-                       <Button variant="contained" size="small" onClick={()=>this.archiveMessage(message.id)}>Archive</Button>
+                       <Button color="primary" onClick={()=>this.reply(message)}>Reply</Button>
+                       <Button onClick={()=>this.archiveMessage(message.id)}>Archive</Button>
                      </ExpansionPanel>
                  </div>
                  <Dialog 
@@ -118,7 +118,7 @@ sendMessage = () => {
                          onSuccess={this.getPictureURL}/>
                  </DialogContent>
                  <DialogContent>
-                     <Button variant="outlined" color="secondary" onClick={this.handleClose}>Cancel</Button><Button variant="outlined" color="primary" onClick={this.sendMessage}>Send</Button>
+                     <Button onClick={this.handleClose}>Cancel</Button><Button color="primary" onClick={this.sendMessage}>Send</Button>
                  </DialogContent>
              </Dialog>
              </div>
@@ -136,8 +136,8 @@ sendMessage = () => {
                             <span className="message-margin"> {message.sender} </span> Subject: {message.subject} </ExpansionPanelSummary>
                        <ExpansionPanelDetails>{moment(message.date).format('MM-DD-YYYY')}</ExpansionPanelDetails>
                        <ExpansionPanelDetails>{message.message}</ExpansionPanelDetails>
-                       <Button variant="contained" color="primary" size="small" onClick={()=>this.reply(message)}>Reply</Button>
-                       <Button variant="contained" size="small" onClick={()=>this.archiveMessage(message.id)}>Archive</Button>
+                       <Button color="primary" onClick={()=>this.reply(message)}>Reply</Button>
+                       <Button onClick={()=>this.archiveMessage(message.id)}>Archive</Button>
                      </ExpansionPanel>
                  </div>
                  <Dialog 
@@ -161,7 +161,7 @@ sendMessage = () => {
                          onSuccess={this.getPictureURL}/>
                  </DialogContent>
                  <DialogContent>
-                     <Button variant="outlined" color="secondary" onClick={this.handleClose}>Cancel</Button><Button variant="outlined" color="primary" onClick={this.sendMessage}>Send</Button>
+                     <Button onClick={this.handleClose}>Cancel</Button><Button color="primary" onClick={this.sendMessage}>Send</Button>
                  </DialogContent>
              </Dialog>
              </div>

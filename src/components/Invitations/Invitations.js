@@ -55,8 +55,8 @@ class InvitationsMessages extends Component {
                             className="avatar"/>
                             {invite.sender}:</span> {invite.subject} - {moment(invite.date).format('MM-DD-YYYY')}</ExpansionPanelSummary>
                       <ExpansionPanelDetails>{invite.message}</ExpansionPanelDetails>
-                      <Button variant="contained" color="primary" size="small" onClick={()=>this.acceptInvitation(invite)}>Accept</Button>
-                      <Button variant="contained" size="small" onClick={()=>this.acceptInvitation(invite)}>Decline</Button>
+                      <Button color="primary" onClick={()=>this.acceptInvitation(invite)}>Accept</Button>
+                      <Button onClick={()=>this.acceptInvitation(invite)}>Decline</Button>
                       </ExpansionPanel>
                );
              })}
