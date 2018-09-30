@@ -47,7 +47,7 @@ router.get('/profile', (req, res) => {
     }
 })
 //delete pet 
-router.delete('/:id', (req, res) => {
+router.delete('/', (req, res) => {
     if(req.isAuthenticated){
         const petToDelete = req.params.id; 
         const query = `DELETE FROM "pets" WHERE "id" = $1;`;
