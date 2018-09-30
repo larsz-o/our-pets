@@ -101,7 +101,7 @@ render() {
             <List> 
             {this.props.household.users.map((user, i)=> {
                 return(
-                    <ListItem key={i}>{user.username}</ListItem>
+                    <ListItem key={i}>{user.first_name}</ListItem>
                 );
             })} 
             </List>

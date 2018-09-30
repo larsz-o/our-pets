@@ -83,9 +83,10 @@ router.get('/members', (req, res) => {
 //gets all members from all shared households
 router.get('/members/all', (req, res) => {
     if(req.isAuthenticated){
-        const id = req.query.id;
-        const query = `SELECT "household_members"."household_id", "member", "username", "first_name" FROM "household_members" JOIN "person" ON "person"."id" = "household_members"."member";`;
-        pool.query(query).then((results) => {
+        const houseToGet = req.query.id;
+        console.log(houseToGet)
+        const query = `SELECT "household_members"."household_id", "member", "username", "first_name" FROM "household_members" JOIN "person" ON "person"."id" = "household_members"."member" WHERE "household_members"."household_id" = $1;`;
+        pool.query(query, [houseToGet]).then((results) => {
             res.send(results.rows);
         }).catch((error) => {
             console.log('Error getting members', error);
@@ -98,7 +99,7 @@ router.get('/members/all', (req, res) => {
 //gets all households that a user is part of
 router.get('/all', (req, res) => {
     if(req.isAuthenticated){
-        const query = `SELECT "household_id", "nickname" FROM "household_members" JOIN "households" ON "household_members"."household_id" = "households"."id" WHERE "member"  = $1;`;
+        const query = `SELECT "household_id", "nickname" FROM "household_members" JOIN "households" ON "household_members"."household_id" = "households"."id" WHERE "member" = $1;`;
         pool.query(query, [req.user.id]).then((results) => {
             console.log(results.rows);
             res.send(results.rows);
