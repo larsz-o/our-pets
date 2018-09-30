@@ -87,6 +87,7 @@ router.get('/members/all', (req, res) => {
         console.log(houseToGet)
         const query = `SELECT "household_members"."household_id", "member", "username", "first_name" FROM "household_members" JOIN "person" ON "person"."id" = "household_members"."member" WHERE "household_members"."household_id" = $1;`;
         pool.query(query, [houseToGet]).then((results) => {
+            console.log(results.rows);
             res.send(results.rows);
         }).catch((error) => {
             console.log('Error getting members', error);

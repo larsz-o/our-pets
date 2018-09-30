@@ -27,25 +27,12 @@ class Inbox extends Component {
     this.getMessages();
     this.getArchivedMessages(); 
     this.getSentMessages();
-    this.getAllHouseholdMembers();
     this.getInvitations();
 }
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
       this.props.history.push('/home');
     }
-  }
-  getAllHouseholdMembers = () => {
-    axios({
-      method: 'GET', 
-      url: '/api/household/members/all'
-  }).then((response) => {
-    console.log(response.data);
-    const action = {type: 'SET_ALL_HOUSEHOLD_MEMBERS', payload: response.data};
-    this.props.dispatch(action);
-  }).catch((error) => {
-      console.log('Error getting all household members', error);
-  });
   }
   //gets sent messages
 getSentMessages = () => {
@@ -68,7 +55,7 @@ getInvitations = () => {
     if (this.props.user.userName && this.props.messages.length > 0) {
       content = (
         <Paper>
-          <ComposeMessage householdMembers={this.state.household_members}/>
+          <ComposeMessage />
           <NewMessages />
           <Invitations />
           <ArchivedMessages />
@@ -78,7 +65,7 @@ getInvitations = () => {
     } else if (this.props.user.userName && this.props.messages.length === 0){
       content = (
         <Paper>
-          <ComposeMessage householdMembers={this.state.household_members}/>
+          <ComposeMessage />
           <Typography>No new messages.</Typography>
           <Invitations />
           <ArchivedMessages />
