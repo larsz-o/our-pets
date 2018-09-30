@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../Inbox/inbox.css';
-import {ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Paper} from '@material-ui/core';
+import {ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Paper, Avatar} from '@material-ui/core';
 import ExpandMore from '@material-ui/icons/ExpandMore'; 
 import moment from 'moment';
 import {connect} from 'react-redux';
@@ -20,7 +20,12 @@ class SentMessages extends Component {
                     {this.props.sentMessages.map((sentMessage, i) => {
                     return(
                        <ExpansionPanel key={i}>
-                      <ExpansionPanelSummary expandIcon={<ExpandMore/>}>To:  <span className="message-margin"> {sentMessage.receiver} </span> Subject: {sentMessage.subject} </ExpansionPanelSummary>
+                      <ExpansionPanelSummary expandIcon={<ExpandMore/>}>
+                      <Avatar
+                            alt="test"
+                            src={sentMessage.user_photo}
+                            className="avatar"/>
+                        <span className="message-margin"> {sentMessage.receiver} </span> {sentMessage.subject} </ExpansionPanelSummary>
                       <ExpansionPanelDetails>{moment(sentMessage.date).format('MM-DD-YYYY')}</ExpansionPanelDetails>
                       <ExpansionPanelDetails>{sentMessage.message}</ExpansionPanelDetails>
                       </ExpansionPanel>

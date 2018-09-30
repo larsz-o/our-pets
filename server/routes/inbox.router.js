@@ -20,7 +20,7 @@ router.post('/', (req, res) => {
 //gets messages 
 router.get('/', (req, res) => {
     if(req.isAuthenticated){
-        const query = `SELECT "receiver", "message", "subject", "inbox"."id", "date", "first_name" as "sender", "sender" as "sender_id", "archived", "invitation", "inbox"."household_id", "inbox"."image_path" FROM "inbox" JOIN "person" ON "person"."id" = "inbox"."sender" WHERE "receiver" = $1 AND "archived" = $2 AND "invitation" = $3;`;
+        const query = `SELECT "receiver", "message", "subject", "inbox"."id", "date", "first_name" as "sender", "sender" as "sender_id", "archived", "invitation", "inbox"."household_id", "inbox"."image_path", "person"."image_path" as "user_photo" FROM "inbox" JOIN "person" ON "person"."id" = "inbox"."sender" WHERE "receiver" = $1 AND "archived" = $2 AND "invitation" = $3;`;
         pool.query(query, [req.user.id, req.query.archived, req.query.invitation]).then((results) => {
             res.send(results.rows);
         }).catch((error) => {
@@ -34,7 +34,7 @@ router.get('/', (req, res) => {
 //gets all "sent" mesages by a user
 router.get('/sent', (req, res) => {
     if(req.isAuthenticated){
-        const query = `SELECT "first_name" as "receiver", "message", "subject", "inbox"."id", "date", "archived", "invitation" FROM "inbox" JOIN "person" ON "person"."id" = "inbox"."receiver" WHERE "sender" = $1;`;
+        const query = `SELECT "first_name" as "receiver", "message", "subject", "inbox"."id", "date", "archived", "invitation", "person"."image_path" as "user_photo" FROM "inbox" JOIN "person" ON "person"."id" = "inbox"."receiver" WHERE "sender" = $1;`;
         pool.query(query, [req.user.id]).then((results) => {
             res.send(results.rows);
         }).catch((error) => {

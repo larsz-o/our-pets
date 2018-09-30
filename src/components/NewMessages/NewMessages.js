@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import '../Inbox/inbox.css';
 import moment from 'moment'; 
-import {Badge, Button, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Dialog, DialogTitle, DialogContent, InputLabel, Input, Paper} from '@material-ui/core';
+import {Badge, Button, Avatar, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Dialog, DialogTitle, DialogContent, InputLabel, Input, Paper} from '@material-ui/core';
 import ExpandMore from '@material-ui/icons/ExpandMore'; 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import ReactFilestack from 'filestack-react';
@@ -80,12 +80,17 @@ sendMessage = () => {
               </Badge>
             </ExpansionPanelSummary>
                {this.props.messages.map((message, i) => {
-                 if(message.image_path !== ''){
+                 if(message.image_path !== null){
                  return (
                    <div key={i}>
                    <div>
                    <ExpansionPanel>
-                    <ExpansionPanelSummary expandIcon={<ExpandMore/>}>From: <span className="message-margin">  {message.sender} </span> Subject: {message.subject} </ExpansionPanelSummary>
+                    <ExpansionPanelSummary expandIcon={<ExpandMore/>}> 
+                            <Avatar
+                            alt="test"
+                            src={message.user_photo}
+                            className="avatar"/>
+                            <span className="message-margin">  {message.sender} </span> {message.subject} </ExpansionPanelSummary>
                        <ExpansionPanelDetails>{moment(message.date).format('MM-DD-YYYY')}</ExpansionPanelDetails>
                        <ExpansionPanelDetails>{message.message}</ExpansionPanelDetails>
                        <ExpansionPanelDetails><img src={message.image_path} alt="message attachment"/></ExpansionPanelDetails>
@@ -124,7 +129,12 @@ sendMessage = () => {
                     <div key={i}>
                    <div>
                    <ExpansionPanel>
-                       <ExpansionPanelSummary expandIcon={<ExpandMore/>}>From:  <span className="message-margin"> {message.sender} </span> Subject: {message.subject} </ExpansionPanelSummary>
+                       <ExpansionPanelSummary expandIcon={<ExpandMore/>}>
+                       <Avatar
+                            alt="test"
+                            src={message.user_photo}
+                            className="avatar"/>
+                            <span className="message-margin"> {message.sender} </span> Subject: {message.subject} </ExpansionPanelSummary>
                        <ExpansionPanelDetails>{moment(message.date).format('MM-DD-YYYY')}</ExpansionPanelDetails>
                        <ExpansionPanelDetails>{message.message}</ExpansionPanelDetails>
                        <Button variant="contained" color="primary" size="small" onClick={()=>this.reply(message)}>Reply</Button>

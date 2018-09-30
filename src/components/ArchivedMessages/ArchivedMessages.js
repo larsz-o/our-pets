@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../Inbox/inbox.css';
-import {ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Paper} from '@material-ui/core';
+import {ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Paper, Avatar} from '@material-ui/core';
 import ExpandMore from '@material-ui/icons/ExpandMore'; 
 import moment from 'moment'; 
 import {connect} from 'react-redux'; 
@@ -19,7 +19,12 @@ class ArchivedMessages extends Component {
                     {this.props.archivedMessages.map((oldMessage, i) => {
                     return(
                        <ExpansionPanel key={i}>
-                      <ExpansionPanelSummary expandIcon={<ExpandMore/>}>From:  <span className="message-margin"> {oldMessage.sender} </span> Subject: {oldMessage.subject} </ExpansionPanelSummary>
+                      <ExpansionPanelSummary expandIcon={<ExpandMore/>}>
+                      <Avatar
+                            alt="test"
+                            src={oldMessage.user_photo}
+                            className="avatar"/>
+                        <span className="message-margin"> {oldMessage.sender} </span> {oldMessage.subject} </ExpansionPanelSummary>
                       <ExpansionPanelDetails>{moment(oldMessage.date).format('MM-DD-YYYY')}</ExpansionPanelDetails>
                       <ExpansionPanelDetails>{oldMessage.message}</ExpansionPanelDetails>
                       </ExpansionPanel>

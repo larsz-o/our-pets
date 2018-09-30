@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../Inbox/inbox.css';
-import {Badge, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, Button} from '@material-ui/core';
+import {Badge, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Avatar, Button} from '@material-ui/core';
 import ExpandMore from '@material-ui/icons/ExpandMore'; 
 import moment from 'moment'; 
 import swal from 'sweetalert';
@@ -49,7 +49,12 @@ class InvitationsMessages extends Component {
                     {this.props.invitations.map((invite, i) => {
                     return(
                        <ExpansionPanel key={i}>
-                      <ExpansionPanelSummary expandIcon={<ExpandMore/>}><span className="bold">{invite.sender}:</span> {invite.subject} - {moment(invite.date).format('MM-DD-YYYY')}</ExpansionPanelSummary>
+                      <ExpansionPanelSummary expandIcon={<ExpandMore/>}><span className="bold">
+                      <Avatar
+                            alt="test"
+                            src={invite.user_photo}
+                            className="avatar"/>
+                            {invite.sender}:</span> {invite.subject} - {moment(invite.date).format('MM-DD-YYYY')}</ExpansionPanelSummary>
                       <ExpansionPanelDetails>{invite.message}</ExpansionPanelDetails>
                       <Button variant="contained" color="primary" size="small" onClick={()=>this.acceptInvitation(invite)}>Accept</Button>
                       <Button variant="contained" size="small" onClick={()=>this.acceptInvitation(invite)}>Decline</Button>
