@@ -18,7 +18,6 @@ import MyAccount from './components/MyAccountPage/MyAccountPage';
 import EditSettings from './components/EditSettingsPage/EditSettingsPage'; 
 import Inbox from './components/Inbox/Inbox'; 
 import JoinHousehold from './components/JoinHousehold/JoinHousehold';
-import DataReportsPage from './components/DataReportsPage/DataReportsPage';
 import SelectHousehold from './components/SelectHousehould/SelectHousehold';
 import PetProfile from './components/PetProfile/PetProfile'; 
 
@@ -78,15 +77,11 @@ const App = () => (
           path="/joinhousehold"
           component={JoinHousehold}
         />
-         <Route 
-          path="/reports"
-          component={DataReportsPage}
-        />
         <Route 
         path="/account/:petId" 
         component={PetProfile}/>
         {/* OTHERWISE (no path!) */}
-        <Route render={() => <h1>404</h1>} />
+        <Route render={() => <h1>404: Page Not Found</h1>} />
         
       </Switch>
     </Router>

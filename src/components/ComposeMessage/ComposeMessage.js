@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Dialog, DialogTitle, DialogContent, Input, InputLabel, Select, MenuItem, Typography} from '@material-ui/core';
+import {Button, Dialog, DialogTitle, DialogContent, Input, InputLabel, Select, MenuItem, TextField} from '@material-ui/core';
 import {connect} from 'react-redux'; 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import ReactFilestack from 'filestack-react';
@@ -91,7 +91,7 @@ sendMessage = () => {
                 </DialogContent>
                 <DialogContent>
                     <InputLabel>Subject: </InputLabel> <Input value={this.state.subject} onChange={(event)=>this.handleInputChangeFor('subject', event)}/><br/>
-                   <InputLabel>Message: </InputLabel>  <Input value={this.state.message} onChange={(event)=>this.handleInputChangeFor('message', event)}/><br/>
+                   <InputLabel>Message: </InputLabel>  <TextField value={this.state.message} onChange={(event)=>this.handleInputChangeFor('message', event)}/><br/>
                     <ReactFilestack
                         apikey='ACGkY2eEqTDG52A5eOG3Az'
                         buttonText="Upload picture"

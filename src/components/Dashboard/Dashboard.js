@@ -19,12 +19,14 @@ class Dashboard extends Component {
     super(props);
     this.state = {
       message: '', 
+      inviteMessage: ''
     }
   }
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
     this.madeGetRequest = false;
     this.getMessages();
+    this.getInvitations();
   }
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
@@ -78,6 +80,25 @@ class Dashboard extends Component {
       console.log('Error getting messages', error); 
     });
   }
+   //checks to see if there are new messages for the user and alerts them via text on the DOM if yes  
+   getInvitations = () => {
+    axios({
+      method: 'GET',
+      url: '/api/inbox?archived=false&invitation=true'
+    }).then((response) => {
+      if(response.data.length === 1){
+        this.setState({
+          inviteMessage: `You have ${response.data.length} new invitations!`
+        });
+      } else if (response.data.length > 1){
+        this.setState({
+          inviteMessage: `You have ${response.data.length} new invitations!`
+        });
+      }
+    }).catch((error) => {
+      console.log('Error getting messages', error); 
+    });
+  }
   getPets = () => {
     axios({
       method: 'GET', 
@@ -100,6 +121,7 @@ class Dashboard extends Component {
            <div id="welcome">
              <Typography variant="display1">{this.props.nickname[0].nickname}</Typography> 
               <Typography variant="body1">{this.state.message}</Typography>
+              <Typography variant="body1">{this.state.inviteMessage}</Typography>
             </div>
             <div className="container">
             {this.props.pets.map((pet, i) => {

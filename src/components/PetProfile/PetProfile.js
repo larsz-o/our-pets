@@ -151,6 +151,7 @@ render(){
            return(
                <div key={i}>
                <Typography variant="display1">{pet.name}</Typography>
+               <Typography>Birthday: {moment(pet.birthday).format('MMMM do, YYYY')}</Typography>
                <Button size="small" color="primary" onClick={()=>this.removePet(pet)}>Remove Pet</Button>
                <img src={pet.image_path} alt={pet.name}/>
                <ReactFilestack
@@ -159,7 +160,6 @@ render(){
                   buttonClass="filestackButton"
                   options={options}
                   onSuccess={this.getPictureURL}/>
-               <Typography>Birthday: {moment(pet.birthday).format('MMMM do, YYYY')}</Typography>
                </div>
            );
        })}

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import '../Inbox/inbox.css';
 import moment from 'moment'; 
-import {Badge, Button, Avatar, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Dialog, DialogTitle, DialogContent, InputLabel, Input, Paper} from '@material-ui/core';
+import {Badge, Button, Avatar, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Dialog, DialogTitle, DialogContent, InputLabel, Input, Paper, TextField} from '@material-ui/core';
 import ExpandMore from '@material-ui/icons/ExpandMore'; 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import ReactFilestack from 'filestack-react';
@@ -110,7 +110,7 @@ sendMessage = () => {
                  </DialogContent>
                  <DialogContent>
                      <InputLabel>Subject: </InputLabel><Input value={this.state.subject} onChange={(event)=>this.handleInputChangeFor('subject', event)}/><br/>
-                    <InputLabel>Message: </InputLabel><Input value={this.state.message} onChange={(event)=>this.handleInputChangeFor('message', event)}/><br/>
+                    <InputLabel>Message: </InputLabel><TextField value={this.state.message} onChange={(event)=>this.handleInputChangeFor('message', event)}/><br/>
                      <ReactFilestack
                          apikey='ACGkY2eEqTDG52A5eOG3Az'
                          buttonText="Upload picture"
@@ -153,7 +153,7 @@ sendMessage = () => {
                  </DialogContent>
                  <DialogContent>
                      <InputLabel>Subject: </InputLabel><Input value={this.state.subject} onChange={(event)=>this.handleInputChangeFor('subject', event)}/><br/>
-                    <InputLabel>Message: </InputLabel><Input value={this.state.message} onChange={(event)=>this.handleInputChangeFor('message', event)}/><br/>
+                    <InputLabel>Message: </InputLabel><TextField value={this.state.message} onChange={(event)=>this.handleInputChangeFor('message', event)}/><br/>
                      <ReactFilestack
                          apikey='ACGkY2eEqTDG52A5eOG3Az'
                          buttonText="Upload picture"
