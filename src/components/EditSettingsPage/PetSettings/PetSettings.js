@@ -97,7 +97,7 @@ class PetSettings extends Component {
           data: this.state.notifications
       }).then((response) => {
           this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
-          this.updatePetSettings();
+          swal('Settings updated!');
       }).catch((error) => {
           console.log('Error updating notification settings', error); 
       });

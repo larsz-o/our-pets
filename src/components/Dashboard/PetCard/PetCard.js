@@ -230,7 +230,7 @@ togglePoopCheck = () => {
                     <Button onClick={()=>this.logFeeding(this.props.pet.id)} variant="contained" color="primary">Fed</Button>
                     <Typography gutterBottom variant="body1">{this.state.lastMedication.map((lastMed, i) => {
                         return(
-                           <span key={i}>Last Medications Given: {moment(lastMed.date).format('LL')} at {lastMed.time}</span>
+                           <span key={i}>Medications last given: {moment(lastMed.date).format('LL')} at {lastMed.time}</span>
                         );
                     })}</Typography>
                     <Button onClick={()=>this.logMedication(this.props.pet.id)} variant="contained" color="primary">Medications Given</Button>
@@ -274,7 +274,7 @@ togglePoopCheck = () => {
                    <Button onClick={()=> this.logFeeding(this.props.pet.id)} variant="contained" color="primary">Fed</Button>
                    <Typography gutterBottom variant="body1">{this.state.lastMedication.map((lastMed, i) => {
                         return(
-                           <span key={i}>Medications Last Given: {moment(lastMed.date).format('LL')} at {lastMed.time}</span>
+                           <span key={i}>Medications last given: {moment(lastMed.date).format('LL')} at {lastMed.time}</span>
                         );
                     })}</Typography>
                    <Button onClick={this.handleClickOpen} variant="contained" color="primary">Medications Given</Button>

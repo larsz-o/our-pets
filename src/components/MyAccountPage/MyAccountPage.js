@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import {Paper, Button, IconButton, Typography, Avatar, Dialog, DialogTitle, List, ListItem, ListItemAvatar} from '@material-ui/core'; 
+import {Button, IconButton, Typography, Avatar, Dialog, DialogTitle, List, ListItem, ListItemAvatar} from '@material-ui/core'; 
 import ReactFilestack from 'filestack-react';
 import axios from 'axios';
 import swal from 'sweetalert'; 
@@ -138,7 +138,6 @@ class MyAccount extends Component {
           </div>
           <Typography variant="headline">Welcome, {this.props.user.first_name}!</Typography>
           <br/>
-          <Paper>
             <img src={this.props.user.image_path} alt={this.props.user.username} className="center"/>
             <br/>
             <ReactFilestack
@@ -147,7 +146,6 @@ class MyAccount extends Component {
                   buttonClass="filestackButton"
                   options={options}
                   onSuccess={this.getPictureURL}/>
-          </Paper> 
               <Typography><span className="bold">Current Pets:</span></Typography><br/>
              {this.props.pets.map((pet, i) => {
                return(

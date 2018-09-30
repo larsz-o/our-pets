@@ -19,7 +19,7 @@ class Dashboard extends Component {
     super(props);
     this.state = {
       message: '', 
-      inviteMessage: ''
+      inviteMessage: '', 
     }
   }
   componentDidMount() {

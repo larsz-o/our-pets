@@ -133,7 +133,7 @@ sendMessage = () => {
                             alt="test"
                             src={message.user_photo}
                             className="avatar"/>
-                            <span className="message-margin"> {message.sender} </span> Subject: {message.subject} </ExpansionPanelSummary>
+                            <span className="message-margin"> {message.sender} </span> {message.subject} </ExpansionPanelSummary>
                        <ExpansionPanelDetails>{moment(message.date).format('MM-DD-YYYY')}</ExpansionPanelDetails>
                        <ExpansionPanelDetails>{message.message}</ExpansionPanelDetails>
                        <Button color="primary" onClick={()=>this.reply(message)}>Reply</Button>
