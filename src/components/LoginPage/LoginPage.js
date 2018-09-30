@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { triggerLogin, formError, clearError } from '../../redux/actions/loginActions';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import {Button} from '@material-ui/core'; 
+import {Button, Typography, InputLabel, Input} from '@material-ui/core'; 
 
 
 const mapStateToProps = state => ({
@@ -67,29 +67,30 @@ class LoginPage extends Component {
     return (
       <div>
         { this.renderAlert() }
+        <div className="picture-div">
+          <img src="https://www.sciencedaily.com/images/2018/06/180605172505_1_540x360.jpg" width="100%" alt="dog"/>
+        </div>
         <form>
-          <h1>Login</h1>
+          <Typography variant="headline">Login</Typography>
           <div>
-            <label htmlFor="username">
+            <InputLabel htmlFor="username">
               Username:
-              <input
+              <Input
                 type="text"
-                name="username"
                 value={this.state.username}
                 onChange={this.handleInputChangeFor('username')}
               />
-            </label>
+            </InputLabel>
           </div>
           <div>
-            <label htmlFor="password">
+            <InputLabel htmlFor="password">
               Password:
-              <input
+              <Input
                 type="password"
-                name="password"
                 value={this.state.password}
                 onChange={this.handleInputChangeFor('password')}
               />
-            </label>
+            </InputLabel>
           </div>
           <div>
             <Button onClick={this.login}>Log In</Button>

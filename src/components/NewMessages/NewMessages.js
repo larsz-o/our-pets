@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import '../Inbox/inbox.css';
 import moment from 'moment'; 
 import {Badge, Button, Avatar, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Dialog, DialogTitle, DialogContent, InputLabel, Input, Paper, TextField} from '@material-ui/core';
 import ExpandMore from '@material-ui/icons/ExpandMore'; 

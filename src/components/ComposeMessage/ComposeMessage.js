@@ -69,7 +69,7 @@ sendMessage = () => {
         if (this.props.user.userName){
         content = (
             <div className="right">
-           <Button size="small" onClick={this.handleClickOpen} variant="outlined" color="primary">Compose</Button>
+           <Button size="small" onClick={this.handleClickOpen} color="primary">Compose</Button>
             <Dialog 
                 open={this.state.open}
                 onClose={this.handleClose}
@@ -91,16 +91,16 @@ sendMessage = () => {
                 </DialogContent>
                 <DialogContent>
                     <InputLabel>Subject: </InputLabel> <Input value={this.state.subject} onChange={(event)=>this.handleInputChangeFor('subject', event)}/><br/>
-                   <InputLabel>Message: </InputLabel>  <TextField value={this.state.message} onChange={(event)=>this.handleInputChangeFor('message', event)}/><br/>
+                   <InputLabel>Message: </InputLabel>  <TextField value={this.state.message} onChange={(event)=>this.handleInputChangeFor('message', event)}/><br/><br/>
                     <ReactFilestack
                         apikey='ACGkY2eEqTDG52A5eOG3Az'
-                        buttonText="Upload picture"
+                        buttonText="UPLOAD PHOTO"
                         buttonClass="filestackButton"
                         options={options}
                         onSuccess={this.getPictureURL}/>
                 </DialogContent>
                 <DialogContent>
-                    <Button variant="outlined" color="secondary" onClick={this.handleClose}>Cancel</Button><Button variant="outlined" color="primary" onClick={this.sendMessage}>Send</Button>
+                    <Button onClick={this.handleClose}>Cancel</Button><Button color="primary" onClick={this.sendMessage}>Send</Button>
                 </DialogContent>
             </Dialog>
             </div>

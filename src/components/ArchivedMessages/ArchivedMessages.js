@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import '../Inbox/inbox.css';
 import {ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Paper, Avatar} from '@material-ui/core';
 import ExpandMore from '@material-ui/icons/ExpandMore'; 
 import moment from 'moment'; 

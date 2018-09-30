@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import PetSettings from './PetSettings/PetSettings';
-import {Button, Typography} from '@material-ui/core'; 
+import {Button, Typography, List, ListItem} from '@material-ui/core'; 
 import axios from 'axios'; 
 import swal from 'sweetalert';
 
@@ -67,49 +67,48 @@ class EditSettings extends Component {
     if (this.props.user.userName && this.props.user.role === 1) {
       content = (
         <div>
-        <h2>Pets</h2>
+        <Typography variant="headline">Pets</Typography>
         <Typography variant="subheading">Edit Notification Settings: </Typography>
-        <ul>
+        <List>
             {this.props.pets.map((pet, i) => {
                 return(
                   <PetSettings history={this.props.history} key={i} pet={pet}/>
                         );
                     })}
-            </ul>
-        <h2>Household</h2>
-        <ul>
-
+            </List>
+        <Typography variant="headline">Household</Typography>
+        <List>
         {this.props.members.map((member, i) => {
           return(
-            <li key={i}>
+            <ListItem key={i}>
             {member.first_name}  <Button onClick={()=>this.removeMember(member)}>Remove From Household</Button>
-            </li>
+            </ListItem>
           );
         })}
-        </ul>
+        </List>
         </div>
       );
     } else if (this.props.user.userName) {
       content = (
         <div>
-        <h2>Pets</h2>
-        <ul>
+        <Typography variant="headline">Pets</Typography>
+        <List>
             {this.props.pets.map((pet, i) => {
                 return(
                   <PetSettings history={this.props.history} key={i} pet={pet}/>
                         );
                     })}
-            </ul>
-        <h2>Household</h2>
-        <ul>
+            </List>
+        <Typography variant="headline">Household</Typography>
+        <List>
         {this.props.members.map((member, i) => {
           return(
-            <li key={i}>
+            <ListItem key={i}>
             {member.first_name}
-            </li>
+            </ListItem>
           );
         })}
-        </ul>
+        </List>
         </div>
       );
     }

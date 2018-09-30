@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'; 
-import {Input, Button, Typography, Dialog, DialogTitle, DialogContent} from '@material-ui/core';
+import {Input, Button, Typography, Dialog, DialogTitle, DialogContent, List, ListItem} from '@material-ui/core';
 import axios from 'axios';
 import swal from 'sweetalert'; 
 import Nav from '../Nav/Nav';
@@ -109,13 +109,13 @@ class JoinHousehold extends Component {
                 <br/>
                 <Typography variant="headline" gutterBottom>Search for an existing household to join</Typography>
                 <br/>
-                <Input onChange={this.handleSearchTermChange} placeholder="Enter nickname"/>  <Button size="small" variant="contained" onClick={this.submitSearch}>Search</Button>
+                <Input onChange={this.handleSearchTermChange} placeholder="Enter nickname"/>  <Button size="small" color="primary" onClick={this.submitSearch}>Search</Button>
                 <div className="member-list">
-                    <ul>
+                    <List>
                     {this.props.household.map((results, i) => {
                         return(
                     <span key={i}>
-                            <li>{results.nickname}  <Button color="primary" size="small" onClick={()=>this.getHouseholdMembers(results.id)}>More Details</Button></li>
+                            <ListItem>{results.nickname}  <Button color="primary" size="small" onClick={()=>this.getHouseholdMembers(results.id)}>More Details</Button></ListItem>
                         <Dialog
                             open={this.state.open}
                             onClose={this.handleClose}
@@ -127,20 +127,20 @@ class JoinHousehold extends Component {
                             <span className="bold">Description: </span> <br/>
                             {results.description}<br/><br/>
                             <span className="bold">Members: </span> 
-                            <ul>
+                            <List>
                             {this.state.members.map((member, i) => {
                                 return(
-                                   <li key={i}>{member.first_name}</li> 
+                                   <ListItem key={i}>{member.first_name}</ListItem> 
                                 );
                             })}
-                            </ul><br/>
+                            </List><br/>
                             <Button onClick={this.handleClose}>Cancel</Button><Button color="primary" onClick={()=>this.requestJoin(this.state.members)}>Join</Button>
                         </DialogContent>
                             </Dialog>
                      </span>
                         );
                     })}
-                    </ul>
+                    </List>
                  
                 </div>
             </div>

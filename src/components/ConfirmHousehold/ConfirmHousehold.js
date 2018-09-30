@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import axios from 'axios'; 
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import {Button, Paper} from '@material-ui/core'; 
-import './confirm.css'
+import {Button, Paper, Typography, List, ListItem} from '@material-ui/core'; 
 import swal from 'sweetalert';
 
 const mapStateToProps = state => ({
@@ -82,33 +81,33 @@ render() {
     let content = null;
     if (this.props.user.userName) {
       content = (
-        <div className="confirmDiv">
-        {JSON.stringify(this.props.household.pets)}
-        {JSON.stringify(this.props.household.users)}
+        <div className="container">
           <Paper>
-            <h2>Does this look right?</h2>
-            <p>Household Nickname:</p>
-            <ul>
-              <li>{this.props.household.nickname}</li>
-            </ul>
-            <p>Pets:</p> 
-            <ul>
+            <Typography variant="headline">Does this look right?</Typography>
+          <div className="add-container">
+            <Typography>Household Nickname:</Typography>
+            <List>
+              <ListItem>{this.props.household.nickname}</ListItem>
+            </List>
+            <Typography>Pets:</Typography> 
+            <List>
             {this.props.household.pets.map((pet, i)=> {
                 return(
-                    <li key={i}>{pet.pet_name}</li>
+                    <ListItem key={i}>{pet.pet_name}</ListItem>
                 );
             })}
-            </ul>
-            <p>Household Members:</p>
-            <ul> 
+            </List>
+            <Typography>Household Members:</Typography>
+            <List> 
             {this.props.household.users.map((user, i)=> {
                 return(
-                    <li key={i}>{user.username}</li>
+                    <ListItem key={i}>{user.username}</ListItem>
                 );
             })} 
-            </ul> 
-
-            <Button onClick={this.addPets}>Confirm</Button>
+            </List>
+          </div>
+            <Button onClick={()=>this.props.history.push('/addusers')}>Back</Button>
+            <Button color="primary" onClick={this.addPets}>Confirm</Button>
         </Paper>
         </div>
       );

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
-import {Button, Input} from '@material-ui/core'; 
+import {Button, Input, InputLabel, Typography} from '@material-ui/core'; 
 import './RegisterPage.css'
 import swal from 'sweetalert';
 
@@ -84,34 +84,32 @@ class RegisterPage extends Component {
     return (
       <div>
         {this.renderAlert()}
-          <h1>Register</h1>
+          <Typography variant="headline">Register</Typography>
           <form>
           <div>
-            <label htmlFor="username">
+            <InputLabel htmlFor="username">
               Username:
               <Input
                 type="text"
-                name="username"
                 value={this.state.username}
                 onChange={this.handleInputChangeFor('username')}
                 required
               />
-            </label>
+            </InputLabel>
           </div>
           <div>
-            <label htmlFor="password">
+            <InputLabel htmlFor="password">
               Password:
               <Input
                 type="password"
-                name="password"
                 value={this.state.password}
                 onChange={this.handleInputChangeFor('password')}
                 required
               />
-            </label>
+            </InputLabel>
           </div>
           <div>
-            <label htmlFor="confirm-password">
+            <InputLabel htmlFor="confirm-password">
               Confirm Password:
               <Input
                 type="password"
@@ -120,22 +118,21 @@ class RegisterPage extends Component {
                 onChange={this.handleInputChangeFor('confirm_password')}
                 required
               />
-            </label>
+            </InputLabel>
           </div>
           <div>
-            <label htmlFor="first-name">
+            <InputLabel htmlFor="first-name">
               First Name:
               <Input
                 type="text"
-                name="first-name"
                 value={this.state.first_name}
                 onChange={this.handleInputChangeFor('first_name')}
                 required
               />
-            </label>
+            </InputLabel>
           </div>
           <div>
-            <label htmlFor="phone-number">
+            <InputLabel htmlFor="phone-number">
               Phone Number:
               <PhoneInput
               country="US"
@@ -143,7 +140,7 @@ class RegisterPage extends Component {
               value={ this.state.phone_number }
               onChange={ phone_number => this.setState({ phone_number }) }
               required />
-            </label>
+            </InputLabel>
           </div>
           <div>
             <Button onClick={this.registerUser}>Submit</Button>

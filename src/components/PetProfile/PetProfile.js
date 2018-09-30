@@ -151,20 +151,20 @@ render(){
            return(
                <div key={i}>
                <Typography variant="display1">{pet.name}</Typography>
-               <Typography>Birthday: {moment(pet.birthday).format('MMMM do, YYYY')}</Typography>
-               <Button size="small" color="primary" onClick={()=>this.removePet(pet)}>Remove Pet</Button>
-               <img src={pet.image_path} alt={pet.name}/>
+               <Typography variant="subheading">Born: {moment(pet.birthday).format('MMMM do, YYYY')}</Typography>
                <ReactFilestack
                   apikey='ACGkY2eEqTDG52A5eOG3Az'
-                  buttonText="Update pet photo"
+                  buttonText="UPDATE PHOTO"
                   buttonClass="filestackButton"
                   options={options}
                   onSuccess={this.getPictureURL}/>
+                  <Button size="small" color="primary" onClick={()=>this.removePet(pet)}>Remove Pet</Button>
+               <img src={pet.image_path} alt={pet.name}/>
                </div>
            );
        })}
        <div>
-       <InputLabel>Activity </InputLabel> 
+       <InputLabel>Activity Reports </InputLabel> 
           <Select value={this.state.activity_id} onChange={(event)=>this.handleChangeFor('activity_id', event)}>
             <MenuItem value="1">Feedings</MenuItem>
             <MenuItem value="2">Walks</MenuItem>

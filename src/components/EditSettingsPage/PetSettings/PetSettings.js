@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { USER_ACTIONS } from '../../../redux/actions/userActions';
-import {Switch, Button} from '@material-ui/core'; 
+import {Switch, Button, ListItem, Avatar} from '@material-ui/core'; 
 import axios from 'axios';
 import swal from 'sweetalert';
 import './petsettings.css'
@@ -108,54 +108,64 @@ class PetSettings extends Component {
     if (this.props.user.userName && this.props.pet.species_id === 1 && this.props.user.authorized) {
       content = (
         <div>
-            <li className="petNameHeader">{this.props.pet.name}</li>  
-            <li>Feeding 
+                <Avatar
+                    alt={this.props.pet.name}
+                    src={this.props.pet.image_path}
+                    className="settings-avatar"
+                    />
+            <ListItem className="petNameHeader">{this.props.pet.name}</ListItem>  
+            <ListItem>Feeding 
                 <Switch
                     checked={this.state.notifications.text_alert_fed}
                     onChange={this.handleNotificationChangeForFeeding}
                     value="text_alert_fed"/>
-            </li>
-            <li>Litterbox 
+            </ListItem>
+            <ListItem>Litterbox 
                 <Switch
                     checked={this.state.notifications.text_alert_litterbox}
                     onChange={this.handleNotificationChangeForLitterbox}
                     value="text_alert_litterbox"/>
-            </li>
-            <li>Medications 
+            </ListItem>
+            <ListItem>Medications 
                 <Switch
                     checked={this.state.notifications.text_alert_medications}
                     onChange={this.handleNotificationChangeForMedications}
                     value="text_alert_medications"/>
-            </li>
-            <Button variant="contained" color="primary" onClick={this.updateUserSettings}>Save</Button>
-            <Button variant="outlined" onClick={this.removePet}>Remove Pet</Button>
+            </ListItem>
+            <Button color="primary" onClick={this.updateUserSettings}>Save</Button>
+            <Button onClick={this.removePet}>Remove Pet</Button>
             <br/>
         </div>
       );
     } else if (this.props.user.userName && this.props.pet.species_id === 2 && this.props.user.authorized){
         content = (
             <div>
-                <li className="petNameHeader">{this.props.pet.name}</li>  
-                <li>Feeding 
+                    <Avatar
+                        alt={this.props.pet.name}
+                        src={this.props.pet.image_path}
+                        className="settings-avatar"
+                    />  
+                <ListItem className="petNameHeader">{this.props.pet.name}</ListItem>
+                <ListItem>Feeding 
                     <Switch
                         checked={this.state.notifications.text_alert_fed}
                         onChange={this.handleNotificationChangeForFeeding}
                         value="text_alert_fed"/>
-                </li>
-                <li>Walking
+                </ListItem>
+                <ListItem>Walking
                     <Switch
                         checked={this.state.notifications.text_alert_walk}
                         onChange={this.handleNotificationChangeForWalking}
                         value="text_alert_walking"/>
-                </li>
-                <li>Medications 
+                </ListItem>
+                <ListItem>Medications 
                     <Switch
                         checked={this.state.notifications.text_alert_medications}
                         onChange={this.handleNotificationChangeForMedications}
                         value="text_alert_medications"/>
-                </li>
-                <Button variant="contained" color="primary" onClick={this.updateUserSettings}>Save</Button>
-                <Button variant="outlined" onClick={this.removePet}>Remove Pet</Button>
+                </ListItem>
+                <Button color="primary" onClick={this.updateUserSettings}>Save</Button>
+                <Button onClick={this.removePet}>Remove Pet</Button>
             </div>
           );
     }

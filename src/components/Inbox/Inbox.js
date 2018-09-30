@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Nav from '../Nav/Nav';
-import '../Inbox/inbox.css';
 import ComposeMessage from '../ComposeMessage/ComposeMessage';
 import ArchivedMessages from '../ArchivedMessages/ArchivedMessages'
 import NewMessages from '../NewMessages/NewMessages'; 
@@ -9,7 +8,7 @@ import SentMessages from '../SentMessages/SentMessages';
 import Invitations from '../Invitations/Invitations';
 import axios from 'axios';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import {Paper} from '@material-ui/core';
+import {Paper, Typography} from '@material-ui/core';
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -80,7 +79,7 @@ getInvitations = () => {
       content = (
         <Paper>
           <ComposeMessage householdMembers={this.state.household_members}/>
-          <p>No new messages.</p>
+          <Typography>No new messages.</Typography>
           <Invitations />
           <ArchivedMessages />
           <SentMessages />

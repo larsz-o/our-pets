@@ -4,7 +4,7 @@ import axios from 'axios';
 import swal from 'sweetalert';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import {Button, Input} from '@material-ui/core'; 
+import {Button, Input, Typography, List, ListItem} from '@material-ui/core'; 
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -69,21 +69,23 @@ class AddUsersPage extends Component {
     let content = null;
     if (this.props.user.userName) {
       content = (
-        <div>
-        <h2>Search for Registered Users</h2>
+        <div className="padding">
+        <Typography variant="headline">Search for Users</Typography>
               <Input type="text" placeholder="Search by username" value={this.state.search_term} onChange={this.handleInputChangeFor('search_term')}/> 
-              <Button onClick={this.searchForUsers}>Submit</Button>
-              <div>
-            <h3>Found Users:</h3>
-            <ul>
+              <Button color="primary" onClick={this.searchForUsers}>Submit</Button>
+              <br/>
+              <div className="padding">
+            <Typography variant="headline">Found Users:</Typography>
+            <List>
             {this.props.findUser.map((member, i) => {
                 return(
-                    <li key={i}>{member.username} <Button onClick={()=>this.addUserToHousehold(member)}>Add User to Household</Button></li> 
+                    <ListItem key={i}>{member.username} <Button color="primary" onClick={()=>this.addUserToHousehold(member)}>Add User to Household</Button></ListItem> 
                 );
             })}
-            </ul>
+            </List>
         </div>
-          <Button onClick={this.navigateToNextPage}>Skip This Step</Button>
+        <Button onClick={()=>this.props.history.push('/addpets')}>Go Back</Button>
+          <Button color="primary" onClick={this.navigateToNextPage}>Skip This Step</Button>
         </div>
       );
     }

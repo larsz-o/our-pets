@@ -5,6 +5,10 @@ body, html {
 a{
     text-decoration: none; 
 }
+.add-container{
+    margin: 10px; 
+    text-align: left; 
+}
 .avatar{
     margin: 10;
     width: 60;
@@ -55,11 +59,12 @@ a{
     margin-top: 20px;
 }
 .filestackButton{ 
-    font-size: 16px;
-    background-color: beige; 
+    font-size: 14px;
     border-radius: 5px; 
     padding: 5px; 
-    text-align: center; 
+    text-align: center;
+    font-family: 'Roboto'; 
+    cursor: pointer;
 }
 .float-right{
     float: right; 
@@ -80,9 +85,6 @@ input {
 input[type="submit"] {
     margin: 10px;
 }
-.login-container{
- background-image: url('../components/Header/Mini-longhair-dachshund-puppy-24511277778995262f.jpg');
-}
 .member-list{
     padding: 5px;
     margin-top: 5px; 
@@ -90,7 +92,9 @@ input[type="submit"] {
 .message {
     padding: 10px 0;
 }
-
+.message-margin {
+    margin-left: 5px; 
+}
 .message p {
     margin-left: 10px;
 }
@@ -122,28 +126,18 @@ input[type="submit"] {
 .navbar li {
     float: left; 
 }
+.picture-div{
+    margin-top: 5px; 
+    text-align: center;
+    width: 100%;
+}
 .right{
     text-align: right; 
     margin-top: 15px; 
 }
-ul {
-    /* list-style-type: none; */
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-}
-li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-
-}
-/* Change the link color to #111 (black) on hover */
-li a:hover {
-    text-decoration: underline;
-    color: #eee;
+.padding{
+    padding: 5px;
+    margin-top: 10px; 
 }
 #heading {
     /* text-align: center;  */
@@ -157,6 +151,12 @@ li a:hover {
 }
 .dialog-list{
     padding: 5px;  
+}
+.settings-avatar{
+    margin: 10;
+    width: 60;
+    height: 60;
+    display: inline-flex;
 }
 #subheading {
     text-align: center;

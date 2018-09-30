@@ -84,8 +84,8 @@ getAllHouseholdMembers = () => {
       content = (
         <div>
            <div id="welcome">
-              <Typography variant="display1">Welcome, { this.props.user.userName }!</Typography><br/>
-              <Typography>Which household would you like to use?</Typography>
+              <Typography variant="display1">Welcome, { this.props.user.first_name }!</Typography><br/>
+              <Typography variant="subheading">Which household would you like to use?</Typography>
               <Select value={this.state.chosen_household} onChange={(event)=>this.handleChangeFor('chosen_household', event)}>
                   {this.props.totalHouses.map((house, i) => {
                       return(
@@ -93,7 +93,7 @@ getAllHouseholdMembers = () => {
                       );
                   })}
               </Select>
-              <Button onClick={this.selectHousehold}>Select Household</Button>
+              <Button color="primary" onClick={this.selectHousehold}>Select Household</Button>
             </div>
         </div>
       );
@@ -101,10 +101,10 @@ getAllHouseholdMembers = () => {
         content = (
          <div className="center">
          <br/>
-          <Typography variant="headline">You currently are not in a household!</Typography><br/><br/>
-          <Button color="primary" variant="contained" onClick={()=>this.navigateTo('/createhousehold')}>Create Household</Button>
+          <Typography variant="headline">You are currently not in a household!</Typography><br/><br/>
+          <Button color="primary" onClick={()=>this.navigateTo('/createhousehold')}>Create Household</Button>
           <br/><br/>
-          <Button  color="primary" variant="contained" onClick={()=>this.navigateTo('/joinhousehold')}>Join Household</Button>
+          <Button  color="primary" onClick={()=>this.navigateTo('/joinhousehold')}>Join Household</Button>
         </div>
         );
     }

@@ -87,7 +87,7 @@ class CreateHousehold extends Component {
 
     if (this.props.user.userName) {
       content = (
-        <div >
+        <div className="container">
           <Typography variant="headline">Create Household</Typography>
           <div className="create-container">
               <InputLabel>Household Nickname:</InputLabel>

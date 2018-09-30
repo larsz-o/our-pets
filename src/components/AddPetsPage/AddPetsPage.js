@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import swal from 'sweetalert';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import {Button, Input, Select, MenuItem, InputLabel, Checkbox} from '@material-ui/core'; 
+import {Button, Input, Select, MenuItem, InputLabel, Typography, List, ListItem} from '@material-ui/core'; 
 import ReactFilestack from 'filestack-react';
 
 const mapStateToProps = state => ({
@@ -64,11 +64,6 @@ class AddPetsPage extends Component {
       });
     }
   }
-  handleMedicationChange = () => {
-      this.setState({
-          medications: !this.state.medications
-      });
-  }
   navigateToNextPage = () => {
       this.props.history.push('/addusers'); 
   }
@@ -78,6 +73,7 @@ class AddPetsPage extends Component {
     this.setState({
       image_path: url
     });
+    swal('Looking good!', 'Picture added', 'success'); 
   }
   //sendPetsInfoToRedux dispatches the pets entered so that it can be used as the rest of the information is collected.
   // once this form is completed, users are sent to the next page to enter information about any co-owners. 
@@ -85,13 +81,19 @@ class AddPetsPage extends Component {
     const action = {type: 'SET_NEW_PETS', payload: this.state};
     this.props.dispatch(action); 
     swal('Nice!', 'Pet added!', 'success');
+    this.setState({
+      pet_name: '', 
+      image_path: ''
+    })
   }
   render() {
     let content = null;
     if (this.props.user.userName) {
       content = (
-        <div>
-          <h2>Add Pets</h2>
+        <div className="add-container">
+        <div className="container">
+          <Typography variant="headline">Add Pets</Typography>
+        </div>
                 <InputLabel>
                     Pet's Name: 
                 </InputLabel>
@@ -106,21 +108,26 @@ class AddPetsPage extends Component {
                 <InputLabel>
                 Birthday: 
                 </InputLabel>
-                <Input type="date" value={this.state.birthday} onChange={this.handleInputChangeFor('birthday')} required/><br/>
-               <InputLabel>Any medications to track?</InputLabel> <Checkbox id="medication" value={this.state.medications.toString()} unchecked="false" onChange={this.handleMedicationChange}/><br/>
+                <Input type="date" value={this.state.birthday} onChange={this.handleInputChangeFor('birthday')} required/><br/><br/>
+        <div className="container">
                <ReactFilestack
                   apikey='ACGkY2eEqTDG52A5eOG3Az'
-                  buttonText="Upload a photo"
+                  buttonText="UPLOAD PHOTO"
                   buttonClass="filestackButton"
                   options={options}
                   onSuccess={this.getPictureURL}/><br/><br/>
-                <Button onClick={this.sendPetsInfoToRedux}>Add Pet</Button>
+                  
+                <Button variant="contained" color="primary" onClick={this.sendPetsInfoToRedux}>Add Pet</Button>
+                <List>
          {this.props.pets.map((pet, i) => {
            return(
-             <li key={i}>{pet.pet_name}</li>
+             <ListItem key={i}>{pet.pet_name}</ListItem>
            );
          })}
-         <Button onClick={this.navigateToNextPage}>Done Adding Pets</Button>
+         </List>
+         <Button onClick={()=>this.props.history.push('/createhousehold')}>Go Back</Button>
+         <Button color="primary" onClick={this.navigateToNextPage}>Done Adding Pets</Button>
+         </div>
         </div>
       );
     }
