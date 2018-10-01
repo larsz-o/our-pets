@@ -2,18 +2,18 @@
 A React.js mobile first web application to help people communicate about daily pet care. 
 
 ## Built With
-    * React.js
-    * React-Redux
-    * Redux-Sagas
-    * Node.js
-    * Express 
-    * Material UI
-    * PostgreSQL
-    * Passport 
-    * Moment.js
-    * Twilio 
-    * Filestack 
-    * SweetAlerts
+* React.js
+* React-Redux
+* Redux-Sagas
+* Node.js
+* Express 
+* Material UI
+* PostgreSQL
+* Passport 
+* Moment.js
+* Twilio 
+* Filestack 
+* SweetAlerts
 
 ## Getting Started
 
@@ -38,10 +38,6 @@ Use the database.sql file to create all of the tables you will need to run this 
 
 ## Screenshots
 ![ScreenShot of Dashboard View](https://github.com/larsz-o/our-pets/blob/master/screenshots/dashboard-view.png)![ScreenShot of Dashboard View](https://github.com/larsz-o/our-pets/blob/master/screenshots/inbox-view.png)
-
-![ScreenShot of Dashboard View](https://github.com/larsz-o/our-pets/blob/master/screenshots/edit-notifications-view.png)![ScreenShot of Dashboard View](https://github.com/larsz-o/our-pets/blob/master/screenshots/manage-households-view.png)
-
-
 
 ## Completed Features
 - [x] Users can register for an account and create a new household or join an existing household. 
