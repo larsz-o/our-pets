@@ -37,10 +37,10 @@ Use the database.sql file to create all of the tables you will need to run this 
 * Navigate to `localhost:3000`
 
 ## Screenshots
-![ScreenShot of Dashboard View](https://github.com/larsz-o/our-pets/blob/master/screenshots/dashboard-view.png)
-![ScreenShot of Dashboard View](https://github.com/larsz-o/our-pets/blob/master/screenshots/inbox-view.png)
-![ScreenShot of Dashboard View](https://github.com/larsz-o/our-pets/blob/master/screenshots/edit-notifications-view.png)
-![ScreenShot of Dashboard View](https://github.com/larsz-o/our-pets/blob/master/screenshots/manage-households-view.png)
+![ScreenShot of Dashboard View](https://github.com/larsz-o/our-pets/blob/master/screenshots/dashboard-view.png)![ScreenShot of Dashboard View](https://github.com/larsz-o/our-pets/blob/master/screenshots/inbox-view.png)
+
+![ScreenShot of Dashboard View](https://github.com/larsz-o/our-pets/blob/master/screenshots/edit-notifications-view.png)![ScreenShot of Dashboard View](https://github.com/larsz-o/our-pets/blob/master/screenshots/manage-households-view.png)
+
 
 
 ## Completed Features
