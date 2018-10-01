@@ -39,9 +39,9 @@ class ReportingTableComponent extends Component {
                {this.props.activityData.map((activity, i) => {
                    return(
                  <ListItem key={i}>
-               <Typography>{activity.type} by {activity.owner_name}  on {moment(activity.date).format('MMMM Do YYYY')}.</Typography> 
-                <Typography>Pooped?: {activity.poop_check}</Typography>
-                <Typography>Notes: {activity.notes}</Typography>
+               <Typography>{activity.type} by {activity.owner_name}  on {moment(activity.date).format('MMMM Do YYYY')}.
+                Pooped?: {activity.poop_check}
+                Notes: {activity.notes}</Typography>
                 </ListItem>
                 );
                  })}

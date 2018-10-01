@@ -1,80 +1,66 @@
 # Our Pets
 A React.js mobile first web application to help people communicate about daily pet care. 
 
-## Prerequisites
+## Built With
+    * React.js
+    * React-Redux
+    * Redux-Sagas
+    * Node.js
+    * Express 
+    * Material UI
+    * PostgreSQL
+    * Passport 
+    * Moment.js
+    * Twilio 
+    * Filestack 
+    * SweetAlerts
 
-Before you get started, make sure you have the following software installed on your computer:
+## Getting Started
 
-- [Node.js](https://nodejs.org/en/)
-- [PostrgeSQL](https://www.postgresql.org/)
-- [Nodemon](https://nodemon.io/)
+### Setup
+Create a new database called `our_pets`. 
 
-## Create database and table
+Use the database.sql file to create all of the tables you will need to run this project.
 
-Create a new database called `prime_app` and create a `person` table:
-
-```SQL
-CREATE TABLE person (
-    id SERIAL PRIMARY KEY,
-    username VARCHAR (80) UNIQUE NOT NULL,
-    password VARCHAR (1000) NOT NULL
-);
-```
-
-If you would like to name your database something else, you will need to change `prime_app` to the name of your new database name in `server/modules/pool.js`
-
-## Download (Don't Clone) This Repository
-
-* Don't Fork or Clone. Instead, click the `Clone or Download` button and select `Download Zip`.
-* Unzip the project and start with the code in that folder.
-* Create a new GitHub project and push this code to the new repository.
-
-## Development Setup Instructions
-
-* Run `npm install`
+* Start postgres if not running already by using `brew services start postgresql`
+* `npm install`
 * Create a `.env` file at the root of the project and paste this line into the file:
     ```
     SERVER_SESSION_SECRET=superDuperSecret
     ```
     While you're in your new `.env` file, take the time to replace `superDuperSecret` with some long random string like `25POUbVtx6RKVNWszd9ERB9Bb6` to keep your application secure. Here's a site that can help you: [https://passwordsgenerator.net/](https://passwordsgenerator.net/). If you don't do this step, create a secret with less than eight characters, or leave it as `superDuperSecret`, you will get a warning.
-* Start postgres if not running already by using `brew services start postgresql`
-* Run `npm run server`
-* Run `npm run client`
+* `npm run server`
+
+* Now that the server is running, start the client
+`npm run client`
+
 * Navigate to `localhost:3000`
 
-## Debugging
-
-To debug, you will need to run the client-side separately from the server. Start the client by running the command `npm run dev:client`. Start the debugging server by selecting the Debug button.
-
-![VSCode Toolbar](documentation/images/vscode-toolbar.png)
-
-Then make sure `Launch Program` is selected from the dropdown, then click the green play arrow.
-
-![VSCode Debug Bar](documentation/images/vscode-debug-bar.png)
+## Screenshots
+![ScreenShot of Dashboard View](https://github.com/larsz-o/our-pets/blob/master/screenshots/dashboard-view.jpg)
+![ScreenShot of Dashboard View](https://github.com/larsz-o/our-pets/blob/master/screenshots/inbox-view.jpg)
+![ScreenShot of Dashboard View](https://github.com/larsz-o/our-pets/blob/master/screenshots/edit-notifications-view.jpg)
+![ScreenShot of Dashboard View](https://github.com/larsz-o/our-pets/blob/master/screenshots/manage-households-view.jpg)
 
 
-## Production Build
+## Completed Features
+- [x] Users can register for an account and create a new household or join an existing household. 
+- [x] Upon registering, they can add all of the pets in their household -- entering information about the pet's species, its name, birthday, and upload a picture of the pet for its profile. 
+- [x] Users can also search for existing users, for instance, a pet-sitter with an account, on the site to add to their household. 
+- [x] Users can be a part of multiple households and switch between households as they use the app. 
+- [x] The dashboard view features photos and activity buttons for all of the pets for the household they are currently managing.
+- [x] Users can log when pets in their household have been fed, walked, had their litterboxes changed, or been given medications. 
+- [x] When a user logs an activity, the date and time are automatically captured and the dashboard is updated to reflect the last time that this activity occurred. A text message is also sent to all other users in that household if they have opted-in to text message alerts.
+- [x] Users can decide which activities they'd like text messages updates for, and for which pets.
+- [x] Users can always see a log of the last activity data on their dasboard and a report of anywhere from 5-30 of the last data points for each activity for each pet on the pet's profile page. 
+- [x] Users can be invited to a household, or request to join a household. This is all managed through the internal messaging system. 
+- [x] The messaging system allows users to send messages to anyone else in any of their shared households and to reply to messages send to them by other users. 
+- [x] Users can also upload photos to messages. This is especially great for pet sitters who want to send a quick update pet owners. 
+- [x] Users can update their personal user photos and their pet photos. 
+- [x] Household administrators are able to approve new household members or remove existing household members. 
 
-Before pushing to Heroku, run `npm run build` in terminal. This will create a build folder that contains the code Heroku will be pointed at. You can test this build by typing `npm start`. Keep in mind that `npm start` will let you preview the production build but will **not** auto update.
+## Author
+* @larsz-o, Lars Mackenzie 
 
-* Start postgres if not running already by using `brew services start postgresql`
-* Run `npm start`
-* Navigate to `localhost:5000`
 
-## Lay of the Land
-
-* `src/` contains the React application
-* `public/` contains static assets for the client-side
-* `build/` after you build the project, contains the transpiled code from `src/` and `public/` that will be viewed on the production site
-* `server/` contains the Express App
-
-## Deployment
-
-1. Create a new Heroku project
-1. Link the Heroku project to the project GitHub Repo
-1. Create an Herkoku Postgres database
-1. Connect to the Heroku Postgres database from Postico
-1. Create the necessary tables
-1. Add an environment variable for `SERVER_SESSION_SECRET` with a nice random string for security
-1. In the deploy section, select manual deploy
 
