@@ -20,7 +20,7 @@ import Inbox from './components/Inbox/Inbox';
 import JoinHousehold from './components/JoinHousehold/JoinHousehold';
 import SelectHousehold from './components/SelectHousehould/SelectHousehold';
 import PetProfile from './components/PetProfile/PetProfile'; 
-import TechUsed from './components/TechUsed/TechUsed.js'; 
+import About from './components/About/About.js'
 
 import './styles/main.css';
 
@@ -79,8 +79,8 @@ const App = () => (
           component={JoinHousehold}
         />
         <Route 
-          path="/tech"
-          component={TechUsed}
+          path="/about"
+          component={About}
         />
         <Route 
         path="/account/:petId" 

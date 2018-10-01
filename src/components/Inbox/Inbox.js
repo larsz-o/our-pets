@@ -6,7 +6,6 @@ import ArchivedMessages from '../ArchivedMessages/ArchivedMessages'
 import NewMessages from '../NewMessages/NewMessages'; 
 import SentMessages from '../SentMessages/SentMessages';
 import Invitations from '../Invitations/Invitations';
-import axios from 'axios';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import {Paper, Typography} from '@material-ui/core';
 

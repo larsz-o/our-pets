@@ -44,6 +44,7 @@ class Nav extends Component {
           <a href="/#/myaccount"><MenuItem onClick={this.handleClose}>My Account</MenuItem></a>
           <a href="/#/editsettings"><MenuItem onClick={this.handleClose}>Settings</MenuItem></a>
           <a href="/#/selecthousehold"><MenuItem onClick={this.handleClose}>Switch Household</MenuItem></a>
+          <a href="/#/about"><MenuItem onClick={this.handleClose}>About</MenuItem></a>
           <MenuItem onClick={this.logout}>Logout</MenuItem>
       </Menu>   
     </div>
