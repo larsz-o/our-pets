@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Typography, List, ListItem} from '@material-ui/core';
+import {Typography, List, ListItem, Grid} from '@material-ui/core';
 import moment from 'moment'; 
 import './Reports.css'; 
 
@@ -8,7 +8,7 @@ class ReportingTableComponent extends Component {
         let content = null;
         if (this.props.activityID === '1') {
           content = (
-            <div>
+            <Grid>
               <List className="reports-list">
             {this.props.activityData.map((activity, i) => {
                  return(
@@ -16,7 +16,7 @@ class ReportingTableComponent extends Component {
                 );
              })}
              </List>
-            </div>
+            </Grid>
           );
         } else if (this.props.activityID === '3'){
             content = (
@@ -50,7 +50,8 @@ class ReportingTableComponent extends Component {
             );
           } else if (this.props.activityID === '4'){
             content = (
-              <div>
+              <Grid container spacing={8}>
+              <Grid item xs={3}>
                 <List className="reports-list">
                {this.props.activityData.map((activity, i) => {
                    return(
@@ -61,7 +62,8 @@ class ReportingTableComponent extends Component {
                 );
                  })}
                  </List>
-              </div>
+                 </Grid>
+              </Grid>
             );
           }
         return (

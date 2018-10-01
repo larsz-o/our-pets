@@ -30,7 +30,6 @@ class CreateHousehold extends Component {
       url: '/api/household/createhousehold', 
       data: this.state
     }).then((response) => {
-      console.log('Success!', response.data);
       this.getHouseholdID();
     }).catch((error) => {
       console.log('Error posting household', error);
@@ -48,7 +47,6 @@ class CreateHousehold extends Component {
   }
   //getHouseholdID gets the household_id that was just created and calls sendUsersToRedux, adding the currently signed in user's information to the createhousehold reducer
   getHouseholdID = () => {
-    console.log('in getHouseholdId', this.props.household.nickname);
     axios({
       method: 'GET', 
       url: `api/household?nickname=${this.props.household.nickname}`

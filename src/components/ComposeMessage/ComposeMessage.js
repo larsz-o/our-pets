@@ -45,14 +45,12 @@ class ComposeMessage extends Component {
     });
   }
     handleClickOpen = () => {
-        console.log('clicked');
         this.setState({ open: true });
       };
     handleClose = () => {
         this.setState({ open: false });
       };
     handleInputChangeFor = (property, event) => { 
-        console.log(event.target);
         this.setState({
           [property]: event.target.value,
         });

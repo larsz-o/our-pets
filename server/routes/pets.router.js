@@ -5,7 +5,6 @@ const router = express.Router();
 router.post('/', (req, res) => {
     if(req.isAuthenticated){
         const newPet = req.body; 
-        console.log('pet to add', newPet);
         const query = `INSERT INTO "pets" ("name", "species_id", "birthday", "image_path", "household_id") VALUES ($1, $2, $3, $4, $5);`; 
             pool.query(query, [newPet.name, newPet.species_id, newPet.birthday, newPet.image_path, newPet.household_id]).then((results) => {
                 res.sendStatus(200);
@@ -64,7 +63,6 @@ router.delete('/', (req, res) => {
 router.put('/', (req, res) => {
     if(req.isAuthenticated){
         const petToUpdate = req.body;
-        console.log('editing picture:', req.body)
         const query = `UPDATE "pets" SET "image_path" = $1 WHERE "id" = $2;`;
         pool.query(query, [petToUpdate.url, petToUpdate.id]).then((results) => {
             res.sendStatus(200);

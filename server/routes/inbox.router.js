@@ -5,7 +5,6 @@ const router = express.Router();
 router.post('/', (req, res) => {
     if(req.isAuthenticated){
         const newMessage = req.body; 
-        console.log(newMessage);
         const query = `INSERT INTO "inbox" ("sender", "receiver", "subject", "message", "date", "invitation", "household_id", "image_path") VALUES ($1, $2, $3, $4, $5, $6, $7, $8);`;
         pool.query(query, [ req.user.id, newMessage.receiver, newMessage.subject, newMessage.message, newMessage.date, newMessage.invitation, newMessage.household_id, newMessage.image_path]).then((results) => {
             res.sendStatus(200);

@@ -32,7 +32,6 @@ class JoinHousehold extends Component {
       }
     getHouseholdMembers = (householdID) => {
         this.handleOpen();
-        console.log('getting householdMembers');
         axios({
           method: 'GET', 
           url: `/api/household/details?id=${householdID}`
@@ -69,9 +68,7 @@ class JoinHousehold extends Component {
         } else{
             let currentDate = new Date();
             for(let i = 0; i < arrayOfMembers.length; i++){
-                console.log('in request join');
                 if(arrayOfMembers[i].role === 1 && arrayOfMembers[i].id !== this.props.user.id){
-                    console.log(arrayOfMembers[i], currentDate);
                     axios({
                         method: 'POST', 
                         url: '/api/inbox', 

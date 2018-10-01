@@ -47,14 +47,12 @@ handleClose = () => {
   this.setState({ open: false });
 };
 handleInputChangeFor = (property, event) => { 
-  console.log(event.target);
   this.setState({
     [property]: event.target.value,
   });
 }
 //reply to sender 
 reply = (message) => {
-  console.log(message);
   this.setState({
     receiver: message.sender_id,
     receiver_name: message.sender, 

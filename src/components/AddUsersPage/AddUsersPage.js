@@ -20,7 +20,6 @@ class AddUsersPage extends Component {
     };
   }
   addUserToHousehold = (member) => {
-    console.log(member); 
     const action = {type: 'SET_NEW_USERS', payload: { person_id: member.id, username: member.username, role: 2, authorized: false} };
     this.props.dispatch(action); 
     this.props.history.push('/confirmhousehold'); 
@@ -47,14 +46,12 @@ class AddUsersPage extends Component {
   //searchForUsers queries the database for the entered search term and adds the results to the redux state
   searchForUsers = () => {
       let searchTerm = '%' + this.state.search_term + '%'; 
-      console.log(searchTerm); 
     axios({
         method: 'GET',
         url: `/api/household/user?username=${searchTerm}`
     }).then((response) => {
         let userToAdd = response.data;
         if (userToAdd.username !== ''){
-        console.log(userToAdd); 
         const action = {type: 'SET_SEARCHED_USER', payload: userToAdd};
         this.props.dispatch(action); 
     }

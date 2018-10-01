@@ -35,7 +35,6 @@ class PetProfile extends Component {
         const { match: { params } } = this.props;
         axios.get(`/api/pets/profile?id=${params.petId}`)
           .then((response)=> {
-            console.log('pet', response.data);
             this.setState({ 
                 pet: response.data 
             });
@@ -51,13 +50,11 @@ class PetProfile extends Component {
         }
       }
       getActivityData = () => {
-          console.log('petid', this.state.pet[0].id, 'activityid', this.state.activity_id, 'query', this.state.query_limit);
         if(this.state.activity_id === '1' || this.state.activity_id === '3'){
           axios({
             method: 'GET', 
             url: `/api/activities/data?pet=${this.state.pet[0].id}&activity=${this.state.activity_id}&limit=${this.state.query_limit}`
           }).then((response) => {
-            console.log(response.data);
             this.setState({
               ...this.state, 
               activityData: response.data
@@ -70,7 +67,6 @@ class PetProfile extends Component {
             method: 'GET', 
             url: `/api/activities/expandeddata?pet=${this.state.pet[0].id}&activity=${this.state.activity_id}&limit=${this.state.query_limit}`
           }).then((response) => {
-            console.log(response.data);
             this.setState({
               ...this.state, 
               activityData: response.data
@@ -83,7 +79,6 @@ class PetProfile extends Component {
       getPet = () => {
         axios.get(`/api/pets/profile?id=${this.state.pet[0].id}`)
           .then((response)=> {
-            console.log('pet', response.data);
             this.setState({ 
                 pet: response.data 
             });
@@ -93,7 +88,6 @@ class PetProfile extends Component {
       }
       getPictureURL = (result) => {
         let url = result.filesUploaded[0].url; 
-        console.log(url); 
         axios({
           method: 'PUT', 
           url: '/api/pets/', 
@@ -105,7 +99,6 @@ class PetProfile extends Component {
         })
       }
       handleChangeFor = (property, event) => {
-          console.log(event.target.value);
         this.setState({
           [property]: event.target.value
         });

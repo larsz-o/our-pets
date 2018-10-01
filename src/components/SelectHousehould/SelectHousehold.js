@@ -47,12 +47,10 @@ class SelectHousehold extends Component {
 getAllHouseholdMembers = () => {
   for(let i = 0; i < this.props.totalHouses.length; i++){
     let household = this.props.totalHouses[i];
-    console.log('household to check', household.household_id); 
     axios({
       method: 'GET', 
       url: `/api/household/members/all?id=${household.household_id}`
   }).then((response) => {
-    console.log(response.data);
     const action = {type: 'SET_ALL_HOUSEHOLD_MEMBERS', payload: response.data};
     this.props.dispatch(action);
   }).catch((error) => {

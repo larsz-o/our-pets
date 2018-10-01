@@ -8,7 +8,6 @@ router.get('/user', (req, res) => {
         const searchTerm = req.query;
         const query = `SELECT "username", "phone_number", "id", "first_name" FROM "person" WHERE "username" ILIKE $1;`;
         pool.query(query, [searchTerm.username]).then((results) => {
-            console.log(results.rows); 
             res.send(results.rows);
         }).catch((error) => {
             console.log('Error retrieving user', error);
@@ -22,11 +21,9 @@ router.get('/user', (req, res) => {
 router.get('/', (req, res) => {
     if(req.isAuthenticated){
         const searchTerm = req.query.nickname;
-        console.log(searchTerm); 
         const query = `SELECT "id", "nickname", "description" from "households" WHERE "nickname" ILIKE $1;`;
         pool.query(query, [searchTerm]).then((results) => {
             res.send(results.rows);
-            console.log(results.rows); 
         }).catch((error) => {
             console.log('Error getting household ID', error); 
             res.sendStatus(500);
@@ -67,10 +64,8 @@ router.get('/nickname', (req, res) => {
 router.get('/members', (req, res) => {
     if(req.isAuthenticated){
         const queryParam = req.query.id; 
-        console.log('in get household members', queryParam);
         const query = `SELECT "person"."id", "username", "first_name", "household_members"."authorized", "phone_number", "household_members"."role", "text_alert_walk", "text_alert_fed", "text_alert_litterbox", "text_alert_medications" FROM "person" JOIN "household_members" ON "household_members"."member" = "person"."id" WHERE "household_members"."household_id" = $1;`;
         pool.query(query, [queryParam]).then((results) => {
-            console.log(results.rows);
             res.send(results.rows);
         }).catch((error) => {
             console.log('Error getting household members', error); 
@@ -84,10 +79,8 @@ router.get('/members', (req, res) => {
 router.get('/members/all', (req, res) => {
     if(req.isAuthenticated){
         const houseToGet = req.query.id;
-        console.log(houseToGet)
         const query = `SELECT "household_members"."household_id", "member", "username", "first_name" FROM "household_members" JOIN "person" ON "person"."id" = "household_members"."member" WHERE "household_members"."household_id" = $1;`;
         pool.query(query, [houseToGet]).then((results) => {
-            console.log(results.rows);
             res.send(results.rows);
         }).catch((error) => {
             console.log('Error getting members', error);
@@ -102,7 +95,6 @@ router.get('/all', (req, res) => {
     if(req.isAuthenticated){
         const query = `SELECT "household_id", "nickname" FROM "household_members" JOIN "households" ON "household_members"."household_id" = "households"."id" WHERE "member" = $1;`;
         pool.query(query, [req.user.id]).then((results) => {
-            console.log(results.rows);
             res.send(results.rows);
         }).catch((error) => {
             console.log('Error getting user households', error);
@@ -116,7 +108,6 @@ router.get('/all', (req, res) => {
 router.post('/addmembers', (req, res) => {
     if(req.isAuthenticated){
       const userToAdd = req.body; 
-      console.log('user to add, addmembers', userToAdd);
       const query = `INSERT INTO "household_members" ("household_id", "authorized", "member", "role") VALUES ($1, $2, $3, $4);`;
         pool.query(query, [userToAdd.household_id, userToAdd.authorized, userToAdd.person_id, userToAdd.role]).then((result) => {
           res.sendStatus(200);
@@ -132,7 +123,6 @@ router.post('/addmembers', (req, res) => {
 router.post('/createhousehold', (req, res) => {
     if(req.isAuthenticated){
         const householdToAdd = req.body;
-        console.log(householdToAdd);
         const query = `INSERT INTO "households" ("nickname", "description") VALUES ($1, $2);`;
             pool.query(query, [householdToAdd.nickname, householdToAdd.description]).then((results) => {
                 console.log(results); 

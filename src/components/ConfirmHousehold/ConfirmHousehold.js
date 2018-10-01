@@ -15,19 +15,15 @@ const mapStateToProps = state => ({
 class ConfirmHousehold extends Component {
 //if addPets() is successful, it will call editUsers() to edit the person table, adding the household_id key 
   addPets = () => {
-    console.log('in adding pets');
     for (let i = 0; i < this.props.household.pets.length; i++) {
       let newPet = {name: this.props.household.pets[i].pet_name, species_id: this.props.household.pets[i].species_id, birthday: this.props.household.pets[i].birthday, image_path: this.props.household.pets[i].image_path, household_id: this.props.household.household_id}
-      console.log(newPet); 
       axios({
       method: 'POST', 
       url: '/api/pets',
       data: newPet
     }).then((response) => {
-      console.log('Success!', response); 
       this.addMembersToHousehold();
-    }).catch((error) => {
-      console.log('Error adding pets', error); 
+    }).catch((error) => { 
     });
   }}
   componentDidMount() {
@@ -40,10 +36,8 @@ class ConfirmHousehold extends Component {
     }
   }
 addMembersToHousehold = () => {
-  console.log('adding members to household');
   for (let i = 0; i < this.props.household.users.length; i++){
     let newUser = {household_id: this.props.household.household_id, authorized: this.props.household.users[i].authorized, person_id: this.props.household.users[i].person_id, role: this.props.household.users[i].role}; 
-    console.log(newUser);
     axios({
     method: 'POST', 
     url: 'api/household/addmembers', 
@@ -59,12 +53,10 @@ navTo = () => {
   this.props.history.push('/selecthousehold');
 }
 sendInvitation = () => {
-  console.log('in send invitation');
   let date = new Date();
   for (let i = 0; i < this.props.household.users.length; i++){
     if(this.props.household.users[i].id !== this.props.user.id){
       let member = this.props.household.users[i];
-      console.log(member);
   axios({
     method: 'POST', 
     url: '/api/inbox',

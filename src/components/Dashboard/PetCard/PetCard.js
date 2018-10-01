@@ -94,7 +94,6 @@ class PetCard extends Component {
             url: '/api/activities',
             data: walkLog
         }).then((response) => {
-            console.log('success', response.data);
             this.handleClose(); 
              //gets current data and update DOM
             this.getActivityData(2, this.props.pet.id);
@@ -197,7 +196,6 @@ sendAlert = (member, user, pet, description, date, time) => {
         data: {number: member.phone_number, 
             message: `${user.first_name} ${description} ${pet.name} on ${date} at ${time}`}
         }).then((response) => {
-            console.log(response.data);
         }).catch((error) => {
             console.log('Error with alert', error);
     });
