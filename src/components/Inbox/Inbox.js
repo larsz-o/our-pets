@@ -7,7 +7,7 @@ import NewMessages from '../NewMessages/NewMessages';
 import SentMessages from '../SentMessages/SentMessages';
 import Invitations from '../Invitations/Invitations';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import {Paper, Typography, Grid} from '@material-ui/core';
+import {Paper, Typography} from '@material-ui/core';
 import axios from 'axios';
 
 const mapStateToProps = state => ({
