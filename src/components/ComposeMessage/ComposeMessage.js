@@ -58,6 +58,9 @@ class ComposeMessage extends Component {
         });
       }
 sendMessage = () => {
+  this.setState({
+    open: false
+  })
         let date = new Date(); 
         axios({
           method: 'POST', 
