@@ -7,7 +7,6 @@ function* sendMessages(action) {
     try{
         yield call(axios.post, '/api/inbox', action.payload);
         yield put (swal('Success!', 'Message sent!', 'success')); 
-        yield put({type: 'FETCH_SENT_MESSAGES'});
     } catch (error) {
         console.log('Error sending message', error);
         swal('Oh no!', 'Something went wrong sending your message', 'warning'); 
@@ -15,8 +14,7 @@ function* sendMessages(action) {
   }
   function* acceptInvitation(action){
       try{
-        yield call(axios.put, '/api/household/accept', action.payload);
-        yield put({type:'FETCH_ARCHIVED_MESSAGES'});
+        yield call(axios.post, '/api/household/accept', action.payload);
         yield put (swal('Success!', 'Invitation accepted!', 'success')); 
       } catch (error){
           console.log('Error accepting invitation', error); 
@@ -27,8 +25,6 @@ function* sendMessages(action) {
     try{
         yield call(axios.put, '/api/inbox', action.payload);
         yield put (swal('Success!', 'Message archived!', 'success')); 
-        yield put({type:'FETCH_ARCHIVED_MESSAGES'});
-        yield put({type:'FETCH_NEW_MESSAGES'}); 
     } catch (error) {
         console.log('Error archiving message', error);
         swal('Oh no!', 'Something went wrong archiving your message', 'warning'); 

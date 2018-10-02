@@ -136,11 +136,12 @@ router.post('/createhousehold', (req, res) => {
         }
     });
 //changes an invited user to authorized once invitation is accepted
-router.put('/accept', (req, res) => {
+router.post('/accept', (req, res) => {
     if(req.isAuthenticated){
         const updates = req.body;
-        const query = `UPDATE "household_members" SET "authorized" = $1 WHERE "member" = $2;`;
-        pool.query(query, [updates.authorized, req.user.id]).then((results) => {
+        console.log(updates);
+        const query = `INSERT INTO "household_members" ("authorized", "member", "household_id", "role") VALUES ($1, $2, $3, $4);`;
+        pool.query(query, [updates.authorized, updates.user_id, updates.household_id, 2]).then((results) => {
             res.sendStatus(200); 
         }).catch((error) => {
             console.log('Error authorizing user', error); 

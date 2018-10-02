@@ -74,7 +74,7 @@ class JoinHousehold extends Component {
                         url: '/api/inbox', 
                         data: {date: currentDate, sender: this.props.user.id, receiver: arrayOfMembers[i].id, subject: 'Can I join your household?', message: `Hi ${arrayOfMembers[i].first_name}! I'd like to join your household so that we can coordinate pet care! Do you accept?`, household_id: this.props.household[0].id, invitation: true}
                     }).then((response) => {
-                        swal('Sent!', `Request sent to ${arrayOfMembers[i].first_name}.`, 'success');
+                        swal('Sent!', `Request sent to ${arrayOfMembers[i].first_name}. You will see your shared pets once ${arrayOfMembers[i].first_name} accepts, or you can create your own household without ${arrayOfMembers[i].first_name}.`, 'success');
                     }).catch((error) => {
                         console.log('Error sending request', error); 
                     });

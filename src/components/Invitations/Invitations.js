@@ -4,6 +4,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import moment from 'moment'; 
 import swal from 'sweetalert';
 import {connect} from 'react-redux';
+import axios from 'axios';
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -13,10 +14,28 @@ class InvitationsMessages extends Component {
 // accept will send a PUT request authorizing the member as a household member 
   // then, the message will be archived the user's inbox
   acceptInvitation = (invite) => {
-    this.props.dispatch({type: 'ACCEPT_INVITATION', payload: {authorized: true, household_id: invite.household_id}})
+    axios({
+      method: 'POST',
+      url: '/api/household/accept', 
+      data: {user_id: invite.sender_id, authorized: true, household_id: invite.household_id}
+    }).then((response) => {
+      swal('Success!', 'Invitation accepted!', 'success'); 
+      this.archiveMessage(invite.id);
+    }).catch((error) => {
+      console.log('Error accepting invitation', error);
+    })
   }
   archiveMessage = (messageID) => {
-    this.props.dispatch({type: 'ARCHIVE_MESSAGE', payload: {id: messageID}});
+    let id= {id: messageID};
+    axios({
+      method: 'PUT', 
+      url: '/api/inbox', 
+      data: {id: messageID}
+    }).then((response) => {
+      console.log('success!');
+    }).catch((error) => {
+      console.log('Error archiving message', error);
+    })
    }
 //decline will archive the message if confirmed
   declineInvitation = (messageID) => {

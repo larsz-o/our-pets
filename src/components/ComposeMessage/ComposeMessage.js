@@ -60,7 +60,8 @@ sendMessage = () => {
         open: false
     });
     let date = new Date(); 
-    this.props.dispatch({type: 'POST_MESSAGE', payload: {receiver: this.state.receiver, subject: this.state.subject, message: this.state.message, date: date, invitation: false, image_path: this.state.image_path}})
+    this.props.dispatch({type: 'POST_MESSAGE', payload: {receiver: this.state.receiver, subject: this.state.subject, message: this.state.message, date: date, invitation: false, image_path: this.state.image_path}});
+    this.props.dispatch({type: 'FETCH_SEND_MESSAGES'});
 }
     render(){
     let content = null;

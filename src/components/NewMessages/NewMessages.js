@@ -35,6 +35,7 @@ class NewMessages extends Component {
   //changes the status of a message to archived, then adds it to the archived message array on state
   archiveMessage = (messageID) => {
     this.props.dispatch({type: 'ARCHIVE_MESSAGE', payload: {id: messageID}});
+    this.props.dispatch({type: 'FETCH_ARCHIVED_MESSAGES'});
   }
 // if successful, saves the URL for the uploaded picture
 getPictureURL = (result) => {
@@ -65,6 +66,7 @@ sendMessage = () => {
   });
   let date = new Date(); 
   this.props.dispatch({type: 'POST_MESSAGE', payload: {receiver: this.state.receiver, subject: this.state.subject, message: this.state.message, date: date, invitation: false, image_path: this.state.image_path}});
+  this.props.dispatch({type: 'FETCH_SENT_MESSAGES'});
 }
     render(){
         return(
