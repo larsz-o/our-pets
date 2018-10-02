@@ -66,7 +66,7 @@ class AddUsersPage extends Component {
     let content = null;
     if (this.props.user.userName) {
       content = (
-        <div className="padding">
+        <div className="container">
         <Typography variant="headline">Search for Users</Typography>
               <Input type="text" placeholder="Search by username" value={this.state.search_term} onChange={this.handleInputChangeFor('search_term')}/> 
               <Button color="primary" onClick={this.searchForUsers}>Submit</Button>

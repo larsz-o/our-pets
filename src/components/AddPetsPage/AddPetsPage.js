@@ -90,10 +90,8 @@ class AddPetsPage extends Component {
     let content = null;
     if (this.props.user.userName) {
       content = (
-        <div className="add-container">
         <div className="container">
           <Typography variant="headline">Add Pets</Typography>
-        </div>
                 <InputLabel>
                     Pet's Name: 
                 </InputLabel>
@@ -109,7 +107,6 @@ class AddPetsPage extends Component {
                 Birthday: 
                 </InputLabel>
                 <Input type="date" value={this.state.birthday} onChange={this.handleInputChangeFor('birthday')} required/><br/><br/>
-        <div className="container">
                <ReactFilestack
                   apikey='ACGkY2eEqTDG52A5eOG3Az'
                   buttonText="UPLOAD PHOTO"
@@ -128,7 +125,6 @@ class AddPetsPage extends Component {
          <Button onClick={()=>this.props.history.push('/createhousehold')}>Go Back</Button>
          <Button color="primary" onClick={this.navigateToNextPage}>Done Adding Pets</Button>
          </div>
-        </div>
       );
     }
 

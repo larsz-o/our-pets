@@ -7,7 +7,7 @@ class Header extends Component{
     return(
     <div className="instructions">
       <Typography id="heading" variant="display4">Our Pets</Typography>
-      <Typography id="subheading" variant="body1">Did you feed them?</Typography>
+      <Typography id="subheading" className="float-left" variant="body1">Did you feed them?</Typography>
   </div>
     );
   }

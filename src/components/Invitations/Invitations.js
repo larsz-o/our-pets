@@ -26,7 +26,6 @@ class InvitationsMessages extends Component {
     })
   }
   archiveMessage = (messageID) => {
-    let id= {id: messageID};
     axios({
       method: 'PUT', 
       url: '/api/inbox', 

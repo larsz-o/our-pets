@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { USER_ACTIONS } from '../../../redux/actions/userActions';
-import {Switch, Button, ListItem, Avatar} from '@material-ui/core'; 
+import {Switch, Button, ListItem, Avatar, Grid} from '@material-ui/core'; 
 import axios from 'axios';
 import swal from 'sweetalert';
 import './petsettings.css'
@@ -107,7 +107,9 @@ class PetSettings extends Component {
    
     if (this.props.user.userName && this.props.pet.species_id === 1 && this.props.user.authorized) {
       content = (
-        <div>
+        <div className="float-left">
+        <Grid container spacing={32}>
+            <Grid item xs={12}>
                 <Avatar
                     alt={this.props.pet.name}
                     src={this.props.pet.image_path}
@@ -135,11 +137,15 @@ class PetSettings extends Component {
             <Button color="primary" onClick={this.updateUserSettings}>Save</Button>
             <Button onClick={this.removePet}>Remove Pet</Button>
             <br/>
+            </Grid>
+        </Grid>
         </div>
       );
     } else if (this.props.user.userName && this.props.pet.species_id === 2 && this.props.user.authorized){
         content = (
-            <div>
+            <div className="float-left">
+                <Grid container spacing={32}>
+                <Grid item xs={12}>
                     <Avatar
                         alt={this.props.pet.name}
                         src={this.props.pet.image_path}
@@ -166,6 +172,8 @@ class PetSettings extends Component {
                 </ListItem>
                 <Button color="primary" onClick={this.updateUserSettings}>Save</Button>
                 <Button onClick={this.removePet}>Remove Pet</Button>
+             </Grid>
+             </Grid>
             </div>
           );
     }

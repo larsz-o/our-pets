@@ -140,11 +140,13 @@ render(){
     return(
     <div>
         <Nav/>
+    <div className="container">
        {this.state.pet.map((pet, i) => {
            return(
                <div key={i}>
                <Typography variant="display1">{pet.name}</Typography>
                <Typography variant="subheading">Born: {moment(pet.birthday).format('MMMM do, YYYY')}</Typography>
+               <img src={pet.image_path} alt={pet.name}/><br/>
                <ReactFilestack
                   apikey='ACGkY2eEqTDG52A5eOG3Az'
                   buttonText="UPDATE PHOTO"
@@ -152,11 +154,10 @@ render(){
                   options={options}
                   onSuccess={this.getPictureURL}/>
                   <Button size="small" color="primary" onClick={()=>this.removePet(pet)}>Remove Pet</Button>
-               <img src={pet.image_path} alt={pet.name}/>
                </div>
            );
        })}
-       <div>
+       <div className="container">
        <InputLabel>Activity Reports </InputLabel> 
           <Select value={this.state.activity_id} onChange={(event)=>this.handleChangeFor('activity_id', event)}>
             <MenuItem value="1">Feedings</MenuItem>
@@ -176,6 +177,7 @@ render(){
             <div className="reports-div">
             <ReportingData activityID={this.state.activity_id} activityData={this.state.activityData}/>
           </div>
+        </div>
         </div>
     </div>
         );

@@ -7,7 +7,8 @@ import NewMessages from '../NewMessages/NewMessages';
 import SentMessages from '../SentMessages/SentMessages';
 import Invitations from '../Invitations/Invitations';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import {Paper, Typography} from '@material-ui/core';
+import {Paper, Typography, Grid} from '@material-ui/core';
+import axios from 'axios';
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -33,43 +34,76 @@ class Inbox extends Component {
       this.props.history.push('/home');
     }
   }
-  //gets sent messages
+//gets sent messages
 getSentMessages = () => {
-  this.props.dispatch({type: 'FETCH_SENT_MESSAGES'});
+  axios({
+    method: 'GET', 
+    url: '/api/inbox/sent/'
+  }).then((response) => {
+    this.props.dispatch({type: 'SET_SENT_MESSAGES', payload: response.data});
+  }).catch((error) => {
+    console.log('Error getting sent messages', error); 
+  })
 }
 //get archived messages
 getArchivedMessages = () => {
-  this.props.dispatch({type: 'FETCH_ARCHIVED_MESSAGES'});
+  axios({
+    method: 'GET', 
+    url: '/api/inbox?archived=true&invitation=false'
+  }).then((response) => {
+    this.props.dispatch({type: 'SET_ARCHIVED_MESSAGES', payload: response.data});
+  }).catch((error) => {
+    console.log('Error getting archived messages', error); 
+  })
 }
   //gets current messages when component mounts 
 getMessages = () => {
-    this.props.dispatch({type: 'FETCH_NEW_MESSAGES'});
-  }
+  axios({
+    method: 'GET', 
+    url: `/api/inbox?archived=false&invitation=false`
+  }).then((response) => {
+    this.props.dispatch({type: 'SET_NEW_MESSAGES', payload: response.data});
+  }).catch((error) => {
+    console.log('Error getting archived messages', error); 
+  })
+}
   //gets invitations when component mounts 
-getInvitations = () => {
-    this.props.dispatch({type: 'FETCH_INVITATIONS'});
+  getInvitations = () => {
+    axios({
+      method: 'GET', 
+      url: `/api/inbox?archived=false&invitation=true`
+    }).then((response) => {
+      this.props.dispatch({type: 'SET_INVITATIONS', payload: response.data});
+    }).catch((error) => {
+      console.log('Error getting archived messages', error); 
+    })
   }
   render() {
     let content = null;
     if (this.props.user.userName && this.props.messages.length > 0) {
       content = (
+       <div className="container">
         <Paper>
-          <ComposeMessage />
-          <NewMessages />
+          <ComposeMessage getSentMessages={this.getSentMessages}/>
+          <NewMessages getSentMessages={this.getSentMessages} getArchivedMessages={this.getArchivedMessages}/>
           <Invitations />
           <ArchivedMessages />
           <SentMessages />
-        </Paper>
+          </Paper>
+    
+      </div>
         );
     } else if (this.props.user.userName && this.props.messages.length === 0){
       content = (
+      <div className="container">
         <Paper>
-          <ComposeMessage />
+          <ComposeMessage getSentMessages={this.getSentMessages} />
           <Typography>No new messages.</Typography>
           <Invitations />
           <ArchivedMessages />
           <SentMessages />
            </Paper>
+      </div>
       );
     }
     return (

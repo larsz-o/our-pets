@@ -253,7 +253,6 @@ togglePoopCheck = () => {
          );
      } else if (this.props.pet.species_id === 1 && this.props.user.userName){
         content = (
-        <div>
             <div className="card">
             <a href={ `/#/account/${this.props.pet.id}` }><img src={this.props.pet.image_path} alt="pet"/></a>
                <CardContent>
@@ -277,8 +276,7 @@ togglePoopCheck = () => {
                     })}</Typography>
                    <Button onClick={this.handleClickOpen} variant="contained" color="primary">Medications Given</Button>
                    </CardContent>
-        </div>
-            <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="med-dialog-title">
+                   <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="med-dialog-title">
                     <DialogTitle id="med-dialog-title">Medication Report</DialogTitle>
                     <DialogContent>
                         <DialogContentText>What medication did you give?</DialogContentText>
@@ -289,7 +287,7 @@ togglePoopCheck = () => {
                         <Button onClick={()=>this.logMedication(this.props.pet.id)} color="primary">Submit</Button>
                     </DialogActions>
                 </Dialog>
-    </div>
+        </div>  
         );
      }
         return(

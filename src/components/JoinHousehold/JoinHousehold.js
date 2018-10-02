@@ -103,9 +103,10 @@ class JoinHousehold extends Component {
         return(
             <div>
                 <Nav/>
-                <br/>
+                <div className="container">
+                    <br/>
                 <Typography variant="headline" gutterBottom>Search for an existing household to join</Typography>
-                <br/>
+                    <br/>
                 <Input onChange={this.handleSearchTermChange} placeholder="Enter nickname"/>  <Button size="small" color="primary" onClick={this.submitSearch}>Search</Button>
                 <div className="member-list">
                     <List>
@@ -138,7 +139,7 @@ class JoinHousehold extends Component {
                         );
                     })}
                     </List>
-                 
+                    </div>
                 </div>
             </div>
         );

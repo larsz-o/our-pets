@@ -3,9 +3,7 @@ import { connect } from 'react-redux';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import PetSettings from './PetSettings/PetSettings';
-import {Button, Typography, List, ListItem} from '@material-ui/core'; 
-import axios from 'axios'; 
-import swal from 'sweetalert';
+import {Typography, List} from '@material-ui/core'; 
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -26,48 +24,12 @@ class EditSettings extends Component {
       this.props.history.push(this.props.nextPage);
     }
   }
-  getHouseholdMembers = () => {
-    axios({
-      method: 'GET', 
-      url: `/api/household/members?id=${this.props.user.household_id}`
-    }).then((response) => {
-      const action = {type: 'SET_HOUSEHOLD_MEMBERS', payload: response.data};
-      this.props.dispatch(action); 
-    }).catch((error) => {
-      console.log('Error getting household members', error); 
-    })
-  }
-  //removes member from household
-  removeMember = (member) => {
-    swal({
-      title: `Are you sure? ${member.username} will lose access to this household.`,
-      icon: 'warning', 
-      buttons: true,
-      dangerMode: true
-  }).then((willDelete) => {
-    if (willDelete){
-      axios({
-        method: 'PUT', 
-        url: '/api/household/removefrom',
-        data: {household_id: null, id: member.id}
-      }).then((response) => {
-        swal('Member removed.', {icon: 'success'});
-        this.getHouseholdMembers(); 
-      }).catch((error) => {
-        console.log('Error removing member'); 
-      });
-    } else {
-      swal(`${member.username} thanks you.`);
-    }
-  });
-  }
   render() {
     let content = null;
 
     if (this.props.user.userName && this.props.user.role === 1) {
       content = (
-        <div>
-        <Typography variant="headline">Pets</Typography>
+        <div className="container">
         <Typography variant="subheading">Edit Notification Settings: </Typography>
         <List>
             {this.props.pets.map((pet, i) => {
@@ -76,22 +38,13 @@ class EditSettings extends Component {
                         );
                     })}
             </List>
-        <Typography variant="headline">Household</Typography>
-        <List>
-        {this.props.members.map((member, i) => {
-          return(
-            <ListItem key={i}>
-            {member.first_name}  <Button onClick={()=>this.removeMember(member)}>Remove From Household</Button>
-            </ListItem>
-          );
-        })}
-        </List>
-        </div>
+      </div>
       );
     } else if (this.props.user.userName) {
       content = (
         <div>
-        <Typography variant="headline">Pets</Typography>
+        <Typography variant="subheading">Edit Notification Settings: </Typography>
+        <div className="container">
         <List>
             {this.props.pets.map((pet, i) => {
                 return(
@@ -99,17 +52,8 @@ class EditSettings extends Component {
                         );
                     })}
             </List>
-        <Typography variant="headline">Household</Typography>
-        <List>
-        {this.props.members.map((member, i) => {
-          return(
-            <ListItem key={i}>
-            {member.first_name}
-            </ListItem>
-          );
-        })}
-        </List>
         </div>
+    </div>
       );
     }
 

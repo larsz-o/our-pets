@@ -5,6 +5,8 @@ import {Badge, Button, Avatar, ExpansionPanel, ExpansionPanelSummary, ExpansionP
 import ExpandMore from '@material-ui/icons/ExpandMore'; 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import ReactFilestack from 'filestack-react';
+import axios from 'axios';
+import swal from 'sweetalert';
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -34,9 +36,17 @@ class NewMessages extends Component {
       }
   //changes the status of a message to archived, then adds it to the archived message array on state
   archiveMessage = (messageID) => {
-    this.props.dispatch({type: 'ARCHIVE_MESSAGE', payload: {id: messageID}});
-    this.props.dispatch({type: 'FETCH_ARCHIVED_MESSAGES'});
-  }
+    axios({
+      method: 'PUT', 
+      url: '/api/inbox', 
+      data: {id: messageID}
+    }).then((response) => {
+      console.log('success!');
+      this.props.getArchivedMessages();
+    }).catch((error) => {
+      console.log('Error archiving message', error);
+    })
+   }
 // if successful, saves the URL for the uploaded picture
 getPictureURL = (result) => {
   let url = result.filesUploaded[0].url; 
@@ -65,8 +75,16 @@ sendMessage = () => {
       open: false
   });
   let date = new Date(); 
-  this.props.dispatch({type: 'POST_MESSAGE', payload: {receiver: this.state.receiver, subject: this.state.subject, message: this.state.message, date: date, invitation: false, image_path: this.state.image_path}});
-  this.props.dispatch({type: 'FETCH_SENT_MESSAGES'});
+  axios({
+    method: 'POST', 
+    url: '/api/inbox', 
+    data: {receiver: this.state.receiver, subject: this.state.subject, message: this.state.message, date: date, invitation: false, image_path: this.state.image_path}
+  }).then((response) => {
+    swal('Success!', 'Message sent!', 'success');
+    this.props.getSentMessages();
+  }).catch((error) => {
+    console.log('Error sending message', error);
+  })
 }
     render(){
         return(

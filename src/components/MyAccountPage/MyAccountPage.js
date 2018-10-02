@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import {Button, IconButton, Typography, Avatar, Dialog, DialogTitle, List, ListItem, ListItemAvatar} from '@material-ui/core'; 
+import {Button, IconButton, Grid, Typography, Avatar, Dialog, DialogTitle, List, ListItem, ListItemAvatar} from '@material-ui/core'; 
 import ReactFilestack from 'filestack-react';
 import axios from 'axios';
 import swal from 'sweetalert'; 
@@ -103,7 +103,7 @@ class MyAccount extends Component {
 
     if (this.props.user.userName) {
       content = (
-        <div>
+        <div className="container">
           <div className="float-right">
           <IconButton size="small" color="secondary" onClick={this.handleIconClick}><Home/></IconButton>
           <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="dialog-title">
@@ -146,21 +146,22 @@ class MyAccount extends Component {
                   buttonClass="filestackButton"
                   options={options}
                   onSuccess={this.getPictureURL}/>
-              <Typography><span className="bold">Current Pets:</span></Typography><br/>
+            <Grid container>
              {this.props.pets.map((pet, i) => {
                return(
-                <div className="mini-card" key={i}>
-                <Avatar
-                alt={pet.name}
-                src={pet.image_path}
-                className="avatar"
-              /><br/>
+                <Grid key={i} item xs={12}>
+                  <div className="mini-card" >
+                    <Avatar
+                    alt={pet.name}
+                    src={pet.image_path}
+                    className="avatar"/><br/>
                     {pet.name}<br/> 
                     <a href={ `/#/account/${pet.id}` }><Button size="small" color="primary">View Profile</Button></a><br/> 
                 </div>
+                </Grid>
                   );
               })}
-         
+           </Grid>
         </div>
       );
     }

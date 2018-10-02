@@ -5,10 +5,6 @@ body, html {
 a{
     text-decoration: none; 
 }
-.add-container{
-    margin: 10px; 
-    text-align: left; 
-}
 .avatar{
     margin: 10;
     width: 60;
@@ -38,10 +34,10 @@ a{
 .center{
     text-align: center;
 }
-.container {
-    text-align: center;
-    padding: 0px; 
-    line-height: .5em; 
+
+.container{
+    text-align: center; 
+    margin: 10px; 
 }
 .create-container{
     margin-top: 10%;
@@ -76,7 +72,9 @@ form {
     padding: 25px;
     border-radius: 2px;
 }
-
+.inbox-container{
+    margin: 0 auto; 
+}
 input {
     margin: 5px;
     margin-bottom: 10px;
@@ -111,7 +109,7 @@ input[type="submit"] {
     width: 120px; 
     padding: 5px;
     margin: 10px;
-    float: left; 
+    /* float: left;  */
     border: 1px solid gray;
     text-align: center;
 }
@@ -137,7 +135,7 @@ input[type="submit"] {
 }
 .padding{
     padding: 5px;
-    margin-top: 10px; 
+    margin-top: 20px; 
 }
 #heading {
     /* text-align: center;  */
@@ -161,8 +159,4 @@ input[type="submit"] {
 #subheading {
     text-align: center;
     font-style: italic;
-}
-#welcome {
-    text-align: center; 
-    margin-bottom: 10px; 
 }

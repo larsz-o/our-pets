@@ -3,6 +3,8 @@ import {Button, Dialog, DialogTitle, DialogContent, Input, InputLabel, Select, M
 import {connect} from 'react-redux'; 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import ReactFilestack from 'filestack-react';
+import axios from 'axios';
+import swal from 'sweetalert';
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -56,12 +58,17 @@ class ComposeMessage extends Component {
         });
       }
 sendMessage = () => {
-    this.setState({
-        open: false
-    });
-    let date = new Date(); 
-    this.props.dispatch({type: 'POST_MESSAGE', payload: {receiver: this.state.receiver, subject: this.state.subject, message: this.state.message, date: date, invitation: false, image_path: this.state.image_path}});
-    this.props.dispatch({type: 'FETCH_SEND_MESSAGES'});
+        let date = new Date(); 
+        axios({
+          method: 'POST', 
+          url: '/api/inbox', 
+          data: {receiver: this.state.receiver, subject: this.state.subject, message: this.state.message, date: date, invitation: false, image_path: this.state.image_path}
+        }).then((response) => {
+          swal('Success!', 'Message sent!', 'success');
+          this.props.getSentMessages();
+        }).catch((error) => {
+          console.log('Error sending message', error);
+        })
 }
     render(){
     let content = null;
