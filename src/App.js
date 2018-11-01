@@ -12,21 +12,21 @@ import RegisterPage from './components/RegisterPage/RegisterPage';
 import Dashboard from './components/Dashboard/Dashboard';
 import AddPetsPage from './components/AddPetsPage/AddPetsPage';
 import CreateHousehold from './components/CreateHousehold/CreateHousehold';
-import AddUsers from './components/AddUsersPage/AddUsersPage'; 
+import AddUsers from './components/AddUsersPage/AddUsersPage';
 import ConfirmHousehold from './components/ConfirmHousehold/ConfirmHousehold';
 import MyAccount from './components/MyAccountPage/MyAccountPage';
-import EditSettings from './components/EditSettingsPage/EditSettingsPage'; 
-import Inbox from './components/Inbox/Inbox'; 
+import EditSettings from './components/EditSettingsPage/EditSettingsPage';
+import Inbox from './components/Inbox/Inbox';
 import JoinHousehold from './components/JoinHousehold/JoinHousehold';
 import SelectHousehold from './components/SelectHousehould/SelectHousehold';
-import PetProfile from './components/PetProfile/PetProfile'; 
+import PetProfile from './components/PetProfile/PetProfile';
 import About from './components/About/About.js'
 
 import './styles/main.css';
 
 const App = () => (
   <div>
-    <Header/>
+    <Header />
     <Router>
       <Switch>
         <Redirect exact from="/" to="/home" />
@@ -34,7 +34,7 @@ const App = () => (
           path="/home"
           component={LoginPage}
         />
-         <Route
+        <Route
           path="/selecthousehold"
           component={SelectHousehold}
         />
@@ -46,48 +46,48 @@ const App = () => (
           path="/dashboard"
           component={Dashboard}
         />
-        <Route 
+        <Route
           path="/addpets"
           component={AddPetsPage}
         />
-        <Route 
+        <Route
           path="/createhousehold"
           component={CreateHousehold}
         />
-         <Route 
+        <Route
           path="/addusers"
           component={AddUsers}
         />
-         <Route 
+        <Route
           path="/confirmhousehold"
           component={ConfirmHousehold}
         />
-        <Route 
+        <Route
           path="/myaccount"
           component={MyAccount}
         />
-         <Route 
+        <Route
           path="/editsettings"
           component={EditSettings}
         />
-        <Route 
+        <Route
           path="/inbox"
           component={Inbox}
         />
-         <Route 
+        <Route
           path="/joinhousehold"
           component={JoinHousehold}
         />
-        <Route 
+        <Route
           path="/about"
           component={About}
         />
-        <Route 
-        path="/account/:petId" 
-        component={PetProfile}/>
+        <Route
+          path="/account/:petId"
+          component={PetProfile} />
         {/* OTHERWISE (no path!) */}
         <Route render={() => <h1>404: Page Not Found</h1>} />
-        
+
       </Switch>
     </Router>
   </div>

@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import {Button, IconButton, Grid, Typography, Avatar, Dialog, DialogTitle, List, ListItem, ListItemAvatar} from '@material-ui/core'; 
+import { Button, IconButton, Grid, Typography, Avatar, Dialog, DialogTitle, List, ListItem, ListItemAvatar } from '@material-ui/core';
 import ReactFilestack from 'filestack-react';
 import axios from 'axios';
-import swal from 'sweetalert'; 
-import {Home, AddCircle, People, Repeat} from '@material-ui/icons';
+import swal from 'sweetalert';
+import { Home, AddCircle, People, Repeat } from '@material-ui/icons';
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -22,41 +22,41 @@ const options = {
   },
 };
 class MyAccount extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      open: false, 
+      open: false,
     }
   }
   componentDidMount() {
-    this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
+    this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
   }
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
-      this.props.dispatch({type: 'NEXT_PAGE', payload: '/inbox'});
+      this.props.dispatch({ type: 'NEXT_PAGE', payload: '/inbox' });
       this.props.history.push(this.props.nextPage);
     }
   }
   getPictureURL = (result) => {
-    let url = result.filesUploaded[0].url; 
+    let url = result.filesUploaded[0].url;
     axios({
-      method: 'PUT', 
-      url: '/api/user/photo', 
-      data: {url: url}
+      method: 'PUT',
+      url: '/api/user/photo',
+      data: { url: url }
     }).then((response) => {
-      this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
+      this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
     })
   }
   getHouseholdMembers = () => {
     axios({
-      method: 'GET', 
+      method: 'GET',
       url: `/api/household/members?id=${this.props.user.household_id}`
     }).then((response) => {
-      const action = {type: 'SET_HOUSEHOLD_MEMBERS', payload: response.data};
-      this.props.dispatch(action); 
-      this.getHouseholdName(); 
+      const action = { type: 'SET_HOUSEHOLD_MEMBERS', payload: response.data };
+      this.props.dispatch(action);
+      this.getHouseholdName();
     }).catch((error) => {
-      console.log('Error getting household members', error); 
+      console.log('Error getting household members', error);
     })
   }
   handleIconClick = () => {
@@ -73,30 +73,30 @@ class MyAccount extends Component {
     this.props.history.push(`/#/account/${id}`);
   }
   navTo = (url) => {
-    this.props.history.push(url); 
+    this.props.history.push(url);
   }
-//removes member from household
-    removeFromHousehold = (house) => {
-      swal({
-        title: `Are you sure you want to leave this household?`,
-        icon: 'warning', 
-        buttons: true,
-        dangerMode: true
+  //removes member from household
+  removeFromHousehold = (house) => {
+    swal({
+      title: `Are you sure you want to leave this household?`,
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true
     }).then((willDelete) => {
-      if (willDelete){
+      if (willDelete) {
         axios({
-          method: 'DELETE', 
+          method: 'DELETE',
           url: '/api/household/removeself',
-          data: {household_id: house.household_id}
+          data: { household_id: house.household_id }
         }).then((response) => {
-          swal('You have been removed.', {icon: 'success'});
-          this.getHouseholdMembers(); 
+          swal('You have been removed.', { icon: 'success' });
+          this.getHouseholdMembers();
         }).catch((error) => {
-          console.log('Error removing member', error); 
+          console.log('Error removing member', error);
         });
       }
     });
-    }
+  }
 
   render() {
     let content = null;
@@ -105,63 +105,63 @@ class MyAccount extends Component {
       content = (
         <div className="container">
           <div className="float-right">
-          <IconButton size="small" color="secondary" onClick={this.handleIconClick}><Home/></IconButton>
-          <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="dialog-title">
-            <DialogTitle id="dialog-title" className="dialog-title">Manage Households</DialogTitle>
-            <List>
-              <ListItem className="dialog-list" button onClick={() => this.navTo('/createhousehold')}>
-              <ListItemAvatar>
-                  <Avatar className="avatar-list">
-                    <AddCircle />
-                  </Avatar>
+            <IconButton size="small" color="secondary" onClick={this.handleIconClick}><Home /></IconButton>
+            <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="dialog-title">
+              <DialogTitle id="dialog-title" className="dialog-title">Manage Households</DialogTitle>
+              <List>
+                <ListItem className="dialog-list" button onClick={() => this.navTo('/createhousehold')}>
+                  <ListItemAvatar>
+                    <Avatar className="avatar-list">
+                      <AddCircle />
+                    </Avatar>
                   </ListItemAvatar>
-                    Create New Household
+                  Create New Household
               </ListItem>
-              <ListItem className="dialog-list" button onClick={() => this.navTo('/joinhousehold')}>
-              <ListItemAvatar>
-                  <Avatar className="avatar-list">
-                    <People />
-                  </Avatar>
+                <ListItem className="dialog-list" button onClick={() => this.navTo('/joinhousehold')}>
+                  <ListItemAvatar>
+                    <Avatar className="avatar-list">
+                      <People />
+                    </Avatar>
                   </ListItemAvatar>
-                    Join Another Household
+                  Join Another Household
               </ListItem>
-              <ListItem className="dialog-list" button onClick={() => this.navTo('/selecthousehold')}>
-              <ListItemAvatar>
-                  <Avatar className="avatar-list">
-                    <Repeat />
-                  </Avatar>
+                <ListItem className="dialog-list" button onClick={() => this.navTo('/selecthousehold')}>
+                  <ListItemAvatar>
+                    <Avatar className="avatar-list">
+                      <Repeat />
+                    </Avatar>
                   </ListItemAvatar>
-                    Switch Households
+                  Switch Households
               </ListItem>
-            </List>
-          </Dialog>
+              </List>
+            </Dialog>
           </div>
           <Typography variant="headline">Welcome, {this.props.user.first_name}!</Typography>
-          <br/>
-            <img src={this.props.user.image_path} alt={this.props.user.username} className="center"/>
-            <br/>
-            <ReactFilestack
-                  apikey='ACGkY2eEqTDG52A5eOG3Az'
-                  buttonText="UPDATE PHOTO"
-                  buttonClass="filestackButton"
-                  options={options}
-                  onSuccess={this.getPictureURL}/>
-            <Grid container>
-             {this.props.pets.map((pet, i) => {
-               return(
-                <Grid key={i} item xs={12}>
+          <br />
+          <img src={this.props.user.image_path} alt={this.props.user.username} className="center" />
+          <br />
+          <ReactFilestack
+            apikey='ACGkY2eEqTDG52A5eOG3Az'
+            buttonText="UPDATE PHOTO"
+            buttonClass="filestackButton"
+            options={options}
+            onSuccess={this.getPictureURL} />
+          <Grid container>
+            {this.props.pets.map((pet, i) => {
+              return (
+                <div className="flex-box">
                   <div className="mini-card" >
                     <Avatar
-                    alt={pet.name}
-                    src={pet.image_path}
-                    className="avatar"/><br/>
-                    {pet.name}<br/> 
-                    <a href={ `/#/account/${pet.id}` }><Button size="small" color="primary">View Profile</Button></a><br/> 
+                      alt={pet.name}
+                      src={pet.image_path}
+                      className="avatar" /><br />
+                    {pet.name}<br />
+                    <a href={`/#/account/${pet.id}`}><Button size="small" color="primary">View Profile</Button></a><br />
+                  </div>
                 </div>
-                </Grid>
-                  );
-              })}
-           </Grid>
+              );
+            })}
+          </Grid>
         </div>
       );
     }
@@ -169,7 +169,7 @@ class MyAccount extends Component {
     return (
       <div>
         <Nav />
-        { content }
+        {content}
       </div>
     );
   }

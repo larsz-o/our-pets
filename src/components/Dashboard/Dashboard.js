@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PetCard from './PetCard/PetCard.js';
-import axios from 'axios'; 
+import axios from 'axios';
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import {Typography} from '@material-ui/core'; 
+import { Typography } from '@material-ui/core';
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -15,22 +15,22 @@ const mapStateToProps = state => ({
 });
 
 class Dashboard extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      message: '', 
-      inviteMessage: '', 
+      message: '',
+      inviteMessage: '',
     }
   }
   componentDidMount() {
-    this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
+    this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
     this.madeGetRequest = false;
     this.getMessages();
     this.getInvitations();
   }
   componentDidUpdate() {
     if (!this.props.user.isLoading && this.props.user.userName === null) {
-      this.props.dispatch({type: 'NEXT_PAGE', payload: '/inbox'});
+      this.props.dispatch({ type: 'NEXT_PAGE', payload: '/inbox' });
       this.props.history.push(this.props.nextPage);
     } else if (!this.props.user.isLoading && this.props.user.userName !== null && !this.madeGetRequest) {
       // only make this request one time after the user object has been populated
@@ -40,23 +40,23 @@ class Dashboard extends Component {
   }
   getHouseholdMembers = () => {
     axios({
-      method: 'GET', 
+      method: 'GET',
       url: `/api/household/members?id=${this.props.user.household_id}`
     }).then((response) => {
-      const action = {type: 'SET_HOUSEHOLD_MEMBERS', payload: response.data};
-      this.props.dispatch(action); 
-      this.getHouseholdName(); 
+      const action = { type: 'SET_HOUSEHOLD_MEMBERS', payload: response.data };
+      this.props.dispatch(action);
+      this.getHouseholdName();
     }).catch((error) => {
-      console.log('Error getting household members', error); 
+      console.log('Error getting household members', error);
     })
   }
   getHouseholdName = () => {
     axios({
-      method: 'GET', 
+      method: 'GET',
       url: '/api/household/nickname'
     }).then((response) => {
-      const action = {type: 'SET_CURRENT_HOUSEHOLD_NICKNAME', payload: response.data};
-      this.props.dispatch(action); 
+      const action = { type: 'SET_CURRENT_HOUSEHOLD_NICKNAME', payload: response.data };
+      this.props.dispatch(action);
     }).catch((error) => {
       console.log('error getting household nickname', error);
     });
@@ -67,44 +67,44 @@ class Dashboard extends Component {
       method: 'GET',
       url: '/api/inbox?archived=false&invitation=false'
     }).then((response) => {
-      if(response.data.length === 1){
+      if (response.data.length === 1) {
         this.setState({
           message: `You have ${response.data.length} new inbox message!`
         });
-      } else if (response.data.length > 1){
+      } else if (response.data.length > 1) {
         this.setState({
           message: `You have ${response.data.length} new inbox messages!`
         });
       }
     }).catch((error) => {
-      console.log('Error getting messages', error); 
+      console.log('Error getting messages', error);
     });
   }
-   //checks to see if there are new messages for the user and alerts them via text on the DOM if yes  
-   getInvitations = () => {
+  //checks to see if there are new messages for the user and alerts them via text on the DOM if yes  
+  getInvitations = () => {
     axios({
       method: 'GET',
       url: '/api/inbox?archived=false&invitation=true'
     }).then((response) => {
-      if(response.data.length === 1){
+      if (response.data.length === 1) {
         this.setState({
           inviteMessage: `You have ${response.data.length} new invitations!`
         });
-      } else if (response.data.length > 1){
+      } else if (response.data.length > 1) {
         this.setState({
           inviteMessage: `You have ${response.data.length} new invitations!`
         });
       }
     }).catch((error) => {
-      console.log('Error getting messages', error); 
+      console.log('Error getting messages', error);
     });
   }
   getPets = () => {
     axios({
-      method: 'GET', 
+      method: 'GET',
       url: `/api/pets?id=${this.props.user.household_id}`
     }).then((response) => {
-      const action = {type: 'SET_EXISTING_PETS', payload: response.data};
+      const action = { type: 'SET_EXISTING_PETS', payload: response.data };
       this.props.dispatch(action);
       this.getHouseholdMembers();
     }).catch((error) => {
@@ -118,14 +118,14 @@ class Dashboard extends Component {
     if (this.props.user.userName && this.props.user.household_id !== null) {
       content = (
         <div className="container">
-             <Typography variant="display1">{this.props.nickname[0].nickname}</Typography> 
-              <Typography variant="body1">{this.state.message}</Typography>
-              <Typography variant="body1">{this.state.inviteMessage}</Typography>
+          <Typography variant="display1">{this.props.nickname[0].nickname}</Typography>
+          <Typography variant="body1">{this.state.message}</Typography>
+          <Typography variant="body1">{this.state.inviteMessage}</Typography>
           <div className="flex-box">
             {this.props.pets.map((pet, i) => {
-              return(
+              return (
                 <div key={i}>
-                  <PetCard history={this.props.history} pet={pet}/>
+                  <PetCard history={this.props.history} pet={pet} />
                 </div>
               );
             })}
@@ -136,7 +136,7 @@ class Dashboard extends Component {
     return (
       <div>
         <Nav />
-        { content }
+        {content}
       </div>
     );
   }
