@@ -62,6 +62,12 @@ a{
     font-family: 'Roboto'; 
     cursor: pointer;
 }
+.flex-box{
+    display: flex; 
+    justify-content: center;
+    flex-direction: row; 
+    flex-wrap: wrap;
+}
 .float-right{
     float: right; 
 }

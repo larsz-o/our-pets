@@ -4,7 +4,7 @@ import PetCard from './PetCard/PetCard.js';
 import axios from 'axios'; 
 import Nav from '../Nav/Nav';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import {Typography, Grid} from '@material-ui/core'; 
+import {Typography} from '@material-ui/core'; 
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -121,15 +121,15 @@ class Dashboard extends Component {
              <Typography variant="display1">{this.props.nickname[0].nickname}</Typography> 
               <Typography variant="body1">{this.state.message}</Typography>
               <Typography variant="body1">{this.state.inviteMessage}</Typography>
-          <Grid container>
+          <div className="flex-box">
             {this.props.pets.map((pet, i) => {
               return(
-                <Grid key={i} item xs={12} sm={6}>
+                <div key={i}>
                   <PetCard history={this.props.history} pet={pet}/>
-                </Grid>
+                </div>
               );
             })}
-          </Grid>
+          </div>
         </div>
       );
     }
