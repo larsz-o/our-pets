@@ -70,7 +70,8 @@ class LoginPage extends Component {
         <div className="picture-div">
           <img src="https://www.sciencedaily.com/images/2018/06/180605172505_1_540x360.jpg" width="100%" alt="dog"/>
         </div>
-        <form>
+        <div className="flex-box">
+        <form >
           <Typography variant="headline">Login</Typography>
           <div>
             <InputLabel htmlFor="username">
@@ -97,6 +98,7 @@ class LoginPage extends Component {
             <Button onClick={this.createAccount}>Create Account</Button>
           </div>
         </form>
+        </div>
       </div>
     );
   }

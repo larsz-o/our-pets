@@ -21,11 +21,12 @@ import JoinHousehold from './components/JoinHousehold/JoinHousehold';
 import SelectHousehold from './components/SelectHousehould/SelectHousehold';
 import PetProfile from './components/PetProfile/PetProfile';
 import About from './components/About/About.js'
-
+import Grid from './components/Grid/Grid'; 
 import './styles/main.css';
 
 const App = () => (
   <div>
+    <Grid>
     <Header />
     <Router>
       <Switch>
@@ -90,6 +91,7 @@ const App = () => (
 
       </Switch>
     </Router>
+    </Grid>
   </div>
 );
 

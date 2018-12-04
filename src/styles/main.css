@@ -74,10 +74,10 @@ a{
 .float-left{
     float: left
 }
-form {
+/* form {
     padding: 25px;
     border-radius: 2px;
-}
+} */
 .inbox-container{
     margin: 0 auto; 
 }
@@ -88,6 +88,12 @@ input {
 
 input[type="submit"] {
     margin: 10px;
+}
+.flex-box{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
 }
 .member-list{
     padding: 5px;

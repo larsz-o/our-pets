@@ -85,6 +85,7 @@ class RegisterPage extends Component {
       <div>
         {this.renderAlert()}
           <Typography variant="headline">Register</Typography>
+          <div className="flex-box">
           <form>
           <div>
             <InputLabel htmlFor="username">
@@ -147,6 +148,7 @@ class RegisterPage extends Component {
             <Link to="/home">Cancel</Link>
           </div>
         </form>
+        </div>
       </div>
     );
   }
