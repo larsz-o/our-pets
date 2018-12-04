@@ -84,8 +84,10 @@ class RegisterPage extends Component {
     return (
       <div>
         {this.renderAlert()}
+        <div className="flex-box">
+        <Typography variant="headline">Register</Typography>
+        </div>
           <div className="flex-box">
-          <Typography variant="headline">Register</Typography>
           <form>
           <div>
             <InputLabel htmlFor="username">
